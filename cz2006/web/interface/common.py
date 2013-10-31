@@ -125,6 +125,7 @@ def get_login_ofs_manager(request):
         usr = get_login_ofs(request)
         if usr.usertype != ofs_user.manager:
             raise Exception()
+        return get_by_id(ofs_user,request.session['user_id'])
     except:
         raise cams_ex(err_no_access_rights)
 

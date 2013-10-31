@@ -1,10 +1,6 @@
 #-*- coding:utf8 -*- 
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+'''     Unit Test Cases for CAMS    '''
 
-Replace this with more appropriate tests for your application.
-"""
 import os
 from django.conf import settings
 from django.utils.importlib import import_module
@@ -22,27 +18,12 @@ from web.interface.error import *
 from data.models import *
 import json
 
-"""
-customer:
-    cus_pay_canteen
-    cus_set_cart
-ofs:
-    order_submit
-    get_processing_queue
-    order_complete
-stall:
-    stall_add
-    canteen_add
-    canteen_setactivated
-
-"""
 
 
 class UnitFunctionTest(TestCase):
 
     def setUp(self):
-        '''set up RequestFactory and session '''
-        #self.factory = RequestFactory()
+        '''set up Request and session '''
         self.request = HttpRequest()
         settings.SESSION_ENGINE = 'django.contrib.sessions.backends.db'
         engine = import_module(settings.SESSION_ENGINE)
@@ -141,7 +122,7 @@ class UnitFunctionTest(TestCase):
         err_msg3 = 3            #int type err_msg
         response3 = json.loads(error(err3,err_msg3).content)
         expected3 = {"err_msg": 3,"err_code":2}
-
+        
         err4 = err_api
         err_msg4 = ''           #string type err_msg, but no value
         response4 = json.loads(error(err4,err_msg4).content)
@@ -167,36 +148,9 @@ class UnitFunctionTest(TestCase):
         self.assertEqual(case1Resp, expected)       #pass
         self.assertEqual(case1Resp1, expected1)     #pass
 
-    '''
-    def test_method_case2(self):
-        #test for case2() method
-        #obj = customer()               #customer object is not iterable
-        #obj = ofs_user()               #ofs_user object is not iterable
-        #obj = menu_item()              #menu_item object is not iterable
-        obj = canteen()                 # cantten object is not iterable
-        case2Resp = json.loads(case2(obj).content)
-        expected = {"err_code": err_success[0], "err_msg":None, "content": obj.get_json_dict()}
-        self.assertEqual(case2Resp, expected)
-
-    def test_method_case3(self):
-        #test for case2() method
-        #obj = customer()                #customer object is not iterable
-        #obj = ofs_user()                 #ofs_user object is not iterable
-        obj = menu_item()                 #menu_item object is not iterable
-        case3Resp = json.loads(case3(obj).content)
-        expected = {"err_code": err_success[0], "err_msg":None, "content": obj.get_json_dict()}
-        self.assertEqual(case3Resp, expected)
-
-    def test_method_mayset(self):
-        #test for maysey() method
-        self.assertEqual(1+1, 2)
-        
-    '''
     
     def test_method_getLoginStall(self):
         ''' test for get_login_stall() function '''
-        
-        # precondition: should test login function first
         
         self.request.session['logged_in'] =True
         self.request.session['user_domain']='stall_user'
@@ -243,6 +197,8 @@ class UnitFunctionTest(TestCase):
 
     def test_method_getLoginOfsManager(self): 
         ''' test for get_login_ofs_manager() function '''
+
+        # the code need to return back a ofs_manager object
         self.request.session['logged_in'] =True
         self.request.session['user_domain']='ofs_user'
         self.request.session['user_id'] = 1
@@ -251,16 +207,8 @@ class UnitFunctionTest(TestCase):
         usr.usertype = ofs_user.manager
         
         expected = ofs_user.objects.get(id=1)   
-        #response = get_login_ofs_manager(self.request)
+        response = get_login_ofs_manager(self.request)
         
-        self.assertEqual(response, None)
-        
-    def test_method_getById(self):
-        ''' test for get_by_id() function '''
-        cls = customer
-        _id = 1
-        response = get_by_id(cls,_id)
-        expected = customer.objects.get(id=1)
         self.assertEqual(response, expected)
 
     
@@ -269,57 +217,45 @@ class UnitFunctionTest(TestCase):
     
     def test_method_validateBarcode(self):
         '''test for validate_barcode() method'''
-        barcode = 'barcode'                 #all lowercase letters:pass
-        barcode1 = 'BarCode'                #uppercase and lowercase pass
-        barcode2 = 'BarCode1234'            #pass
-        barcode3 = 'barcode_'               #raised cams_ex
-        barcode4 = ''                       #raised cams_ex
-        barcode5 = ' barcode'               #raised cams_ex
+        barcode1 = 'BarCode1234'            #letters and numbers: pass
+        barcode2 = 'barcode '               #include special characters:raised cams_ex
+        barcode3 = ''                       #empty string: raised cams_ex
 
-        validate = validate_barcode(barcode)
+        #--test valid inputs
         validate1 = validate_barcode(barcode1)
-        validate2 = validate_barcode(barcode2)
-        
+        self.assertEqual(validate1,None)
+
+        #--test invalid inputs
+        with self.assertRaises(cams_ex) as e:
+            validate_barcode(barcode2)
+        repliedEx = e.exception
+        self.assertEqual(repliedEx.err_obj[0], 14)
+
         with self.assertRaises(cams_ex) as e:
             validate_barcode(barcode3)
-        repliedEx = e.exception
-        self.assertEqual(repliedEx.err_obj[0], 14)
-
-        with self.assertRaises(cams_ex) as e:
-            validate_barcode(barcode4)
-        repliedEx = e.exception
-        self.assertEqual(repliedEx.err_obj[0], 14)
-        
-        with self.assertRaises(cams_ex) as e:
-            validate_barcode(barcode5)
         repliedEx = e.exception
         self.assertEqual(repliedEx.err_obj[0], 14)
         
 
     def test_method_validateUsername(self):
         '''test for validate_username() method'''
-        username = 'username'               #pass
-        username1 = 'UserName'              #pass
-        username2 = 'UserName1234'          #pass
-        username3 = '1234UserName'          #raised cams_ex  
-        username4 = '_username'             #raised cams_ex
-        username5 = ''                      #raised cams_ex
-        username6 = 'name1'                 # 5 chars raised cams_ex
-        username7 = 'name12'                # 6 chars pass
-        username8 = '
-        
-        username8 = 'usernameusername'      # 16 charsraised cams_ex
-        
-        validate = validate_username(username)
-        validate1 = validate_username(username1)
-        validate2 = validate_username(username2)
-        
-        self.assertEqual(validate,None)
-        self.assertEqual(validate1,None)
-        self.assertEqual(validate2,None)
+        username1 = 'name1'                 # 5 chars: raised cams_ex
+        username2 = 'name12'                # 6 chars: pass
+        username3 = 'UserName1234567'       # lettrs & numbers (15 chars): pass
+        username4 = 'usernameusername'      # 16 chars:raised cams_ex
+        username5 = '1234567UserName'       #start with numbres: raised cams_ex  
+        username6 = '_username'             #include special characters: raised cams_ex
 
+        #--test valid inputs
+        validate2 = validate_username(username2)
+        validate3 = validate_username(username3)
+      
+        self.assertEqual(validate2,None)
+        self.assertEqual(validate3,None)
+
+        #--test invalid inputs
         with self.assertRaises(cams_ex) as e:
-            validate_username(username3)
+            validate_username(username1)
         repliedEx = e.exception
         self.assertEqual(repliedEx.err_obj[0], 15)
         
@@ -338,43 +274,40 @@ class UnitFunctionTest(TestCase):
         repliedEx = e.exception
         self.assertEqual(repliedEx.err_obj[0], 15)
 
-        with self.assertRaises(cams_ex) as e:
-            validate_username(username7)
-        repliedEx = e.exception
-        self.assertEqual(repliedEx.err_obj[0], 15)
-
     def test_method_validatePassword(self):
         '''test for validate_password() method'''
-        password = '1234password%^$'            #succeed
-        password1 = '!@#$%^&*()*^%$'            #succeed
-        password2 = 'password'                  #succeed
-        password3 = '12345678'                  #succeed
-        password4 = '%&//&$/&$(%/(^*#@%!'       #raised cams_ex
-        password5 = ''                          #raised cams_ex
-        password6 = ' password'                 #raised cams_ex
+        password1 = 'passw'                      # 5 chars: raised cams_ex
+        password2 = 'passwo'                     # 6 chars: pass
+        password3 = '1234password%^$'            # 15 chars: pass
+        password4 = '1234password%^$%'           # 16 chars: raised cams_ex
+        password5 = '!@#$%^&*()*^%$'             # all special chars: pass
+        password6 = '12345678'                   # all numbers: pass
+        password7 = '%&//&$/'                    # with illegal chars: raised cams_ex
 
-        validate = validate_password(password)
-        validate1 = validate_password(password1)
+        #--test valid inputs
         validate2 = validate_password(password2)
         validate3 = validate_password(password3)
+        validate5 = validate_password(password5)
+        validate6 = validate_password(password6)
         
-        self.assertEqual(validate,None)
-        self.assertEqual(validate1,None)
         self.assertEqual(validate2,None)
         self.assertEqual(validate3,None)
+        self.assertEqual(validate5,None)
+        self.assertEqual(validate6,None)
 
+        #--test invalid inputs
+        with self.assertRaises(cams_ex) as e:
+            validate_password(password1)
+        repliedEx = e.exception
+        self.assertEqual(repliedEx.err_obj[0], 16)
+        
         with self.assertRaises(cams_ex) as e:
             validate_password(password4)
         repliedEx = e.exception
         self.assertEqual(repliedEx.err_obj[0], 16)
         
         with self.assertRaises(cams_ex) as e:
-            validate_password(password5)
-        repliedEx = e.exception
-        self.assertEqual(repliedEx.err_obj[0], 16)
-        
-        with self.assertRaises(cams_ex) as e:
-            validate_password(password6)
+            validate_password(password7)
         repliedEx = e.exception
         self.assertEqual(repliedEx.err_obj[0], 16)
         
@@ -402,6 +335,8 @@ class UnitFunctionTest(TestCase):
 
     #def test_method_placeOrderToStall(self):
     #    '''test for place_order_to_stall() method'''
+
+    #-------------test !!!!
         
 
 
@@ -458,24 +393,36 @@ class UnitFunctionTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(case1Resp,expected)
 
-    # test_loginBackend_intLoginCheckStall(self):
-        
+    # test_loginBackend_intLoginCheckStall(self):   
     # test int_login_check_ofs(request, content)
     # test int_logout(request, content)
 
 
 
-    #----------------------------------------------
-    #       class infoBackend
-
-    # test int_get_canteen_activated(request, content)
-    # test int_get_stall_activated(request, content)
-    # test int_get_stall(request, content)
-    # test int_get_stall_in_canteen(request, content)
-    # test int_get_menu_item_install(request, content)
     
+    #---------------for ofs.py ------------------------------------------------------
+    '''
+    ofs:
+        int_ofs_stall_add
+        int_ofs_customer_add
+        int_ofs_canteen_add
+        int_ofs_canteen_setactivated
+    '''
 
 
 
-    ''' for customer.py '''
-    #--------------------------------------------------------------------------------------------
+    #---------------for stall.py--------------------------------------------------------------
+    '''
+stall:
+    int_stall_order_submit
+    int_stall_get_processing_queue
+    int_stall_order_complete
+    int_stall_order_complete
+    '''
+
+    #---------------for customer.py-----------------------------------------------------------------
+    '''
+customer:
+    cus_pay_canteen
+    cus_set_cart
+    '''
