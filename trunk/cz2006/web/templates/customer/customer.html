@@ -1,0 +1,165 @@
+<!doctype HTML>
+
+<html>
+<head>
+    <title>CAMS ordering</title>
+    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+    <script src="/static/shared/js/jquery.js"></script>
+    <script src="/interface/int.js"></script>
+    <script src="/static/customer/js/customer.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/static/customer/css/customer.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.css">
+    <link type="text/css" rel="stylesheet" href="/static/customer/css/customer-overwrite.css">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="Blacker">
+    <div id="BlackBox">
+        <div id="BlackHeader">
+            Message
+        </div>
+        <div id="BlackMsg">
+        </div>
+        <div id="BlackBut">
+            OK
+        </div>
+    </div>
+</div>
+
+<div id="FancyHeader">
+    <div class="FancyInFixer">
+        <div class="FancyLogo" id="FancyLogo">CaMS</div>
+        <!--div class="FancyRightSpace"></div-->
+    </div>
+</div>
+
+<div class="FancyDownSpace">
+</div>
+
+
+<div id="MainContainer" >
+
+    <div class="RightPositioner">
+    <div class="PanelRight " id="PanelRight">
+        <div id="RightTitle" class="RightTitle panel-heading">Log in</div>
+        <div class="panel-body">
+            <div id="RightLogin">
+                <span class="LoginLabel">Username: </span>
+                <input id="loginUsername" class="form-control LoginInput LoginInput2"/>
+                <br />
+                <span class="LoginLabel">Password: </span>
+                <input id="loginPassword" class="form-control LoginInput LoginInput2" type="password"/>
+                <br />
+                <div type=button id="loginButLogin" class="RightBut">Log in</div>
+            </div>
+            <div id="RightCart">
+                <div class="RightBalance"></div>
+                <div class="PriceDivider"></div>
+                <div id="EmptyCartMsg" class="EmptyCartMsg">Your cart is empty</div>
+                <div class="CartItemContainer list-group" id="CartItemContainer"></div>
+                <div class="PriceDivider"></div>
+                <div class="PriceTotal">Total price: <span class="TotalPrice " id="TotalPrice"></span></div>
+                <div class="CartBut RightBut" id="SaveCartBut">Save Cart</div>
+                <div class="LogoutBut RightBut" id="LogoutBut">Log out</div>
+            </div>
+            <div id="RightSetting">
+                <span class="LoginLabel">New Password: </span>
+                <input id="settingPwd" class="form-control LoginInput" type="password"/>
+                <span class="LoginLabel">Handphone number: </span>
+                <input id="settingHPNo" class="form-control LoginInput" />
+                <div type=button id="settingButSaveSettings" class="RightBut ButSet">Save Settings</div>
+                <div type=button id="settingButReturn" class="RightBut ButSet">Return to Cart</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="PanelLeft" id="PanelLeft">
+        <!-- we use a shifter to achieve horizontal shifting effect -->
+        <div class="PanelShifter" id="PanelShifter">
+            <div class="tab Home" id="Home">
+                Welcome to CaMS at Beitu University!
+            </div>
+        </div>
+        <div class="Clearer"></div>
+    </div>
+
+    <div class="Clearer"></div>
+    <div class="Footer">Brought to you CZ2006 Jumpy :)</div>
+</div>
+</body>
+
+<!--- templates -->
+
+<div style="display:none">
+<li id="TmplCanDropItem"><a class="DropItemName"></a></li>
+
+<div id="TmplCanteen" class="Canteen panel panel-default" >
+    <div class="panel-heading">
+        <span class="CanName"></span>
+        <div class="CanDesc"></div>
+    </div>
+    <div class="StallContainer panel-body">
+    </div>
+</div>
+
+<div id="TmplCanteenFancy" class="CanteenFancy " >
+    <div class="panel-heading FancyHeading">
+        <span class="CanName"></span>
+        <div class="CanDesc"></div>
+    </div>
+    <div class="FancyExpansionBody panel-body">
+        <div class="CanteenEmptyMsg">
+            This canteen doesn't have any stalls inside yet :(
+        </div>
+        <div class="StallContainer ">
+        </div>
+    </div>
+</div>
+
+<div id="TmplStall" class="Stall " >
+    <div class="StallHeading ">
+        <span class="StaTogBut glyphicon"></span>
+        <div class="StaQLength" title="Current queue length">0</div>
+
+        <div class="StaName"></div>
+        <div class="StaDesc"></div>
+    </div>
+    <div class="StaDivider"></div>
+    <div class="MenuItemContainer panel-body">
+        This stall doesn't have any items yet :O
+    </div>
+    <div class="Clearer"></div>
+</div>
+
+<div id="TmplMenuItem" class="MenuItem " >
+    <div class="MIImage">
+    </div>
+    <div class="MICaption">
+        <span class="MIName"></span>
+        <span class="MIPrice"></span>
+    </div>
+    <div class="MIDesc">
+    </div>
+</div>
+
+<div id="TmplCartItem" class="CartItem list-group-item" >
+    <span class="CIName"></span>
+    <!--span class="CIPrice"></span-->
+    <span class="CIQuantity"></span>
+    <div class="CIInc ">+</div>
+    <div class="CIDec ">-</div>
+    <div class="Clearer"></div>
+</div>
+
+<div id="TmplCanButton" class="CanButton">
+</div>
+
+</div>
+
+</html>

@@ -1,0 +1,86 @@
+<!doctype HTML>
+
+<html>
+<head>
+    <title>CAMS ordering</title>
+    <link type="text/css" rel="stylesheet" href="/static/customer/css/customer.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.css">
+    <script src="/static/bookstrap/js/bootstrap.min.js"></script>
+
+    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+    <script src="/static/shared/js/jquery.js"></script>
+    <script src="/interface/int.js"></script>
+    <script src="/static/customer/js/customer.js"></script>
+</head>
+
+<body>
+<div id="PageLogin">
+    <img src=""></img>
+    <div id="LoginForm">
+    <span class="LoginLabel">Username: </span>
+    <input id="loginUsername" />
+    <br />
+    <span class="LoginLabel">Password: </span>
+    <input id="loginPassword" />
+    <br />
+    <input type=button id="loginButLogin" value="Login" />
+    </div>
+</div>
+
+<div id="PageMain" style="display:none">
+    <div class="Header" id="Header">
+        <div class="BackBut" id="BackBut">Back</div>
+        <div class="HeaderUser" id="HeaderUser"></div>
+        <div class="Clearer" >
+        </div>
+    </div>
+    <div class="PanelMain" id="PanelMain">
+        <div class="tab" id="CanteenContainer">
+        </div>
+        <div class="tab" id="CanteenPage">
+        </div>
+    </div>
+    <div class="PanelRight" id="PanelRight">
+        <div class="LogoutBut" id="LogoutBut">Log out</div>
+        <div class="CartItemContainer" id="CartItemContainer"></div>
+        Total price: <span class="TotalPrice" id="TotalPrice"></span>
+        <div class="CartBut" id="SaveCartBut">Save Cart</div>
+    </div>
+    <div class="Clearer"></div>
+</div>
+
+</body>
+
+<!--- templates -->
+
+<div id="TmplCanteen" class="Canteen" style="display:none">
+    <span class="CanName"></span>
+    <div class="CanDesc"></div>
+    <div class="StallContainer">
+    </div>
+</div>
+
+<div id="TmplStall" class="Stall" style="display:none">
+    <span class="StaName"></span>
+    <div class="MenuItemContainer">
+    </div>
+    <div class="Clearer"></div>
+</div>
+
+<div id="TmplMenuItem" class="MenuItem" style="display:none">
+    <span class="MIName"></span>
+    <span class="MIPrice"></span>
+    <div class="MIImage"></div>
+</div>
+
+<div id="TmplCartItem" class="CartItem" style="display:none">
+    <span class="CIName"></span>
+    <span class="CIPrice"></span>
+    <span class="CIQuantity"></span>
+    <div class="CIInc">+</div>
+    <div class="CIDec">-</div>
+    <div class="Clearer"></div>
+</div>
+
+</html>

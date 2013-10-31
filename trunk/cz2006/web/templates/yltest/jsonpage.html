@@ -1,0 +1,269 @@
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/interface/int.js"></script>
+<script>
+function id(n){return document.getElementById(n);}
+function jalert(data){alert(JSON.stringify(data));id("respbox").value=JSON.stringify(data)}
+function default_err(data)
+{
+    alert("Using general handler.\n"+data.err_msg);
+    id("respbox").value = data.err_msg;
+}
+int_app_error_handler = default_err;
+function dologin1()
+{
+    var obj = {
+        username: id("input_name").value,
+        password: id("input_pwd").value,
+        domain: id("input_domain").value,
+        };
+    int_login(
+        obj, 
+        function(data){alert("Login successful.");}
+    );
+}
+
+function logout()
+{
+	var obj = {};
+	int_logout(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_add()
+{
+    var obj={
+        username: "lyang",
+        password: "123",
+        barcode: "U123",
+        usertype: "S"
+    };
+    int_ofs_customer_add(obj, function(data){jalert(data);});
+}
+
+function ofs_stall_add()
+{
+    var obj={
+        name: "Ayam Pynet",
+        description: "I want to eat tomorrow!",
+        canteen: "4",
+        category: "Malay"
+    };
+    int_ofs_stall_add(obj, function(data){jalert(data);});
+}
+
+function ofs_stalluser_add()
+{
+    var obj={
+        username: "yq123",
+        password: "123",
+        usertype: "O",
+        stall: "1",
+		name: "yunqing"
+    };
+    int_ofs_stalluser_add(obj, function(data){jalert(data);});
+}
+
+function ofs_ofsuser_add()
+{
+    var obj={
+        username: "cp123",
+        password: "123",
+        usertype: "O",
+		name: "chenpeng"
+    };
+    int_ofs_ofsuser_add(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_get(id)
+{
+	var obj = {customerid: id};
+	int_ofs_customer_get(obj, function(data){jalert(data);});
+}
+
+function ofs_stalluser_get(id)
+{
+	var obj = {stalluid: id};
+	int_ofs_stalluser_get(obj, function(data){jalert(data);});
+}
+
+function ofs_ofsuser_get(id)
+{
+	var obj = {ofsuid: id};
+	int_ofs_ofsuser_get(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_get_all()
+{
+	var obj = {};
+	int_ofs_customer_get_all(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_get_activated()
+{
+	var obj = {};
+	int_ofs_customer_get_activated(obj, function(data){jalert(data);});
+}
+
+function ofs_stalluser_get_all()
+{
+	var obj = {};
+	int_ofs_stalluser_get_all(obj, function(data){jalert(data);});
+}
+
+function ofs_stalluser_get_activated()
+{
+	var obj = {};
+	int_ofs_stalluser_get_activated(obj, function(data){jalert(data);});
+}
+
+function ofs_ofsuser_get_all()
+{
+	var obj = {};
+	int_ofs_ofsuser_get_all(obj, function(data){jalert(data);});
+}
+
+function ofs_ofsuser_get_activated()
+{
+	var obj = {};
+	int_ofs_ofsuser_get_activated(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_edit()
+{
+    var obj = {
+		customerid: "1",
+		password: "1234",
+		is_activated: true
+	}
+	int_ofs_customer_edit(obj, function(data){jalert(data);});
+}
+
+function ofs_stalluser_edit()
+{
+    var obj = {
+		stalluid: "1",
+		password: "1234",
+		is_activated: true
+	}
+	int_ofs_stalluser_edit(obj, function(data){jalert(data);});
+}
+
+function ofs_ofsuser_edit()
+{
+    var obj = {
+		ofsuid: "2",
+		password: "1234",
+		is_activated: false
+	}
+	int_ofs_ofsuser_edit(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_topup()
+{
+	var obj = {
+		customerid: "1",
+		value: "10.0"
+	}
+	int_ofs_customer_topup(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_mass_add()
+{
+	var obj = {
+		collection:[
+            {username: 'qaz', barcode: 'qaz123', password: "password", usertype: "Abc"},
+            {username: 'wsx', barcode: 'wsx123', password: "password", usertype: "Sbc"}
+        ]
+	}
+	int_ofs_customer_mass_add(obj, function(data){jalert(data);});
+}
+
+function ofs_customer_mass_deactivate()
+{
+	var obj = {
+		cuslist:[
+			{barcode: 'abc123'},
+			{barcode: '107'}
+		]
+	}
+	int_ofs_customer_mass_deactivate(obj, function(data){jalert(data);});
+}
+
+function ofs_canteen_add()
+{
+	var obj = {
+		name: "can1",
+		description: "cantten at hall 1"
+	};
+	int_ofs_canteen_add(obj, function(data){jalert(data);});
+}
+
+function ofs_canteen_edit()
+{
+	var obj = {
+		name: "can1",
+		description: "canteen at HALL 1",
+		is_activated: false
+	}
+	int_ofs_canteen_edit(obj, function(data){jalert(data);});
+}
+
+function ofs_stall_edit()
+{
+	var obj ={
+		name: "Western Food",
+		category: "western",
+		is_activated: false
+	}
+	int_ofs_stall_edit(obj, function(data){jalert(data);});
+}
+
+function test()
+{
+    //ofs_customer_add();
+	//ofs_stall_add();
+	//ofs_stalluser_add();
+	//ofs_ofsuser_add();
+	//ofs_customer_get(1);
+	//ofs_stalluser_get(1);
+	//ofs_ofsuser_get(1);
+	//ofs_customer_topup();
+	ofs_customer_get_all();
+	//ofs_customer_get_activated();
+	//ofs_stalluser_get_all();
+	//ofs_stalluser_get_activated();
+	//ofs_ofsuser_get_all();
+	//ofs_ofsuser_get_activated();
+	//ofs_customer_edit();
+	//ofs_stalluser_edit();
+	//ofs_ofsuser_edit();
+	//ofs_customer_mass_add();
+	//ofs_customer_mass_deactivate();
+	//ofs_canteen_add();
+	//ofs_canteen_edit();
+	//ofs_stall_edit();
+}
+function test2()
+{
+    int_login_check_ofs({}, function(data){jalert(data);});
+}
+
+</script>
+</head>
+<body>
+<input id="input_name"/ ><br/>
+<input id="input_pwd" / ><br/>
+<input id="input_domain" / ><br/>
+<input type=button value="Login1" onclick="dologin1()"/>
+<input type=button value="logout" onclick="logout()"/><br />
+<input type=button value="get canteen" onclick="getcanteen()"/>
+<input type=button value="get stall" onclick="getstall(1)"/><br />
+<input type=button value="test" onclick="test()" />
+<input type=button value="test2" onclick="test2()" /><br />
+
+<textarea style="width: 700px; height: 400px", id="respbox">
+</textarea>
+
+</body>
+</html>

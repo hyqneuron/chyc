@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id="title">Stall</title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/static/stall/css/stylesheet.css"/>
+    <script src="/static/shared/js/jquery.js"></script>
+    <script src="/interface/int.js"></script>
+    <script src="/static/stall/js/stall.js"></script>
+</head>
+
+<body>
+
+<div name="loginForm" id="loginForm" method="post" style="display:none">
+    <label for="username">username</label>
+    <input type="text" name="username" id="username"/>
+    <label for="password">password</label>
+    <input type="password" name="password" id="password"/>
+    <input type="button" name="loginSubmit" id="loginSubmit" value="Login" />
+    <input type="reset" name="loginReset" id="loginReset" value="Clear"/>
+</div>
+
+<div id="wrapper" style="display:none">
+
+    <nav>
+        <ul>
+            <li><span id="take-order-btn" >Take Order</span></li>
+            <li><span id="processing-order-btn">Processing Order</span></li>
+            <li><span id="stall-management-btn">Stall management</span></li>
+        </ul>
+    </nav>
+
+    <div name="userAdmin" id="userAdmin">
+        Welcome <span id="userName"></span> <a id='logout' href='#'>logout</a>
+        <input id="barcode" value="" />
+    </div>
+
+    <div id="take-order" style="display:none">
+    <div id="menu">
+    </div>
+    
+    <div id="order-cart">
+        <h2>Order Cart</h2>
+        <div id="cart-items">
+        <div id="total-price">
+        </div>
+        </div>
+        <div id="cart-form">
+            <input type="submit" name="confirm-order" id="confirm-order" value="Comfirm" /> 
+            <input type="reset" name="cancel-order" id="cancel-order" value="Cancel" />
+        </div>
+    </div>
+
+    <!--take-order-templates-->
+    <div style="display:none">
+
+        <div id="cart-item-template" class="cart-item">
+            <ul>
+                <li class="cart-item-name">
+                </li>
+                <li class="cart-item-price">
+                </li>
+                <li>
+                    <span>
+                        <div class="minus">-</div>
+                        <input class="cart-item-quantity" type="number" size="4" maxlength="3">
+                        <div class="plus">+</div>
+                    </span>
+                    <input class="remarks"></input>
+                        &nbsp <div class="trash">x</div>
+                </li>
+            </ul>
+            <br class="clear-float"/>
+        </div>
+
+        <div id="menu-item-template" class="menu-item" style="display:none">
+            <ul>
+                <li class="menu-item-name"></li>
+                <li class="menu-item-price"></li>
+            </ul>
+        </div>
+    </div><!--end of take-order-templates-->
+    </div><!--end div of take-order-->
+
+    <div id="processing-order" style="display:none">
+    </div>
+    <!--processing-order-templates-->
+    <div style="display:none">
+        <div class="processing-order-item" id="processing-order-item-template">
+            <div class="processing-order-info">
+            <div class="q-num"></div>
+            </div>
+            <div class="processing-order-details">
+            <table class="processing-order">
+            </table>
+            </div>
+            <div class="processing-order-form">
+                <button value="revoke" class="processing-order-revoke-btn">revoke</button>
+                <button value="done" class="processing-order-done-btn">done</button>
+            </div>
+        </div>
+    </div><!--end of processing-order-tamplates-->
+
+    <div id="stall-management" style="display:none">
+        <div id="sub-nav">
+            <li><span id="stall-info-btn">stall info</span></li>
+            <li><span id="menu-info-btn">menu info</span></li>
+            <li><span id="report-btn">report</span></li>
+        </div>
+
+        <div id="stall-info">
+            <form id="stall-info-form">
+            <label for="stall-info-name">Name </label>
+            <input type="text" id="stall-info-name"></input>
+            <label for="stall-info-description">Description</label>
+            <textarea id="stall-info-description"></textarea>
+            <input type="submit" value="confirm" id="stall-info-submit"/>
+            <input type="reset" value="cancel" id="stall-info-cancel"/>
+            </form>
+        </div>
+
+        <div id="menu-info">
+            <div id="menu-info-add">
+                <button id="menu-info-add-btn">Add</button>
+            </div>
+        </div>
+
+        <div id="report">
+        </div>
+
+    <!--stall-management-templates-->
+    <div style="display:none">
+        <div id="menu-info-item-display-template" class="menu-info-item-display" style="display:none">
+            <div class="image-data"></div>
+            <div class="menu-info-edit-btn">
+                <div class="line1">
+                    <span class="name-data"></span>
+                    <span class="price-data"></span>
+                    <span class="is_available_online-data">online</span>
+                </div>
+                <div class="line2">
+                    <span>Promotion: </span>
+                    <span class="promotion-data"></span>
+                    <span>until: </span>
+                    <span class="promotion_until-data"></span>
+                </div>
+                <div class="line3">
+                    <span class="description-data"></span>
+                </div>
+            </div>
+            <br class="clear-float"/>
+        </div>
+
+        <div id="menu-info-item-edit-template" class="menu-info-item-edit" style="display:none">
+            <div class="image-data" id="imgUploadPreview"></div>
+            <form id="imgForm" enctype="multipart/form-data" method="post">
+                <input type=hidden name="itemid" id="itemid" ></input>
+                <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
+                <br />
+                <input type=button class="resetUploadBut" value="Reset Upload"/>
+            </form>
+            <div style="clear:both"></div>
+            <label>Name</label>
+            <input type="text" class="menu-info-edit-name"></input>
+            <br class="clear-float">
+            <label>Activated</label>
+            <select class="menu-info-edit-is_activated">
+                <option value="1">yes</option>
+                <option value="0">no</option>
+            </select>
+            <br class="clear-float">
+            <label>Price</label>
+            <input type="number" class="menu-info-edit-price"></input>
+            <br class="clear-float">
+            <label>Promotion until</label>
+            <input type="date" class="menu-info-edit-promotion_until"></input>
+            <br class="clear-float">
+            <label>Available </label>
+            <select class="menu-info-edit-is_available">
+                <option value="1">yes</option>
+                <option value="0">no</option>
+            </select>
+            <br class="clear-float">
+            <label>promotion</label>
+            <input type="number" class="menu-info-edit-promotion"></input>
+            <br class="clear-float">
+            <label>Available online</label>
+            <select class="menu-info-edit-is_available_online">
+                <option value="1">yes</option>
+                <option value="0">no</option>
+            </select>
+            <br class="clear-float">
+            <label>Description</label>
+            <textarea class="menu-info-edit-description"></textarea>
+            <br class="clear-float">
+            <button class="menu-info-edit-submit-btn">submit</button>
+            <button class="menu-info-edit-cancel-btn">cancel</button>
+            <br class="clear-float">
+        </div>
+    </div><!--end of stall-management-templates-->
+    </div><!--end div of stall-management-->
+
+        
+</div><!--end div of wrapper-->
+
+</body>
+</html>

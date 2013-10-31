@@ -1,0 +1,124 @@
+
+/* customer listing */
+.CusEntry:hover{
+    background-color:#ddd;
+}
+.CustomerDIVSelected{
+    background-color: rgb(95,176,211);
+    color:white;
+}
+.CustomerDIVSelected:hover{
+    background-color: #66f;
+    color:white;
+}
+.CustomerDIVBarcode{
+    cursor:pointer;
+}
+.CustomerDIVBarcode:hover{
+    cursor:pointer;
+    color:orange;
+}
+
+/* stall listing */
+.CanteenStallName:hover{
+    color:orange;
+    cursor:pointer;
+}
+/* blacker box */
+#blacker{
+    padding: 8px;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0, 0.5);
+    z-index:100;
+}
+.BlackerWaitDIV{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 100px;
+    margin-left: -200px;
+    margin-top: -50px;
+    background-color: white;
+    padding: 5px;
+    text-align:center;
+    vertical-align:middle;
+}
+.StallInfoDIV{
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -260px;
+    width: 600px;
+    height: 512px;
+    z-index: 102;
+    background-color:white;
+}
+.sidMenuContainer{
+    border: solid 1px green;
+    height: 380px;
+}
+.sidLabel,.nsdLabel{
+    display:inline-block;
+    width: 20%;
+    text-align:right;
+}
+.sidInput{
+    display:none;
+}
+.StallMenuName,.StallMenuDesc,.StallMenuPrice {
+    display:inline-block;
+    width: 30%;
+}
+.NewStallDIV{
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    width: 600px;
+    height: 300px;
+    z-index: 102;
+    background-color:white;
+
+}
+.TopupDIV {
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -50px;
+    width: 300px;
+    height: 100px;
+    z-index: 102;
+    background-color:white;
+}
+.topLabel {
+    display:inline-block;
+    width: 50%;
+    text-align:right;
+}
+.topInput {
+    width: 40%;
+}
+.NewCanteenDIV{
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    width: 600px;
+    height: 300px;
+    z-index: 102;
+    background-color:white;
+
+}

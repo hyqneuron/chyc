@@ -1,0 +1,437 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="">
+                <meta name="author" content="">
+                    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+                        <title>CaMS OFS</title>
+                        
+                        <!-- Logic JS -->
+                        <script src="/static/shared/js/jquery.js"></script>
+                        <script src="/interface/int.js"></script>
+                        <script src="/static/ofs/js/ofs.js"></script>
+                        <script src="/static/ofs/js/classes.js"></script>
+                        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+                        <!-- Bootstrap core CSS -->
+                        <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+                            <!-- Custom styles for this template -->
+                            <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+                             <link href="/static/bootstrap/css/simple-sidebar.css" rel="stylesheet">   
+    
+                                <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+                                <!--[if lt IE 9]>
+                                 <script src="../../assets/js/html5shiv.js"></script>
+                                 <script src="../../assets/js/respond.min.js"></script>
+                                 <![endif]-->
+                            <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/style.css"><script type="text/javascript" charset="utf-8" src="chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/page_context.js"></script>
+    
+                        <link type="text/css" rel="stylesheet" href="/static/ofs/css/ofsstyle.css">
+                        <link type="text/css" rel="stylesheet" href="/static/ofs/css/ofs_blacker.css">
+    
+    
+</head>
+    
+    <body screen_capture_injected="true">
+        <div id="page_login">
+            <div class="OFSlogin">
+                <div class="container">
+                    <form class="form-signin"  method="post">
+                        <h4 align="center"> CaMS OFS </h4>
+                        <h2 class="form-signin-heading">Please sign in to OFS</h2>
+                        <input type="text" class="form-control" placeholder="Username" autofocus="" id="username">
+                        <input type="password" class="form-control" placeholder="Password" id="password"> 
+                        <button class="btn btn-lg btn-info btn-block" type="button" id="login_button">Sign in</button>
+                    </form>
+                </div>
+            </div>
+        </div> <!-- /container -->
+        
+        
+        <!-- Bootstrap core JavaScript
+         ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        
+        
+        
+        <!-- end of login page-->
+        
+        <div id="page_main" style="display:none">
+            <nav class="navbar navbar-inverse navbar-fixed-top collapse navbar-collapse navbar-ex1-collapse" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">CaMS OFS</a>
+                </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+     
+                <div class="collapse navbar-collapse navbar-ex1-collapse" id="siderbar">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown" >
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="MenuGroup" id="GroupCus"><a class="MenuParent" tab="tab_cus" group="GroupCus">Customer List</a></li>
+                                <li class="MenuGroup" id="GroupCus"><a class="MenuChild" tab="tab_cus_info" group="GroupCus">Customer Info</a></li>
+                                <li class="MenuGroup" id="GroupCus"><a class="MenuChild mgrOnly" tab="tab_cus_register" group="GroupCus">Mass Registration</a></li>
+                                <li class="MenuGroup" id="GroupCus"><a class="MenuChild mgrOnly" tab="tab_cus_deactivate" group="GroupCus">Mass Deactivation</a></li>
+                            </ul>
+                        </li>      
+                        <li class="MenuGroup" id="GroupCan"><a class="MenuParent mgrOnly" tab="tab_stallcanteen" group="GroupCan">Canteens and Stalls</a></li>
+                        <li><a class="MenuParent mgrOnly" tab="tab_price">Price</a></li>
+                        <li> <a class="MenuParent mgrOnly" tab="tab_reports">Reports</a></li>
+                        <li> <a class="MenuParent mgrOnly" tab="tab_data">Data Management</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <p class="navbar-text" name="userAdmin" id="userAdmin">Welcome <span id="userName"></span> </p>
+                        <p class="navbar-text" > <a id='ButLogout' href='#'onclick="doLogout()">Logout</a></p>
+
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+      
+   
+ 
+        
+        
+        <!-- /.side bar -->
+        
+        <div id="sidebar-wrapper">
+            
+            <ul class = "sidebar-nav">
+                <li class="MenuGroup" id="GroupCus"><a class="MenuParent sideParent" tab="tab_cus" group="GroupCus">Customers</a></li>
+                <li class="MenuGroup" id="GroupCus"><a class="MenuChild sideChild" tab="tab_cus_info" group="GroupCus">Customer Info</a></li>
+                <li class="MenuGroup" id="GroupCus"><a class="MenuChild mgrOnly sideChild" tab="tab_cus_register" group="GroupCus">Mass Registration</a></li>
+                <li class="MenuGroup" id="GroupCus"><a class="MenuChild mgrOnly sideChild" tab="tab_cus_deactivate" group="GroupCus">Mass Deactivation</a></li>
+            
+               <li class="MenuGroup" id="GroupCan"> <a class="MenuParent mgrOnly sideParent" tab="tab_stallcanteen" group="GroupCan">Canteens and Stalls</a></li>
+                <!--
+                <div class="MenuChild" tab="tab_can_info" group="GroupCan">Canteens and Stalls</div>
+                <div class="MenuChild" tab="tab_can_register" group="GroupCan">Register Canteen</div>
+                -->
+                <li><a class="MenuParent mgrOnly sideParent" tab="tab_price">Price</a></li>
+                <li><a class="MenuParent mgrOnly sideParent" tab="tab_reports">Reports</a></li>
+                <li><a class="MenuParent mgrOnly sideParent" tab="tab_data">Data Management</a></li>
+            </ul>
+      </div>
+  
+        
+        <div id="maincontent" class = "ContentPage">
+            <div id="tab_main" class="tab">
+                    <div class="Home">
+                        Welcome to CaMS OFS Portal at Beitu University!
+                    </div>
+            </div>
+
+            <div id="tab_cus" class="tab" >
+                <h3>Customers</h3>
+    
+                
+                
+                Page<input type=number id="cusPageNum" min=1 max=1 value=1 /> / <span id="cusPageCount">1</span>
+                
+                
+                
+                <button type="button" id="cusUpdate" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-refresh"></span> Refresh
+                </button>
+                
+                <button type="button" id="cusSelAll" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-list-alt"></span> Select all
+                </button>
+                
+                
+                <button type="button" id="cusSelClear" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-repeat"></span> Unselect all
+                </button>
+                
+                
+                <button type="button" id="cusSelDeact" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span> Deactivate selected
+                </button>
+                
+                
+                
+                
+                
+                <div class="panel panel-default" >
+            <!-- Default panel contents -->
+                    <div class="panel-heading">Number of selected customers: <span id="cusSelCount">0</span></div>
+                         
+  <!-- Table -->
+                    <table class="table " id="">
+                        <thead>
+                            <tr>
+                                <th class="CustomerDIVBarcode" >Barcode</th>
+                                <th class="CustomerDIVUserType">User type</th>
+                                <th class="CustomerDIVUsername">Username</th>
+                                <th class="CustomerDIVBalance">Balance</th>
+                                <th class="CustomerDIVActivated">Activated</th>
+                            </tr>
+                        </thead>
+                        <tbody id="CustomerDIVContainer">
+                        </tbody>
+                    </table>
+                    <div id="cusLoading" style="display:none">
+                        Loading the current page...
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+
+            <div id="tab_cus_info" class="tab" style="display:none">
+                <h3>Customer Information</h3>
+
+                <table>
+                <tr>
+                    <td class="DataLabel"><input type=radio name="searchby" value="username" id="r1">Search Username</td>
+                    <td><input type="text" class="form-control"id="cusInfoSearchUsername" /></td>
+                </tr>
+                <tr>
+                    <td><input type=radio  name="searchby" value="barcode" id="r2">Search Barcode</td>
+                    <td><input type="text" class="form-control" id="cusInfoSearchBarcode" /></td>
+                </tr>
+                </table>
+                
+                <button type="button" id="cusInfoButFind" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-search"></span>Search
+                </button>
+                
+                
+                
+                
+                <comment user info editing region below />
+                <br/>
+                
+                
+                
+                
+                <div id="cusInfoDisp" class="panel panel-default">
+
+                    <div class="panel-heading" id="cusInfoUsername"></div>
+                    <div class="panel-body"> 
+                    <label>Barcode:</label> <label2 id="cusInfoBarcode"></label2><br>
+                    <label>Customer Type:</label><label2 id="cusInfoUserType"></label2><br>
+                    <label>Balance:</label><label2 id="cusInfoBalance"></label2><br>
+                    <label>Activated:</label><label2 id="cusInfoActivated"></label2><br>
+                    </div>
+                    
+                    <button type="button" id="cusInfoButActivate" class="btn btn-info btn-sm mgrOnly">
+                        <span class="glyphicon glyphicon-ok-sign"></span> Toggle Activation
+                    </button>
+                    <button type="button" id="cusInfoButChangePassword" class="btn btn-info btn-sm mgrOnly">
+                        <span class="glyphicon glyphicon-refresh"></span> Reset Password
+                    </button>
+                    <button type="button" id="cusInfoButTopup" class="btn btn-info btn-sm">
+                        <span class="glyphicon glyphicon-credit-card"></span> Top up
+                    </button>
+                </div>
+                </div>
+        
+            
+            
+            <div id="tab_cus_register" class="tab" style="display:none">
+                <h3>Customer Mass Registration</h3>
+                <label>Customer Type:</label>
+                    <input type=radio name="cusRegUserType" value="S" checked=true>Student
+                    <input type=radio name="cusRegUserType" value="A">Staff
+                    <input type=radio name="cusRegUserType" value="V">Visitor
+                <br />
+                
+                <textarea id="cusRegList" class="form-control " rows="16" ng-model="result" placeholder="Format: Username,Barcode"></textarea>
+                
+                <br />
+                 <button type="button" id="cusRegButCreate" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-plus-sign"></span>Confirm 
+                </button>
+
+            </div>
+            
+            
+            
+            <div id="tab_cus_deactivate" class="tab" style="display:none">
+                 <h3>Customer Mass Deactivation</h3>
+                
+                <br />
+                <textarea id="cusDeList" class="form-control " rows="16" ng-model="result" placeholder="Format: Username"></textarea>
+                <br />
+                <button type="button" id="cusDeButDeactivate" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span> Mass Deactivate
+                </button>
+            </div>
+
+         
+ 
+            
+            <div id="tab_stallcanteen" class="tab" style="display:none">
+                <h3>Canteens and Stalls</h3>
+                
+                <button type="button" id="canRegister" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Register New Canteen
+                </button>
+                
+                <button type="button" id="canUpdate" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-refresh"></span> Refresh
+                </button>
+                
+                
+       
+                <div id="CanteenDIVContainer">
+                </div>
+
+            </div>
+            
+            
+            <div id="tab_can_info" class="tab" style="display:none">
+                Canteen Info
+            </div>
+            <div id="tab_can_register" class="tab" style="display:none">
+                register canteen
+            </div>
+        </div>
+    </div>
+        
+<div id="blacker" style="display:none">
+</div>
+
+<div style="display:none">
+<table>
+<tr class="CustomerDIV CusEntry" id="cusTMPL" >
+    <td class="CustomerDIVBarcode" href="#"></td>
+    <td class="CustomerDIVUserType"></td>
+    <td class="CustomerDIVUsername"></td>
+    <td class="CustomerDIVBalance"></td>
+    <td class="CustomerDIVActivated"></td>
+</tr>
+</table>
+
+<div class="CanteenDIV" id="canTMPL" >
+    <div class ="list-group">
+        <h4 class="CanteenDIVHeader list-group-item title"></h4>
+        
+    
+        <div class="list-group-item">
+            <p class="CanteenDIVDesc list-group-item"></p>
+            <table class="CanteenDIVStalls table" >
+                <tr class="CanteenStallDIV" >
+                    <th class="CanteenStallName">Name</th>
+                    <th class="CanteenStallCategory">Category</th>
+                    <th class="CanteenStallDesc">Description</th>
+                </tr>
+            </table>
+            <button type="button" class="btn btn-info btn-sm cdButEdit">
+                <span class="glyphicon glyphicon-edit"></span> Edit Canteen Information
+            </button>
+            
+            <button type="button" class="btn btn-info btn-sm cdButDeact">
+                <span class="glyphicon glyphicon-minus-sign"></span> Deactivate Canteen
+            </button>
+            
+            <button type="button"  class="btn btn-info btn-sm cdButAddst">
+                <span class="glyphicon glyphicon-plus-sign"></span> Register New Stall
+            </button>
+        </div>    
+    </div>
+    
+    
+ 
+    
+</div>
+
+<table>
+<tr class="CanteenStallDIV" id="canStallTMPL" >
+    <td class="CanteenStallName" href="#"></td>
+    <td class="CanteenStallCategory"></td>
+    <td class="CanteenStallDesc"></td>
+</tr>
+</table>
+
+<div class="StallInfoDIV" id="stallInfoTMPL" >
+    <span class="sidLabel">Name:</span>
+    <span class="sidFill sidNameFill"></span>
+    <br />
+    <span class="sidLabel">Description:</span>
+    <span class="sidFill sidDescFill"></span>
+    <br />
+    <span class="sidLabel">Category:</span>
+    <span class="sidFill sidCateFill"></span>
+    <br />
+    <span class="sidLabel">Username Prefix:</span>
+    <span class="sidFill sidPrefFill"></span>
+    <br />
+    <comment now list the menu ></comment>
+    Menu: 
+    <div class="sidMenuContainer">
+        <span class="StallMenuName">Name</span>
+        <span class="StallMenuDesc">Description</span>
+        <span class="StallMenuPrice">Price</span>
+        <div class="menuLoading">Menu Loading ...</div>
+    </div>
+    <input type=button value="Close" class="sidButClose"/>
+    <input type=button value="Reset Manager Password" class="sidButResetPwd"/>
+    <input type=button value="Deregister Stall" class="sidButDereg"/>
+</div>
+
+<div class="StallMenuDIV" id="stallMenuTMPL" >
+    <span class="StallMenuName"></span>
+    <span class="StallMenuDesc"></span>
+    <span class="StallMenuPrice"></span>
+</div>
+
+<div class="NewStallDIV" id="newStallTMPL" >
+    <span class="nsdLabel">Name:</span>
+    <input class="nsdInput nsdInputName" />
+    <br />
+    <span class="nsdLabel">Description:</span>
+    <input class="nsdInput nsdInputDesc" />
+    <br />
+    <span class="nsdLabel">Category:</span>
+    <input class="nsdInput nsdInputCate" />
+    <br />
+    <span class="nsdLabel">Username prefix:</span>
+    <input class="nsdInput nsdInputPref" />
+    <br />
+    <input type=button value="Exit" class="nsdButClose"/>
+    <input type=button value="Register Stall" class="nsdButReg"/>
+</div>
+
+<div class="TopupDIV" id="topupTMPL" >
+    <span class="topLabel">Customer Barcode:</span>
+    <span class="topFill topBarcodeFill"></span>
+    <br/>
+    <span class="topLabel">Topup amount:</span>
+    <input class="topInput topInputAmt" />
+    <br />
+    <input type=button value="Exit" class="topButClose"/>
+    <input type=button value="Topup" class="topButTopup"/>
+</div>
+
+<div class="NewCanteenDIV" id="newCanteenTMPL" >
+    <span class="nsdLabel">Name:</span>
+    <input class="nsdInput ncdInputName" />
+    <br />
+    <span class="nsdLabel">Description:</span>
+    <input class="nsdInput ncdInputDesc" />
+    <br />
+    <input type=button value="Exit" class="ncdButClose"/>
+    <input type=button value="Register Canteen" class="ncdButReg"/>
+</div>
+
+<div class="BlackerWaitDIV" id="blackerWaitTMPL" >
+</div>
+
+</div>
+
+
+        
+    </body>
+</html>

@@ -1,0 +1,34 @@
+.Home {
+text-align: center;
+height: 100%;
+line-height: 400px;
+vertical-align: middle;
+color: rgb(114, 99, 99);
+font-size: 20pt;
+font-weight: bold;
+}
+.ContentPage {
+margin-left:260px;
+padding-top:11px;
+height: 100%;
+}
+
+
+.sideParent {
+
+    font-size:18px;
+}
+
+
+.sideChild {
+    padding-left:50px
+}
+
+
+.title{
+z-index: 2;
+color: #fff;
+background-color: #999999;
+border-color: #999999;
+}
+

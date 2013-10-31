@@ -1,0 +1,17 @@
+
+.form-control{
+}
+.LoginInput{
+    border-radius: 0px;
+    border: solid 1px #f90;
+}
+.FancyHeading{
+    border-radius:0px;
+}
+.UserSettingBut{
+    float:right;
+}
+.ButSet{
+    margin-top:10px;
+    width:160px;
+}

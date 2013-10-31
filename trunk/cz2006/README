@@ -1,0 +1,15 @@
+
+How to rebuild database:
+1. At the same directory where manage.py is found, enter the following commands:
+rm database.db
+python manage.py syncdb
+
+2. Enter this command to enter Python interactive prompt:
+python manage.py shell
+
+3. Inside Python interactive prompt, enter the following commands:
+from data.add_entries import *
+rebuildData()
+
+After rebuildData() function is called, enter yes to first question, and no to
+second question. After a few seconds the database should be rebuilt

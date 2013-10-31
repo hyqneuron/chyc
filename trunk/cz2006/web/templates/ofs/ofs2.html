@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title id="title">CAMS OFS Interface</title>
+    <link type="text/css" rel="stylesheet" href="/static/ofs/css/ofs.css"/>
+    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+    <script src="/static/shared/js/jquery.js"></script>
+    <script src="/interface/int.js"></script>
+    <script src="/static/ofs/js/ofs.js"></script>
+    <script src="/static/ofs/js/classes.js"></script>
+</head>
+
+<body>
+    <div id="page_login">
+        <div class="OFSheader">
+            <h1>OFS</h1>
+        </div>
+
+        <div class="OFSlogin">
+            <h3 style="margin-left:200px;">Log in</h3>
+            <form name="input" action="OFS_main_menu.html" method="post">
+            <table style="margin-top:30px; margin-left:200px;">	
+            <tr>
+                <td>
+                    <h4>
+                        User Name&nbsp;&nbsp;
+                    </h4>
+                </td>
+                <td>
+                    <input type="text" id="username" size="35"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>
+                        Password&nbsp;&nbsp;&nbsp;
+                    </h4>
+                <td>
+                    <input type="password" id="password" size="35"/>
+                </td>
+            <tr>
+            </table>
+            <input type="button" value="Login" id="login_button" style="float:right; margin-top:30px; margin-right:300px;" />
+            </form>
+        </div>
+    </div>
+    <!-- end of login page-->
+
+    <div id="page_main" style="display:none">
+        <!-- header -->
+        <div class="OFSheader">
+            <input id="ButLogout" type=button value="logout" onclick="doLogout()" style="float:right" />
+            <h1>OFS</h1>
+        </div>
+        <div id="siderbar">
+            <div class="MenuGroup" id="GroupCus">
+                <a class="MenuParent" tab="tab_cus" group="GroupCus">Customers</a>
+                <div class="MenuChild" tab="tab_cus_info" group="GroupCus">Customer Info</div>
+                <div class="MenuChild mgrOnly" tab="tab_cus_register" group="GroupCus">Mass Registration</div>
+                <div class="MenuChild mgrOnly" tab="tab_cus_deactivate" group="GroupCus">Mass Deactivation</div>
+            </div>
+            <div class="MenuGroup" id="GroupCan">
+                <a class="MenuParent mgrOnly" tab="tab_stallcanteen" group="GroupCan">Canteens and Stalls</a>
+                <!--
+                <div class="MenuChild" tab="tab_can_info" group="GroupCan">Canteens and Stalls</div>
+                <div class="MenuChild" tab="tab_can_register" group="GroupCan">Register Canteen</div>
+                -->
+            </div>
+            <a class="MenuParent mgrOnly" tab="tab_price">Price</a>
+            <a class="MenuParent mgrOnly" tab="tab_reports">Reports</a>
+            <a class="MenuParent mgrOnly" tab="tab_data">Data<br/>Management</a>
+        </div>
+
+        <div id="maincontent">
+            <div id="tab_main" class="tab">
+                Welcome dude!
+            </div>
+
+            <div id="tab_cus" class="tab" style="display:none">
+                Customers
+                <br />
+                Page <input type=number id="cusPageNum" min=1 max=1 value=1 /> / <span id="cusPageCount">1</span>
+                <input type=button id="cusUpdate" value="Refresh" />
+                <br />
+                <input type=button id="cusSelAll" value="Select all customers on this page" />
+                <input type=button id="cusSelClear" value="Clear selection" />
+                <input type=button id="cusSelDeact" value="Deactivate all selected customers" />
+                Number of selected customers: <span id="cusSelCount">0</span>
+                <div id="CustomerDIVContainer_outter">
+                    <span class="CustomerDIVBarcode">Barcode</span>
+                    <span class="CustomerDIVUserType">User type</span>
+                    <span class="CustomerDIVUsername">Username</span>
+                    <span class="CustomerDIVBalance">Balance</span>
+                    <span class="CustomerDIVActivated">Activated</span>
+                    <div id="cusLoading" style="display:none">
+                        Loading the current page...
+                    </div>
+                    <div id="CustomerDIVContainer">
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab_cus_info" class="tab" style="display:none">
+                customer info
+                <br />
+                <table>
+                <tr>
+                    <td class="DataLabel"><input type=radio name="searchby" value="username" id="r1">Search By Username:</input></td>
+                    <td><input class="DataText" id="cusInfoSearchUsername" /></td>
+                </tr>
+                <tr>
+                    <td><input type=radio  name="searchby" value="barcode" id="r2">Search Barcode:</input></td>
+                    <td><input class="DataText" id="cusInfoSearchBarcode" /></td>
+                </tr>
+                </table>
+                <input id="cusInfoButFind" type=button value="Find" />
+                <comment user info editing region below />
+                <br />
+                <div id="cusInfoDisp">
+                    <label>Username:</label><label2 id="cusInfoUsername"></label2>
+                    <br />
+                    <label>Barcode:</label> <label2 id="cusInfoBarcode"></label2>
+                    <br />
+                    <label>Customer Type:</label><label2 id="cusInfoUserType"></label2>
+                    <br />
+                    <label>Balance:</label><label2 id="cusInfoBalance"></label2>
+                    <br />
+                    <label>Activated:</label><label2 id="cusInfoActivated"></label2>
+                    <br />
+                    <input type=button class="mgrOnly" id="cusInfoButActivate" />
+                    <input type=button class="mgrOnly" id="cusInfoButChangePassword" value="Reset Password" />
+                    <input type=button id="cusInfoButTopup" value="Topup" />
+                </div>
+
+
+
+            </div>
+            <div id="tab_cus_register" class="tab" style="display:none">
+                Customer Mass Registration
+                <br />
+                <label>Customer Type:</label>
+                    <input type=radio name="cusRegUserType" value="S" checked=true>Student</input>
+                    <input type=radio name="cusRegUserType" value="A">Staff</input>
+                    <input type=radio name="cusRegUserType" value="V">Visitor</input>
+                <br />
+                <textarea id="cusRegList"></textarea>
+                <br />
+                <input type=button value="Create New Customer" id="cusRegButCreate"/>
+
+            </div>
+            <div id="tab_cus_deactivate" class="tab" style="display:none">
+                Customer Mass Deactivation
+                <br />
+                <textarea id="cusDeList"></textarea>
+                <br />
+                <input type=button value="Mass Deactivate" id="cusDeButDeactivate"/>
+            </div>
+
+            <div id="tab_stallcanteen" class="tab" style="display:none">
+                Canteens and Stalls
+                <br />
+                <input type=button id="canRegister" value="Register new canteen" />
+                <input type=button id="canUpdate" value="Refresh" />
+                <div id="CanteenDIVContainer">
+                </div>
+            </div>
+            <div id="tab_can_info" class="tab" style="display:none">
+                Canteen Info
+            </div>
+            <div id="tab_can_register" class="tab" style="display:none">
+                register canteen
+            </div>
+        </div>
+    </div>
+<div id="blacker" style="display:none">
+</div>
+
+<div class="CustomerDIV" id="cusTMPL" style="display:none">
+    <a class="CustomerDIVBarcode" href="#"></a>
+    <span class="CustomerDIVUserType"></span>
+    <span class="CustomerDIVUsername"></span>
+    <span class="CustomerDIVBalance"></span>
+    <span class="CustomerDIVActivated"></span>
+</div>
+
+<div class="CanteenDIV" id="canTMPL" style="display:none">
+    <div class="CanteenDIVHeader"></div>
+    <p class="CanteenDIVDesc"></p>
+    <div class="CanteenDIVStalls">
+        <div class="CanteenStallDIV" >
+            <span class="CanteenStallName">Name</span>
+            <span class="CanteenStallCategory">Category</span>
+            <span class="CanteenStallDesc">Description</span>
+        </div>
+    </div>
+    <input type=button class="cdButEdit"  value="Edit Canteen Information" />
+    <input type=button class="cdButDeact" value="Deactivate Canteen" />
+    <input type=button class="cdButAddst" value="Register New Stall" />
+</div>
+
+<div class="CanteenStallDIV" id="canStallTMPL" style="display:none">
+    <a class="CanteenStallName" href="#"></a>
+    <span class="CanteenStallCategory"></span>
+    <span class="CanteenStallDesc"></span>
+</div>
+
+<div class="StallInfoDIV" id="stallInfoTMPL" style="display:none">
+    <span class="sidLabel">Name:</span>
+    <span class="sidFill sidNameFill"></span>
+    <br />
+    <span class="sidLabel">Description:</span>
+    <span class="sidFill sidDescFill"></span>
+    <br />
+    <span class="sidLabel">Category:</span>
+    <span class="sidFill sidCateFill"></span>
+    <br />
+    <span class="sidLabel">Username Prefix:</span>
+    <span class="sidFill sidPrefFill"></span>
+    <br />
+    <comment now list the menu ></comment>
+    Menu: 
+    <div class="sidMenuContainer">
+        <span class="StallMenuName">Name</span>
+        <span class="StallMenuDesc">Description</span>
+        <span class="StallMenuPrice">Price</span>
+        <div class="menuLoading">Menu Loading ...</div>
+    </div>
+    <input type=button value="Close" class="sidButClose"/>
+    <input type=button value="Reset Manager Password" class="sidButResetPwd"/>
+    <input type=button value="Deregister Stall" class="sidButDereg"/>
+</div>
+
+<div class="StallMenuDIV" id="stallMenuTMPL" style="display:none">
+    <span class="StallMenuName"></span>
+    <span class="StallMenuDesc"></span>
+    <span class="StallMenuPrice"></span>
+</div>
+
+<div class="NewStallDIV" id="newStallTMPL" style="display:none">
+    <span class="nsdLabel">Name:</span>
+    <input class="nsdInput nsdInputName" />
+    <br />
+    <span class="nsdLabel">Description:</span>
+    <input class="nsdInput nsdInputDesc" />
+    <br />
+    <span class="nsdLabel">Category:</span>
+    <input class="nsdInput nsdInputCate" />
+    <br />
+    <span class="nsdLabel">Username prefix:</span>
+    <input class="nsdInput nsdInputPref" />
+    <br />
+    <input type=button value="Exit" class="nsdButClose"/>
+    <input type=button value="Register Stall" class="nsdButReg"/>
+</div>
+
+<div class="TopupDIV" id="topupTMPL" style="display:none">
+    <span class="topLabel">Customer Barcode:</span>
+    <span class="topFill topBarcodeFill"></span>
+    <br/>
+    <span class="topLabel">Topup amount:</span>
+    <input class="topInput topInputAmt" />
+    <br />
+    <input type=button value="Exit" class="topButClose"/>
+    <input type=button value="Topup" class="topButTopup"/>
+</div>
+
+<div class="NewCanteenDIV" id="newCanteenTMPL" style="display:none">
+    <span class="nsdLabel">Name:</span>
+    <input class="nsdInput ncdInputName" />
+    <br />
+    <span class="nsdLabel">Description:</span>
+    <input class="nsdInput ncdInputDesc" />
+    <br />
+    <input type=button value="Exit" class="ncdButClose"/>
+    <input type=button value="Register Canteen" class="ncdButReg"/>
+</div>
+
+<div class="BlackerWaitDIV" id="blackerWaitTMPL" style="display:none">
+</div>
+
+</body>
+
+
+</html>
