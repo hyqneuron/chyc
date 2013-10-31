@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>img uploader</title>
+    <script>
+    function id(n){return document.getElementById(n);}
+    function fileSelected()
+    {
+    }
+    // you should check image size before doing upload
+    // only .jpg file should be uploaded
+    // tutorial: http://stackoverflow.com/questions/12570834/how-to-preview-image-get-file-size-image-height-and-width-before-upload
+    function uploadFile()
+    {
+        alert(id("fileToUpload").files[0].name);
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData(id("form1"));
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.addEventListener("error", uploadFailed, false);
+        xhr.addEventListener("abort", uploadCanceled, false);
+        xhr.open("POST", "/stall/upimg");
+        xhr.send(fd);
+    }
+    function uploadComplete(evt)
+    {
+        var res = evt.target.responseText;
+        if(res)
+            alert(res);
+        else alert("done");
+    }
+    function uploadFailed()
+    {
+    }
+    function uploadCanceled()
+    {
+    }
+    </script>
+
+</head>
+
+<body>
+
+<form id="form1" enctype="multipart/form-data" method="post" action="Upload.aspx">
+    item id: <input name="itemid" id="itemid" ></input>
+    <br />
+    <label for="fileToUpload">Select a File to Upload</label>
+    <br />
+    <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();"/>
+    <br />
+    <input type="button" onclick="uploadFile()" value="Upload" />
+</form>
+
+</body>
+</html>

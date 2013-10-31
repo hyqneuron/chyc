@@ -1,0 +1,230 @@
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/interface/int.js"></script>
+<script>
+function id(n){return document.getElementById(n);}
+function jalert(data){alert(JSON.stringify(data));}
+function default_err(data)
+{
+    alert("Using general handler.\n"+data.err_msg);
+    id("respbox").value = data.err_msg;
+}
+int_app_error_handler = default_err;
+function dologin1()
+{
+    var obj = {
+        username: id("input_name").value,
+        password: id("input_pwd").value,
+        domain: id("input_domain").value,
+        };
+    int_login(
+        obj, 
+        function(data){alert("Login successful.");}
+    );
+}
+function dologin2()
+{
+    var obj = {
+        username: id("input_name").value,
+        password: id("input_pwd").value,
+        domain: id("input_domain").value,
+        };
+    int_login(
+        obj, 
+        function(data){alert("Login successful.");},
+        function(data){alert("Using specific handler.\n"+data.err_msg);}
+    );
+}
+function getcanteen()
+{
+    int_get_canteen_activated(null, function(data){
+        alert(JSON.stringify(data));
+    });
+}
+function getstall(id)
+{
+    int_get_stall({id:id}, function(data){
+        alert(JSON.stringify(data));
+    });
+}
+
+function get_canteen_activated()
+{
+    var obj = {
+    }
+    int_get_canteen_activated(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+function get_stall_activated()
+{
+    var obj = {
+    }
+    int_get_stall_activated(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+function get_stall_in_canteen(id)
+{
+    var obj = {
+        canteenid: id
+    }
+    int_get_stall_in_canteen(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+function get_menu_item_install(sid)
+{
+    var obj = {
+        stallid: sid
+    }
+    int_get_menu_item_install(obj,
+        function(data){
+            alert(JSON.stringify(data));
+            id("respbox").value=JSON.stringify(data);
+        }
+    );
+}
+
+function stall_order_submit()
+{
+    var obj = {
+        customer_barcode: 105,
+        collection:[
+            {itemid: 1, quantity: 2, remarks: "no spice"},
+            {itemid: 2, quantity: 1, remarks: ""}
+        ]
+    }
+    int_stall_order_submit(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+
+function get_processing_queue()
+{
+    var obj = {
+    }
+    int_get_processing_queue(obj,
+        function(data){
+            alert(JSON.stringify(data));
+            id("respbox").value = JSON.stringify(data);
+        }
+    );
+}
+function stall_order_complete(id)
+{
+    var obj = {
+        orderid: id
+    }
+    int_stall_order_complete(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+function get_stall(id)
+{
+    var obj = {
+        stallid: id
+    }
+    int_get_stall(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+function stall_edit()
+{
+    var obj = {
+        name: "stall ABC",
+        description: "ABC offers weird food"
+    }
+    int_stall_edit(obj,
+        function(data){
+            alert(JSON.stringify(data));
+        }
+    );
+}
+
+function stall_menu_item_add()
+{
+    var obj={
+        name:"ABC's dish",
+        description:"tastes weird, really",
+        price: 1.5,
+        is_available:true,
+        is_available_online:false,
+        promotion: 1,
+        promotion_until: null
+    };
+    int_stall_menu_item_add(obj, function(data){alert(JSON.stringify(data))});
+}
+
+function stall_menu_item_edit(iid)
+{
+    var obj={
+        itemid: iid,
+        name:"ABC's dish !",
+        description:"tastes weird, really!",
+        price: 2.5,
+        is_available:true,
+        is_available_online:false,
+        promotion: 0.8,
+        promotion_until: null
+    };
+    int_stall_menu_item_edit(obj, function(data){alert(JSON.stringify(data))});
+}
+
+function login_check_stall()
+{
+    int_login_check_stall({}, function(data){jalert(data);});
+}
+
+function test()
+{
+    //get_canteen_activated();
+    //get_stall_activated();
+    //get_stall_in_canteen(3);
+    //get_menu_item_install(3);
+    stall_order_submit();
+    //get_processing_queue();
+    //stall_order_complete(3);
+    //get_stall(1);
+    //get_stall(2);
+    //stall_edit();
+    //stall_menu_item_add();
+    //stall_menu_item_edit(6);
+    //login_check_stall();
+}
+function test2()
+{
+    get_menu_item_install(1);
+}
+
+</script>
+</head>
+<body>
+<input id="input_name"/ ><br/>
+<input id="input_pwd" / ><br/>
+<input id="input_domain" / ><br/>
+<input type=button value="Login1" onclick="dologin1()"/>
+<input type=button value="Login2" onclick="dologin2()"/><br />
+<input type=button value="get canteen" onclick="getcanteen()"/>
+<input type=button value="get stall" onclick="getstall(1)"/><br />
+<input type=button value="test" onclick="test()" />
+<input type=button value="test2" onclick="test2()" /><br />
+
+<textarea style="width: 700px; height: 400px", id="respbox">
+</textarea>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>login</title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="css/stylesheet.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="/interface/int.js"></script>
+	<script type="text/javascript">
+		function id(n) {return document.getElementById(n);}
+        function my_fail(data){alert(data.err_msg);}
+        //int_app_error_handler = my_fail;
+		function mylogin() {
+			var obj={username:id("username").value,
+				password:id("password").value,
+				domain:"stall_user"};
+			int_login(
+                obj,
+				function (data) {
+                    alert('Hi '+data.content.username+', you have been successfully logged in.');
+                    // do other things here
+                }
+                // the default error handler is in use, so we don't have to
+                // specify another error handler here.
+                // the default handler now is my_fail
+                // see int.js for more explanation
+            );
+		}
+</script>
+</head>
+<body>
+<form name="loginForm" id="loginForm" method="post" action="">
+<!-- you don't need this! for stall domain is stall_user
+<label for="domain">Domain</label>
+<select size="1" name="domain" id="domain">
+    <option value="customer">student</option>
+    <option value="">staff</option>
+    <option value="visitor">visitor</option>
+    <option value="stallOperator">stall operator</option>
+    <option value="stallManager">stall manager</option>
+    <option value="OFS">OFS</option>
+</select>
+--!>
+<label for="username">username</label>
+<input type="text" name="username" id="username"/>
+<label for="password">password</label>
+<input type="password" name="password" id="password"/>
+<input type="button" name="loginSubmit" id="loginSubmit" value="Login" onclick="mylogin()"/>
+<input type="reset" name="loginReset" id="loginReset" value="Clear"/>
+
+</form>
+
+
+
+</body>
+</html>
+

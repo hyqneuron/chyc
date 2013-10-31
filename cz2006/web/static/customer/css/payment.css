@@ -1,0 +1,31 @@
+
+*{
+    margin:0;
+    padding:0;
+}
+
+#PageLogin{
+    position:fixed;
+    width:100%;
+    height:100%;
+}
+
+#LoginBox{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    width: 400px;
+    height: 120px;
+    margin-left: -200px;
+    margin-top: -60px;
+    background-color: #aa0;
+    text-align:center;
+    vertical-align: center;
+}
+#LoginBarcode{
+    margin:auto;
+    width:100px;
+    border: solid 1px green;
+    height: 20px;
+    line-height:20px;
+}

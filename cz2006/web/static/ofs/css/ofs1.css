@@ -1,0 +1,283 @@
+*{margin:0;}
+html {
+    min-height:100%;
+}
+body {
+    position:relative;
+    mind-width: 800px;
+    margin:auto;
+    margin-top:0;
+    min-width: 800px;
+}
+
+#blacker{
+    padding: 8px;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0, 0.5);
+    z-index:100;
+}
+.BlackerWaitDIV{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 100px;
+    margin-left: -200px;
+    margin-top: -50px;
+    background-color: white;
+    padding: 5px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.OFSlogin {
+	background-color:#ffff99;
+	position: relative;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:0em;
+	padding-top: 30px;
+	padding-bottom: 0em;
+	padding-left: 3em;
+	padding-right: 3em;
+	height:475px;
+}
+
+.OFSheader {
+	font-family:"Times New Roman",Georgia,Serif;
+	background-color:#99bbbb;
+	Font-size:2em;
+	height: 100px;
+    margin-bottom:0;
+    margin-top:0;
+}
+
+
+#siderbar { 
+    width:250px;
+}
+.MenuGroup,.MenuGroupExpand {
+    float:left;
+    border-bottom: 1px solid #ffa500;
+}
+.MenuGroup {
+    /*height: 59px;*/
+}
+a.MenuParent,
+a.MenuParent:link,
+a.MenuParent:visited
+{
+    float:left;
+	font-family:"Times New Roman",Georgia,Serif;
+	display:block;
+	font-weight:bold;
+	Font-size:1.2em;
+	color:#FFFFFF;
+	background-color:#FF4500;
+	width:250px;
+	height: 59px;
+	text-align:center;
+	vertical-align: middle;
+	line-height: 59px;
+	overflow: hidden;
+	text-decoration:none;
+	text-transform:uppercase;
+}
+a.MenuParent:hover,a.MenuParent:active
+{
+	background-color:#cc0000;
+}
+.MenuChild {
+    float:left;
+    width: 240px;
+    background-color:#FF4500;
+    text-align:right;
+    padding-right:10px;
+    padding-top:5px;
+    padding-bottom:5px;
+    color:#FFF;
+}
+.MenuChild:hover {
+    background-color:#c00;
+}
+
+
+
+#navigation{
+    margin-left:250px;
+	background-color:#FFD777;
+    height = 30px;
+}
+a.nav_but,
+a.nav_but:link,
+a.nav_but:visited{
+	background-color:#FFD700;
+	text-decoration:none;
+	color:#FFFFFF;
+}
+a.nav_but:hover{
+	background-color:#FF4500;
+}
+
+
+#maincontent{
+	background-color:#FFD700;
+	margin-left: 250px;
+    min-height:470px;
+}
+	
+
+
+h2{
+	margin:5px;
+	font-size:30px;
+}
+h3{
+	margin:5px;
+	font-size:28px;
+}
+h4{
+	margin:5px;
+	font-size:20px;
+}
+/* end of copied stuff */
+
+
+
+DataLine {
+    display:block;
+}
+
+.DataLabel {
+    display:inline;
+    width: 200px;
+}
+.DataText {
+    width: 200px;
+}
+label{
+    width: 130px;
+    text-align: right;
+    display:inline-block;
+}
+.label2,label2{
+    padding-left:10px;
+    display:inline-block;
+}
+
+#tabs-1{
+    padding: 0px;
+}
+
+.CustomerDIVBarcode,.CustomerDIVUsername,
+.CustomerDIVUserType,
+.CustomerDIVBalance,.CustomerDIVActivated {
+    display: inline-block;
+    width: 18%;
+}
+
+.CustomerDIVSelected{
+    background-color: blue;
+}
+
+#cusRegList,#cusDeList{
+    height: 300px;
+    width: 300px;
+}
+.CanteenDIV {
+    padding: 8px;
+}
+.CanteenDIVHeader{
+    background-color: red;
+    color: white;
+    font-size: 12pt;
+}
+.CanteenDIVStalls{
+    border: solid 1px green;
+}
+.CanteenStallDIV {
+    border-top: solid 1px green;
+    border-bottom: solid 1px green;
+}
+.CanteenStallName,.CanteenStallCategory,.CanteenStallDesc{
+    display:inline-block;
+    width: 30%;
+}
+.StallInfoDIV{
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -260px;
+    width: 600px;
+    height: 512px;
+    z-index: 102;
+    background-color:white;
+}
+.sidMenuContainer{
+    border: solid 1px green;
+    height: 380px;
+}
+.sidLabel,.nsdLabel{
+    display:inline-block;
+    width: 20%;
+    text-align:right;
+}
+.sidInput{
+    display:none;
+}
+.StallMenuName,.StallMenuDesc,.StallMenuPrice {
+    display:inline-block;
+    width: 30%;
+}
+.NewStallDIV{
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    width: 600px;
+    height: 300px;
+    z-index: 102;
+    background-color:white;
+
+}
+.TopupDIV {
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -50px;
+    width: 300px;
+    height: 100px;
+    z-index: 102;
+    background-color:white;
+}
+.topLabel {
+    display:inline-block;
+    width: 50%;
+    text-align:right;
+}
+.topInput {
+    width: 40%;
+}
+.NewCanteenDIV{
+    padding: 8px;
+    position:fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    width: 600px;
+    height: 300px;
+    z-index: 102;
+    background-color:white;
+
+}

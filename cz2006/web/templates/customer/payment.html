@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title id="title">Payment Machine</title>
+    <link type="text/css" rel="stylesheet" href="/static/customer/css/paymentstyle.css"/>
+
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+
+    <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+    <script src="/static/shared/js/jquery.js"></script>
+    <script src="/interface/int.js"></script>
+    <script src="/static/customer/js/payment.js"></script>
+</head>
+<body>
+
+
+
+    <div id="PageLogin" class="SinglePage" tabindex="0">
+        <form class="form-signin" id="LoginBox">
+            <h5 align="center"> CaMS Payment - <span id="LoginCanteenName"> </span> </h5>
+                <h4 align="center">Please scan your barcode</h4>
+                 
+                <div class="form-control" id="LoginBarcode"></div> 
+                <!--
+                <input type="text" class="form-control" placeholder="Barcode" autofocus="" id="LoginBarcode">
+            -->
+                <button class="btn btn-lg btn-info btn-block" type="button" id="LoginButClear">Clear</button>
+        </form>
+    </div>
+
+<!--
+
+<div id="PageLogin" class="SinglePage" tabindex="0">
+    <div id="LoginBox">
+        <div id="LoginCanteenName"> </div>
+        Please scan your barcode to login.
+        <br /> 
+        <div id="LoginBarcode"></div>
+        <!--input id="LoginBarcode" />
+        <input type=button value="Login" id="LoginButLogin"/-->
+    <!--
+        <input type=button value="Clear" id="LoginButClear"/>
+    </div>
+</div>
+-->
+
+
+<div id="PagePay" class="SinglePage">
+    <form class="payment-info">
+        <h4 align="center"> CaMS Payment</h4>
+        <h3 align="center"> Welcome to <span align="center" id="PayCanName"></span>, <span id="PayUser"></span></h3>
+      
+        <h4>Your balance: <span id="PayBalance"></span></h4>
+        <table id="CartTable" class = "table table-bordered">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Stall</td>
+            </tr>
+        </thead>
+        <tbody id="CartItemContainer">
+        </tbody>
+        </table>
+        <div id="PayEmptyMsg">You have no items in this canteen.</div>
+        <h4 id="PayTotalMsg">Total amount: <span id="PayTotal"></span></h4>
+        <button type="button" id="PayButPay" class="btn btn-lg btn-info" style="width: 48%">Pay Now</button>
+        <button type="button" id="PayButLogout" class="btn btn-lg btn-warning" style="width: 48%">Log Out</button>
+        
+    </form>
+
+</div>
+<!--
+
+<div id="PagePay" class="SinglePage">
+
+    Payment at <span id="PayCanName"></span>
+    <br />
+    <input type=button value="Pay" id="PayButPay"/>
+    <input type=button value="Log out" id="PayButLogout"/>
+    <br />
+    Your balance: <span id="PayBalance"></span>
+    <br />
+    <table id="CartTable">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Stall</td>
+        </tr>
+    </thead>
+    <tbody id="CartItemContainer">
+    </tbody>
+    </table>
+</div>
+-->
+
+
+<div id="PageSetting" class="SinglePage">
+    <form class="form-signin">
+        <h4 align ="center"> CaMS Payment</h4>
+        <h4>Please choose machine location</h4>
+        <select class="form-control" id="SettingSelect" style ="margin-bottom:10px;">
+        </select>
+        <button type="button" id="SettingConfirm" class="btn btn-md btn-info btn-block">Set Canteen</button>
+    </form>
+</div>
+
+<!--
+<div id="PageSetting" class="SinglePage">
+    Please choose the canteen this machine is located in:
+    <select id="SettingSelect">
+    </select>
+    </br>
+    <input type=button id="SettingConfirm" value="Set Canteen"/>
+</div>
+-->
+<div id="templateArea" style="display:none">
+
+
+<option id="optionTMPL"></option>
+
+<table>
+    <tr id="CartItemTMPL" class="CartItem">
+        <td class="CIName">Name</td>
+        <td class="CIPrice">Price</td>
+        <td class="CIQuantity">Quantity</td>
+        <td class="CIStall">Stall</td>
+    </tr>
+</table>
+
+</div><!--templateArea-->
+</body>
+</html>

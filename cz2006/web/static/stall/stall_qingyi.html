@@ -1,0 +1,202 @@
+<html lang="en"><head>
+    
+
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="">
+                <meta name="author" content="">
+                    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+                        
+                   
+                        <title>CaMS OFS</title>
+                        
+                        <!-- Logic JS -->
+                        <script src="/static/shared/js/jquery.js"></script>
+                        <script src="/interface/int.js"></script>
+                        <script src="/static/stall/js/stall.js"></script>
+                        
+                        <!-- Bootstrap core CSS -->
+                        <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
+                        
+                        
+                            <!-- Custom styles for this template -->
+                            <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+                                
+                                <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+                                <!--[if lt IE 9]>
+                                 <script src="../../assets/js/html5shiv.js"></script>
+                                 <script src="../../assets/js/respond.min.js"></script>
+                                 <![endif]-->
+                            <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/style.css"><script type="text/javascript" charset="utf-8" src="chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/page_context.js"></script></head>
+    
+    <body screen_capture_injected="true">
+        
+        <div class="container" name="loginForm" id="loginForm" method="post" style="display:none">
+            
+            <form class="form-signin">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <input type="text" class="form-control" placeholder="Username" autofocus="" id="username">
+                    <input type="password" class="form-control" placeholder="Password" id="password">
+                          
+                        <button class="btn btn-info btn-block" type="button" name="loginSubmit" id="loginSubmit">Sign in</button>
+                        <button class="btn btn-info btn-block" type="reset" name="loginReset" id="loginReset">Clear</button>
+                        </form>
+            
+        </div> <!-- /container -->
+        
+        
+        <!-- Bootstrap core JavaScript
+         ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+    
+    
+    
+    
+    <div id="wrapper" style="display:none">
+
+ <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">CaMS Stall</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li><a href="take-order">Taking Order</a></li>
+      <li><a href="processing-order">Processing Order</a></li>
+      <li><a href="stall-management">Stall management</a></li>
+    </ul>
+
+
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-info">Submit</button>
+    </form>
+      
+    
+    <ul class="nav navbar-nav navbar-right">
+        
+        <p class="navbar-text" name="userAdmin" id="userAdmin">Welcome, <span id="userName"></span> </p>
+        <p class="navbar-text" > <a id='logout' href='#'>Logout</a></p>
+
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+        
+        
+
+ <div id="take-order" >
+        <div id="menu" >
+            <h2> Taking Order</h2>
+    
+        </div>
+     
+    <div id="menu-item-template" class="menu-item"> 
+        <div class="column">
+            <div class="col-sm-3 col-md-3 pull-left">
+                <div class="thumbnail">
+                  <img src="/static/stall/img/images.jpg" alt="..." class="img-rounded">
+                    <div class="caption">
+                    <h3 class="menu-item-name"></h3>
+                    <h4 class="menu-item-price"></h4>  
+                    </div>
+                </div>
+            </div>
+        </div>
+           </div>
+        
+     
+     
+    
+    
+    <div id="order-cart" class="col-md-3 pull-right" >
+        
+
+    <!--take-order-templates-->
+     
+     <div class="list-group">
+         <h4 class="list-group-item active">Order Cart</h4>
+         <div id="cart-items"></div>
+       
+        <div id="cart-item-template" class="cart-item">
+     
+        <div class="list-group-item">
+      
+                <h4 style="display:inline; padding-right:10px;" class="cart-item-name">
+                    </h4>
+                    <h5 style="display:inline;padding-right:20px;" class="cart-item-price"> </h5>
+                        <div class="trash" style="display:inline; float:right;"><img src="/static/stall/img/delete.png" alt="..." class="img-rounded"></div>
+                        <div style="display:block;">
+                        <div class="minus" style="display:inline;"><img src="/static/stall/img/minus.png" alt="..." class="img-rounded"></div>
+                        <input class="cart-item-quantity" style="display:inline;" type="number">
+                        <div class="plus" style="display:inline;"><img src="/static/stall/img/plus.png" alt="..." class="img-rounded"></div>
+                        </div>
+                   
+            </div>            
+          </div>  
+     </div>
+        <div id="cart-form">
+            <button type="submit" class="btn btn-info" name="confirm-order" id="confirm-order">Submit</button>
+            <button type="reset" class="btn btn-default" name="cancel-order" id="cancel-order">Cancel</button>
+        </div>
+
+    </div><!--end of take-order-templates-->
+    </div><!--end div of take-order-->
+        
+        <div id="processing-order">
+             <h2> Processing order</h2>
+
+    <!--processing-order-templates-->
+            
+    <div id="processing-order-item-templates" class="processing-order-item"> 
+       
+        <div class="column">
+            <div class="col-sm-3 col-md-3 pull-left">
+                <div class="thumbnail">
+                    <div class="processing-order-info">
+                    <h4 class="processing-order"></h4>
+                    
+                    <h3 class="menu-item-name"></h3>
+                    <h4 class="menu-item-price"></h4>  
+                    <button value="revoke" id="processing-order-revoke-btn">Revoke</button>
+                    <button class="processing-order-done-btn">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+           </div>
+            </div>
+            
+            
+            
+            
+  <!--          
+    <div style="display:none">
+        <div class="processing-order-item" id="processing-order-item-templates">
+            <div class="processing-order-info">
+            <div class="q-num"></div>
+            </div>
+            <div class="processing-order-details">
+            <table class="processing-order">
+            </table>
+            </div>
+            <div class="processing-order-form">
+                <button value="revoke" class="processing-order-revoke-btn">revoke</button>
+                <button value="done" class="processing-order-done-btn">done</button>
+            </div>
+        </div>
+    </div><!--end of processing-order-tamplates-->
+    <!--</div><!--end div of processing-order-->
+
+
+</div>
+   
