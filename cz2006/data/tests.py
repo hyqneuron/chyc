@@ -346,36 +346,17 @@ class UnitFunctionTest(TestCase):
     #       class infoBackend
     def test_loginBackend_intLogin(self):
         '''test for int_login function'''
-
-        # test for domain=='ofs_user' 
+ 
         content = {"username": "ofs1","password":"password","domain":"ofs_user"}
         response = loginBackend.int_login (self.request,content)
         case1Resp = json.loads(response.content)["content"]
         expected = {'id':1,'is_activated':True, 'name':'OFS Manager', 'username': 'ofs1', 'usertype': 'M'}
         
-        # test for domain=='customer' 
-        content1 = {"username": "user1","password":"password","domain":"customer"}
-        response1 = loginBackend.int_login (self.request,content1)
-        case1Resp1 = json.loads(response1.content)["content"]
-        expected1 = {'id':1,'balance': '0','barcode':'105','is_activated':True,'username': 'user1', 'usertype': 'S'}
-                    
-        # test for domain=='stall_user' 
-        content2 = {"username": "stall1","password":"password","domain":"stall_user"}
-        response2 = loginBackend.int_login (self.request,content2)
-        case1Resp2 = json.loads(response2.content)["content"]
-        expected2 = {'id':1,'is_activated':True, 'name':'Stall 1 Manager', 'stall':1,'username': 'stall1', 'usertype': 'M'}
-        
         self.assertEqual(response.status_code, 200)
         self.assertEqual(case1Resp,expected)
 
-        self.assertEqual(response1.status_code, 200)
-        self.assertEqual(case1Resp1,expected1)
-
-        self.assertEqual(response2.status_code, 200)
-        self.assertEqual(case1Resp2,expected2)
-
     def test_loginBackend_intLoginCheckCustomer(self):
-        '''test for int_login function'''
+        '''test for int_login_check_customer function'''
         content = {"username": "user1","password":"password","domain":"customer"}
         self.request.content = content
         self.request.session['logged_in'] =True
