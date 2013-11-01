@@ -278,7 +278,6 @@ class stallBackend:
                 lastDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(1))+'01', '%Y%m%d')
             else:
                 lastDay = datetime.strptime(curYear+("%02d"%(i+1))+'01', '%Y%m%d')
-            print lastDay
             monthDetails = get_report_details_in_period(our_stall,firstDay,lastDay)
             monthDetails.update({"period":str(i)})
             monthlyReport.append(monthDetails)
