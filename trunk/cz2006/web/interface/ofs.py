@@ -19,6 +19,16 @@ page_size = 100
 def get_customer_page_count():
     return int((customer.objects.all().count()+page_size-1 )/ page_size)
 
+def get_report_details_in_period(stobj, begin, end):
+    orders = stobj.order_set.filter(payment_time__gte=begin,
+                                    payment_time__lt =end)
+    items = menu_item.objects.filter(stall=stobj)
+    quantities = {}
+    total = 0
+    count = orders.count()
+    for order in orders:
+        total += order.total
+    return {"revenue":float(total), "order_count":count}
 
 
 class ofsBackend:
@@ -571,7 +581,34 @@ class ofsBackend:
     #-------------- report ----------------------
     
     @staticmethod
-    @setcm(1,[],"",1,"yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize")
+    @setcm(1,[],"",1,"")
     def int_ofs_report(request, content):
-        return error(err_success)
+        report = []
+        #get stall
+        stallList = stall.objects.all()
+        for our_stall in stallList:
+            #daily
+            dailyReport = []
+            today = datetime.today().strftime('%Y/%m/%d')
+            today = datetime.strptime(today, '%Y/%m/%d')
+            for i in range(0,10):
+                tomorrow = today + timedelta(days=1)
+                dailyDetails = get_report_details_in_period(our_stall,today,tomorrow)
+                dailyDetails.update({"period":today.strftime('%Y/%m/%d')})
+                dailyReport.append(dailyDetails)
+                today = today - timedelta(days=1)
+            # monthly
+            monthlyReport = []
+            curYear = datetime.today().strftime('%Y')
+            for i in range(1,13):
+                firstDay = datetime.strptime(curYear+("%02d"%(i))+'01', '%Y%m%d')
+                if i==12:
+                    lastDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(1))+'01', '%Y%m%d')
+                else:
+                    lastDay = datetime.strptime(curYear+("%02d"%(i+1))+'01', '%Y%m%d')
+                monthDetails = get_report_details_in_period(our_stall,firstDay,lastDay)
+                monthDetails.update({"period":str(i)})
+                monthlyReport.append(monthDetails)  
+            report.append({"stall":our_stall.id, "daily":dailyReport, "monthly":monthlyReport})
+        return case1_raw(report)
     
