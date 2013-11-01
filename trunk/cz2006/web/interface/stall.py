@@ -13,6 +13,25 @@ from web.interface.common import *
 from web.interface.error import *
 import web.interface.error as error_module
 
+def get_report_details_in_period(stobj, begin, end):
+    orders = stobj.order_set.filter(payment_time__gte=begin,
+                                    payment_time__lt =end)
+    items = menu_item.objects.filter(stall=stobj)
+    quantities = {}
+    total = 0
+    count = orders.count()
+    for order in orders:
+        total += order.total
+        for item in order.order_item_set.all():
+            if not quantities.has_key(item.item.id):
+                quantities[item.item.id]=0
+            quantities[item.item.id] += item.quantity
+    #add items that has zero sales
+    for i in items:
+        if not quantities.has_key(i.id):
+            quantities[i.id] = 0
+    details = [{"id": key, "quantity": quantities[key]} for key in quantities]
+    return {"details":details, "revenue":float(total), "order_count":count}
 
 class stallBackend:
     # stall's get all items
@@ -236,18 +255,36 @@ class stallBackend:
     @staticmethod
     @setcm(1,[],"",1,"yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize")
     def int_stall_report(request, content):
-        returnString = {}
+        report = {}
         # get stall
         our_stall = get_login_stall(request)
-        # operations
-        orderList = order.objects.filter(stall=our_stall,is_finished=True)
-        # current year Revenue
-        returnString.update(calculate_year_revenue(orderList))
-        # current month Revenue
-        returnString.update(calculate_month_revenue(orderList))
-        # today Revenue
-        returnString.update(calculate_today_revenue(orderList))
-        return case1_raw(returnString)
+        # daily
+        dailyReport = []
+        today = datetime.today().strftime('%Y/%m/%d')
+        today = datetime.strptime(today, '%Y/%m/%d')
+        for i in range(0,10):
+            tomorrow = today + timedelta(days=1)
+            dailyDetails = get_report_details_in_period(our_stall,today,tomorrow)
+            dailyDetails.update({"period":today.strftime('%Y/%m/%d')})
+            dailyReport.append(dailyDetails)
+            today = today - timedelta(days=1)
+        report.update({'daily':dailyReport})
+        # monthly
+        monthlyReport = []
+        curYear = datetime.today().strftime('%Y')
+        for i in range(1,13):
+            firstDay = datetime.strptime(curYear+("%02d"%(i))+'01', '%Y%m%d')
+            if i==12:
+                lastDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(1))+'01', '%Y%m%d')
+            else:
+                lastDay = datetime.strptime(curYear+("%02d"%(i+1))+'01', '%Y%m%d')
+            print lastDay
+            monthDetails = get_report_details_in_period(our_stall,firstDay,lastDay)
+            monthDetails.update({"period":str(i)})
+            monthlyReport.append(monthDetails)
+        report.update({'monthly':monthlyReport})
+        return case1_raw(report)
+        
 
 
 # this is the view handler for img upload
