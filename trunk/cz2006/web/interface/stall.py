@@ -232,7 +232,22 @@ class stallBackend:
         valid_save(item)
         return case1(item)
 
-
+    #6 report
+    @staticmethod
+    @setcm(1,[],"",1,"yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize")
+    def int_stall_report(request, content):
+        returnString = {}
+        # get stall
+        our_stall = get_login_stall(request)
+        # operations
+        orderList = order.objects.filter(stall=our_stall,is_finished=True)
+        # current year Revenue
+        returnString.update(calculate_year_revenue(orderList))
+        # current month Revenue
+        returnString.update(calculate_month_revenue(orderList))
+        # today Revenue
+        returnString.update(calculate_today_revenue(orderList))
+        return case1_raw(returnString)
 
 
 # this is the view handler for img upload

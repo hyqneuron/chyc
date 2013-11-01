@@ -122,10 +122,10 @@ def rebuildData():
     # order
     order1 = order(customer=cus1, stall = s1, 
         queue_num=get_queue_number(s1.canteen, cus1), 
-        payment_time=datetime.now())
+        payment_time=datetime.now(),total=2.5)
     order2 = order(customer=cus2, stall = s2, 
         queue_num=get_queue_number(s2.canteen, cus2), 
-        payment_time=datetime.now())
+        payment_time=datetime.now(),total=4)
     order1.save()
     order2.save()
 

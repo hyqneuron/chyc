@@ -219,8 +219,36 @@ function ofs_stall_edit()
 	int_ofs_stall_edit(obj, function(data){jalert(data);});
 }
 
+function show_stall_report()
+{
+	var obj ={}
+	int_stall_report(obj, function(data){jalert(data);});
+}
+
+function show_ofs_report()
+{
+	var obj ={}
+	int_ofs_report(obj, function(data){jalert(data);});
+}
+
+function show_ofs_canteen_report()
+{
+	var obj ={canteenid: 1}
+	int_ofs_canteen_report(obj, function(data){jalert(data);});
+}
+
+function show_ofs_stall_report()
+{
+	var obj ={stallid: 1}
+	int_ofs_stall_report(obj, function(data){jalert(data);});
+}
+
 function test()
 {
+	//show_ofs_stall_report();
+	//show_ofs_canteen_report();
+	//show_ofs_report();
+	show_stall_report();
     //ofs_customer_add();
 	//ofs_stall_add();
 	//ofs_stalluser_add();
@@ -229,7 +257,7 @@ function test()
 	//ofs_stalluser_get(1);
 	//ofs_ofsuser_get(1);
 	//ofs_customer_topup();
-	ofs_customer_get_all();
+	//ofs_customer_get_all();
 	//ofs_customer_get_activated();
 	//ofs_stalluser_get_all();
 	//ofs_stalluser_get_activated();
@@ -247,6 +275,7 @@ function test()
 function test2()
 {
     int_login_check_ofs({}, function(data){jalert(data);});
+	//int_login_check_stall({}, function(data){jalert(data);});
 }
 
 </script>
