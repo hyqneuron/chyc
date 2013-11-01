@@ -1,0 +1,155 @@
+#wrapper{
+    padding-top: 30px;
+}
+
+
+
+
+#menu ul,#menu-info-item-display-template 
+{
+text-decoration: none;
+color: #000;
+background: #ffb;
+display: block;
+height: 90px;
+width: 145px;
+padding: 10px;
+border-top: 10px;
+top: 5px;
+position: relative;
+font-size: 20px;
+-moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
+-webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+-webkit-transform: rotate(-2.5deg);
+}
+#menu ul:hover{
+    background: #ff5;
+}
+
+#menu li{
+    margin-left: 20px;
+}
+
+.menu-item{
+    margin: 15px;
+    float:left;
+    padding: 10px
+    height: 80px;
+    width: 140px;
+    position: relative;
+}
+
+.menu-item-name{
+    font-size: 22px;
+    font: bold;
+}
+
+.menu-item-price{
+    font-size: 18px;
+
+}
+
+#order-cart{
+    position: fixed;
+    left: 700px;
+    top: 50px;
+    width: 300px;
+    height: 670px;
+    overflow: auto;
+    padding-bottom: 70px;
+}
+
+.cart-item-name{
+    font-size: 18px;
+    display:inline; 
+    padding-right:1px;
+
+}
+.cart-item-price{
+    font-size: 15px;
+    display:inline;
+    float: right;
+    padding-right:20px;
+}
+
+.cart-item-quantity{
+    width: 75px;
+}
+
+.minus{
+    display:inline;
+}
+
+.plus{
+    display:inline;
+}
+
+.trash{
+    display:inline; 
+    float:right;
+    margin-right: 18px;
+}
+
+.cart-button{
+    width: 49%
+}
+
+
+#menu{
+    width: 700px;
+    height: 670px;
+}
+
+
+.processing-order-item
+{
+    margin: 15px;
+    float:left;
+    padding: 10px;
+    width:22%;
+    height: 270px;
+    text-decoration: none;
+    color: #000;
+    background:rgb(213,252,251);
+    display: block;
+
+    padding: 10px;
+    border-top: 10px;
+    top: 5px;
+    position: relative;
+    font-size: 20px;
+    -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
+    -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+    box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+    -webkit-transform: rotate(-2.5deg);
+    overflow: auto;
+
+
+}
+.processing-order-item:hover{
+    background: rgb(179, 252, 250);
+}
+
+.processing-order-details td{
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.processing-order-form{
+    position: absolute;
+    top:10px;
+    right: 10px;
+
+}
+
+#stall-management {
+  max-width: 750px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+
+
+
+

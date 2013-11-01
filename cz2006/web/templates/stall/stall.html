@@ -3,15 +3,45 @@
 <head>
     <title id="title">Stall</title>
     <meta charset="utf-8">
-    <link type="text/css" rel="stylesheet" href="/static/stall/css/stylesheet.css"/>
     <script src="/static/shared/js/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/stall/css/stallstyle.css"/>
+  <!--  <link type="text/css" rel="stylesheet" href="/static/stall/css/stylesheet.css"/>-->
+    <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/interface/int.js"></script>
     <script src="/static/stall/js/stall.js"></script>
+
 </head>
 
 <body>
 
-<div name="loginForm" id="loginForm" method="post" style="display:none">
+    
+    
+    
+    <body screen_capture_injected="true">
+        
+        <div class="container" name="loginForm" id="loginForm" method="post" style="display:none">
+            
+            <form class="form-signin">
+                <h4 align="center"> CaMS Stall </h4>
+                <h3 class="form-signin-heading">Please sign in as stall user</h3>
+                <input type="text" class="form-control" placeholder="Username" autofocus="" id="username">
+                <input type="password" class="form-control" placeholder="Password" id="password">
+                          
+                <button class="btn btn-info btn-block" type="button" name="loginSubmit" id="loginSubmit">Sign in</button>
+                <button class="btn btn-info btn-block" type="reset" name="loginReset" id="loginReset">Clear</button>
+            </form>
+            
+        </div> <!-- /container -->
+        
+        
+        <!-- Bootstrap core JavaScript
+         ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+ <!--   
+
+<div name="loginForm" id="loginForm" method="post" style="display:none" class ="sticker">
     <label for="username">username</label>
     <input type="text" name="username" id="username"/>
     <label for="password">password</label>
@@ -19,9 +49,10 @@
     <input type="button" name="loginSubmit" id="loginSubmit" value="Login" />
     <input type="reset" name="loginReset" id="loginReset" value="Clear"/>
 </div>
+-->
 
-<div id="wrapper" style="display:none">
-
+<div id="wrapper">
+<!--
     <nav>
         <ul>
             <li><span id="take-order-btn" >Take Order</span></li>
@@ -29,12 +60,85 @@
             <li><span id="stall-management-btn">Stall management</span></li>
         </ul>
     </nav>
-
+-->
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">CaMS Stall</a>
+      </div>
+    
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li><a id="take-order-btn">Taking Order</a></li>
+          <li><a id="processing-order-btn">Processing Order</a></li>
+         <li><a id="stall-management-btn">Stall management</a></li>
+        
+            
+            
+            
+            
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" id="barcode" class="form-control"  placeholder="Barcode">
+            </div>
+        </form>
+      
+    
+        <ul class="nav navbar-nav navbar-right" name="userAdmin" id="userAdmin">
+            
+            <p class="navbar-text" >Welcome, <span id="userAdmin"></span> </p>
+            <p class="navbar-text" > <a id='logout' href='#'style ="margin-right:15px">Logout</a></p>
+    
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+    
+    
+    <!--
+    
     <div name="userAdmin" id="userAdmin">
         Welcome <span id="userName"></span> <a id='logout' href='#'>logout</a>
         <input id="barcode" value="" />
     </div>
+-->
+    
+    
+    
+    
+    <div id="take-order" style="display:none">
+    <div id="menu">
+    </div>
+    
+    <div class= "list-group"id="order-cart">
+        
+        <h3> Order Cart </h3>
+        <div id=cart-items></div>
+        <h4 id=total-price></h4>
+        
+        <div class = "form control" id="cart-form">
+            <button type="button" id="confirm-order" class="btn btn-info btn-md cart-button">
+                <span class="glyphicon glyphicon-ok-sign">Confirm</span>
+            </button>
+            <button type="button" id="cancel-order" class="btn btn-warning btn-md cart-button">
+                <span class="glyphicon glyphicon-trash">Cancel</span>
+            </button>
+        </div>
+    </div>
+    
 
+    
+ 
+    
+<!--
     <div id="take-order" style="display:none">
     <div id="menu">
     </div>
@@ -50,25 +154,32 @@
             <input type="reset" name="cancel-order" id="cancel-order" value="Cancel" />
         </div>
     </div>
+-->
 
     <!--take-order-templates-->
     <div style="display:none">
 
-        <div id="cart-item-template" class="cart-item">
+        <div id="cart-item-template" class="cart-item list-group-item">
             <ul>
                 <li class="cart-item-name">
                 </li>
                 <li class="cart-item-price">
                 </li>
-                <li>
+                <div>
                     <span>
-                        <div class="minus">-</div>
+                         <button type="button" class="btn btn-info btn-sm minus">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
                         <input class="cart-item-quantity" type="number" size="4" maxlength="3">
-                        <div class="plus">+</div>
+                        <button type="button" class="btn btn-info btn-sm plus">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
                     </span>
-                    <input class="remarks"></input>
-                        &nbsp <div class="trash">x</div>
-                </li>
+			<input class="remarks"></input>
+                        <button type="button" class="btn btn-info btn-sm trash">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                </div>
             </ul>
             <br class="clear-float"/>
         </div>
@@ -82,25 +193,80 @@
     </div><!--end of take-order-templates-->
     </div><!--end div of take-order-->
 
+    
+    
     <div id="processing-order" style="display:none">
     </div>
     <!--processing-order-templates-->
     <div style="display:none">
         <div class="processing-order-item" id="processing-order-item-template">
             <div class="processing-order-info">
-            <div class="q-num"></div>
+            <h4 class="q-num"></h4>
             </div>
             <div class="processing-order-details">
-            <table class="processing-order">
+            <table class="processing-order table">
             </table>
             </div>
             <div class="processing-order-form">
+               <button type="button" class="btn-defualt btn-md processing-order-revoke-btn">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </button>
+                
+                <button type="button" class="btn btn-info btn-md processing-order-done-btn">
+                    <span class="glyphicon glyphicon-ok-circle"></span>
+                </button>
+               <!--
+                
                 <button value="revoke" class="processing-order-revoke-btn">revoke</button>
                 <button value="done" class="processing-order-done-btn">done</button>
+-->
             </div>
         </div>
     </div><!--end of processing-order-tamplates-->
 
+    
+    
+        <div id="stall-management" >
+            
+            <ul class="nav nav-tabs">
+              <li><a  id="stall-info-btn">Stall Info</a></li>
+              <li><a id="menu-info-btn">Menu Info</a></li>
+              <li><a id="report-btn">Report</a></li>
+            </ul>
+                        
+    
+            
+            <div id="stall-info">
+                <form id="stall-info-form">
+                    <h3>Stall Info</h3>
+                    <label for="stall-info-name">Name </label>
+                    <input style="margin-bottom:15px" type="text" class="form-control"id="stall-info-name" />    
+                   
+                    <label for="stall-info-description">Description</label>
+                    <textarea style="margin-bottom:15px" id="stall-info-description" class="form-control " rows="3" ng-model="result" ></textarea>    
+                    
+                    <button type="button" class="btn btn-info btn-md" id="stall-info-submit">
+                            <span class="glyphicon glyphicon-ok-circle">Submit</span>
+                    </button>  
+                    <button type="button" class="btn btn-warning btn-md" id="stall-info-cancel">
+                            <span class="glyphicon glyphicon-refresh">Cancel</span>
+                    </button>    
+                </form>
+            </div>
+
+        <div id="menu-info">
+            <div id="menu-info-add">
+                <button id="menu-info-add-btn">Add</button>
+            </div>
+        </div>
+
+        <div id="report">
+        </div>
+            
+    
+    
+  <!--
+    
     <div id="stall-management" style="display:none">
         <div id="sub-nav">
             <li><span id="stall-info-btn">stall info</span></li>
@@ -129,6 +295,17 @@
         </div>
 
     <!--stall-management-templates-->
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div style="display:none">
         <div id="menu-info-item-display-template" class="menu-info-item-display" style="display:none">
             <div class="image-data"></div>
