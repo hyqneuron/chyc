@@ -215,11 +215,6 @@
                 <button type="button" class="btn btn-info btn-md processing-order-done-btn">
                     <span class="glyphicon glyphicon-ok-circle"></span>
                 </button>
-               <!--
-                
-                <button value="revoke" class="processing-order-revoke-btn">revoke</button>
-                <button value="done" class="processing-order-done-btn">done</button>
--->
             </div>
         </div>
     </div><!--end of processing-order-tamplates-->
@@ -264,49 +259,7 @@
         </div>
             
     
-    
-  <!--
-    
-    <div id="stall-management" style="display:none">
-        <div id="sub-nav">
-            <li><span id="stall-info-btn">stall info</span></li>
-            <li><span id="menu-info-btn">menu info</span></li>
-            <li><span id="report-btn">report</span></li>
-        </div>
-
-        <div id="stall-info">
-            <form id="stall-info-form">
-            <label for="stall-info-name">Name </label>
-            <input type="text" id="stall-info-name"></input>
-            <label for="stall-info-description">Description</label>
-            <textarea id="stall-info-description"></textarea>
-            <input type="submit" value="confirm" id="stall-info-submit"/>
-            <input type="reset" value="cancel" id="stall-info-cancel"/>
-            </form>
-        </div>
-
-        <div id="menu-info">
-            <div id="menu-info-add">
-                <button id="menu-info-add-btn">Add</button>
-            </div>
-        </div>
-
-        <div id="report">
-        </div>
-
-    <!--stall-management-templates-->
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div style="display:none">
+       <div style="display:none">
         <div id="menu-info-item-display-template" class="menu-info-item-display" style="display:none">
             <div class="image-data"></div>
             <div class="menu-info-edit-btn">
@@ -373,6 +326,43 @@
             <button class="menu-info-edit-submit-btn">submit</button>
             <button class="menu-info-edit-cancel-btn">cancel</button>
             <br class="clear-float">
+        </div>
+        <div id="report-template" class="report">
+            <table class="daily">
+            <thead>
+                <tr>
+                    <th>item</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+                <tr class="no_orders">
+                    <th>Number of orders</th>
+                </tr>
+                <tr class="revenue">
+                    <th>Revenue</th>
+                </tr>
+            </tfoot>
+            </table>
+
+            <table class="monthly">
+            <thead>
+                <tr>
+                    <th>item</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+                <tr class="no_orders">
+                    <th>Number of orders</th>
+                </tr>
+                <tr class="revenue">
+                    <th>Revenue</th>
+                </tr>
+            </tfoot>
+            </table>
         </div>
     </div><!--end of stall-management-templates-->
     </div><!--end div of stall-management-->

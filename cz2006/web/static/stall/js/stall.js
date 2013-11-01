@@ -4,6 +4,7 @@ var tmplMenuItem;
 var tmplProcessingOrderItem;
 var tmplMenuInfoItemDisplay;
 var tmplMenuInfoItemEdit;
+var tmplReport;
 
 //manager object
 var loginMgr;
@@ -229,7 +230,151 @@ function NewMenuInfoItemAdd(){
     return res;
 }
 
+function NewReport(){
+    var res=tmplReport.clone();
+    var allItem;
+    //TODO to change to get all menu including deactivated
+    //int_get_menu_item_install({},function(data){
+    //    allItem=data;
+    //});
+    allItem=cache_menu;
+    //int_stall_report({},function(data){
+        var data={
+        "daily":[
+            {"period":"1",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"2",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"3",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"4",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"5",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"6",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"7",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"8",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"9",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"10",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150}
+        ],
+        "monthly":[
+            {"period":"1",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"2",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"3",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"4",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"5",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"6",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"7",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"8",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"9",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"10",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"11",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+            {"period":"12",
+            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
+            "order_count":18,
+            "revenue":150},
+        ],
+        };
 
+        for (key in data){
+            var periodLine="";
+            var orderLine="";
+            var revenueLine="";
+            var tablelines=new Array();
+            var subTotalNumOrder=0;
+            var subTotalRevenue=0;
+            var subTotal=new Array();
+            for ( var i =0;i<data[key].length;i++){
+                periodLine+="<th>"+data[key][i].period+"</th>";
+                orderLine+="<td>"+data[key][i].order_count+"</td>";
+                revenueLine+="<td>"+data[key][i].revenue+"</td>";
+                subTotalNumOrder+=data[key][i].order_count;
+                subTotalRevenue+=data[key][i].revenue;
+            }
+            periodLine+="<th>Total</th>";
+            orderLine+="<td>"+subTotalNumOrder+"</td>";
+            revenueLine+="<td>"+subTotalRevenue+"</td>";
+
+            for (var i=0;i<data[key][0].details.length;i++){
+                tablelines.push("<tr><th>"+fia(allItem,"id",data[key][0].details[i].id).name+"</th>");
+                subTotal.push(0);
+            }
+            for (var i in data[key]){
+                for ( var j in data[key][i].details){
+                    tablelines[j]+="<td>"+data[key][i].details[j].quantity+"</td>";
+                    subTotal[j]+=data[key][i].details[j].quantity;
+                }
+            }
+            
+            for ( var j=0;j<tablelines.length;j++){
+                    tablelines[j]+="<td>"+subTotal[j]+"</td></tr>"
+            }
+            res.find("."+key+" thead tr").append(periodLine);
+            res.find("."+key+" .no_orders").append(orderLine);
+            res.find("."+key+" .revenue").append(revenueLine);
+            res.find("."+key+" tbody").append(tablelines);
+        }
+    //});
+    return res;
+}
 //manager class
 function DataManager(){
     this.InitTemplates=function(){
@@ -238,6 +383,7 @@ function DataManager(){
         tmplProcessingOrderItem=$("#processing-order-item-template").clone().attr("id","").show();
         tmplMenuInfoItemDisplay=$("#menu-info-item-display-template").clone().attr("id","").show();
         tmplMenuInfoItemEdit=$("#menu-info-item-edit-template").clone().attr("id","").show();
+        tmplReport=$("#report-template").clone().attr("id","").show();
     };
 
     this.Clear=function(){
@@ -278,6 +424,8 @@ function DataManager(){
         });
         
         this.LoadStoreInfo();    
+
+        this.LoadReport();
     };
     this.LoadStoreInfo=function(){
         int_get_stall({"stallid":stallUser.stall},function(data){
@@ -285,6 +433,9 @@ function DataManager(){
             $("#stall-info-description").val(data["content"]["description"]);
         });
     }
+    this.LoadReport=function(){
+
+    };
     this.UpdateProcessingQueue=function(data){
         //order in cache but not in the queue on server
         for (var i in DivProcessingOrderItem){
@@ -511,6 +662,9 @@ function UIManager(){
         }
     };
 
+    this.LoadReport=function(){
+        this.Report.append(NewReport());
+    };
     //Init Events
     this.InitEvents=function(){
         $("#loginSubmit").click(loginMgr.DoLogin);
@@ -530,7 +684,9 @@ function UIManager(){
         $("#menu-info-btn").click(function(){
             uiMgr.ShowMenuInfo.call(uiMgr)});
         $("#report-btn").click(function(){
-            uiMgr.ShowReport.call(uiMgr)});
+            uiMgr.LoadReport.call(uiMgr);
+            uiMgr.ShowReport.call(uiMgr)
+        });
         $("#cancel-order").click(function(){
             if(confirm("Clear Order Cart?")){
                 uiMgr.ClearOrderCart.call(uiMgr);
@@ -542,7 +698,6 @@ function UIManager(){
             var cart_submit_collection=new Array();
             for (cart_entry in DivCartItem){
                 var item=DivCartItem[cart_entry];
-                //TODO add remark input
                 var r=(item.remarks==undefined)?"":item.remarks;
                 var itemToPush={itemid:item.id,
                                 quantity:item.quantity,
@@ -561,11 +716,9 @@ function UIManager(){
 
                 int_stall_order_submit(obj,function(data){
                     alert("Order Submitted");
-                    //TODO clear does not work here
                     uiMgr.ClearOrderCart.call(uiMgr);
 
                     int_stall_get_processing_queue({},dataMgr.UpdateProcessingQueue);
-                    //TODO timer of updating processing queue
                 });
             }
         });
