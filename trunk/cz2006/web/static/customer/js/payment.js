@@ -234,6 +234,17 @@ function UIManager(){
             uiMgr.Alert("You cannot pay as you have no items in this canteen.");
             return;
         }
+        // validate that nothing is unavailable
+        for(var i = 0; i<dataMgr.getCICount(); i++){
+            if(dataMgr.getMI(i).is_available_online==false){
+                uiMgr.Alert("Dish "+dataMgr.getMI(i).name+" can only be ordered at the physical stall. Payment cannot proceed.");
+                return;
+            }
+            if(dataMgr.getMI(i).is_available==false){
+                uiMgr.Alert("Dish "+dataMgr.getMI(i).name+" is not currently available. Payment cannot proceed.");
+                return;
+            }
+        }
         int_cus_pay_canteen({canteenid: loginMgr.canteen.id}, function(data){
             // succcess
             uiMgr.Alert(data.err_msg);
