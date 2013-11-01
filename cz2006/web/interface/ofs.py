@@ -567,3 +567,62 @@ class ofsBackend:
         canobj.is_activated = value
         valid_save(canobj)
         return case1(canobj)
+
+    #-------------- report ----------------------
+    
+    @staticmethod
+    @setcm(1,[],"",1,"yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize")
+    def int_ofs_report(request, content):
+        returnString = {}
+        #check login
+        get_login_ofs_manager(request)
+        # operations
+        orderList = order.objects.filter(is_finished=True)
+        # current year Revenue
+        returnString.update(calculate_year_revenue(orderList))
+        # current month Revenue
+        returnString.update(calculate_month_revenue(orderList))
+        # today Revenue
+        returnString.update(calculate_today_revenue(orderList))
+        return case1_raw(returnString)
+
+    @staticmethod
+    @setcm(1,["canteenid"],"",1,"yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize")
+    def int_ofs_canteen_report(request, content):
+        returnString = {}
+        #check login
+        get_login_ofs_manager(request)
+        # get parameter
+        canid = get_attribute(content, "canteenid")
+        # operations
+        orderList = order.objects.filter(is_finished=True)
+        canOrder = []
+        for entry in orderList:
+            if entry.stall.canteen.id == canid:
+                canOrder.append(entry)
+        # current year Revenue
+        returnString.update(calculate_year_revenue(orderList))
+        # current month Revenue
+        returnString.update(calculate_month_revenue(orderList))
+        # today Revenue
+        returnString.update(calculate_today_revenue(orderList))
+        return case1_raw(returnString)
+
+    @staticmethod
+    @setcm(1,["stallid"],"",1,"yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize")
+    def int_ofs_stall_report(request, content):
+        returnString = {}
+        #check login
+        get_login_ofs_manager(request)
+        # get parameter
+        stallid = get_attribute(content, "stallid")
+        # operations
+        orderList = order.objects.filter(stall=stallid, is_finished=True)
+        # current year Revenue
+        returnString.update(calculate_year_revenue(orderList))
+        # current month Revenue
+        returnString.update(calculate_month_revenue(orderList))
+        # today Revenue
+        returnString.update(calculate_today_revenue(orderList))
+        return case1_raw(returnString)
+    

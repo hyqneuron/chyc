@@ -225,12 +225,20 @@ function int_stall_order_submit(obj, success_call, error_call)
     _int_caller(20, obj, success_call, error_call);
 }
 
+function int_stall_report(obj, success_call, error_call)
+{
+    // request type 1. return type 1
+    // required args: None
+    // return content:yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize
+    _int_caller(21, obj, success_call, error_call);
+}
+
 function int_ofs_canteen_add(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: name, description
     // return content:returns the created canteen entry
-    _int_caller(21, obj, success_call, error_call);
+    _int_caller(22, obj, success_call, error_call);
 }
 
 function int_ofs_canteen_edit(obj, success_call, error_call)
@@ -239,7 +247,15 @@ function int_ofs_canteen_edit(obj, success_call, error_call)
     // required args: canteenid
     // request obj: name and description are optional values
     // return content:return the modified canteen entry
-    _int_caller(22, obj, success_call, error_call);
+    _int_caller(23, obj, success_call, error_call);
+}
+
+function int_ofs_canteen_report(obj, success_call, error_call)
+{
+    // request type 1. return type 1
+    // required args: canteenid
+    // return content:yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize
+    _int_caller(24, obj, success_call, error_call);
 }
 
 function int_ofs_canteen_setactivated(obj, success_call, error_call)
@@ -247,7 +263,7 @@ function int_ofs_canteen_setactivated(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: canteenid, value
     // return content:return the modified canteen entry
-    _int_caller(23, obj, success_call, error_call);
+    _int_caller(25, obj, success_call, error_call);
 }
 
 function int_ofs_customer_add(obj, success_call, error_call)
@@ -255,7 +271,7 @@ function int_ofs_customer_add(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: username, barcode, password, usertype
     // return content:return the created customer entry
-    _int_caller(24, obj, success_call, error_call);
+    _int_caller(26, obj, success_call, error_call);
 }
 
 function int_ofs_customer_edit(obj, success_call, error_call)
@@ -264,7 +280,7 @@ function int_ofs_customer_edit(obj, success_call, error_call)
     // required args: customerid
     // request obj: optional arg: password, is_activated
     // return content:returns the updated customer entry
-    _int_caller(25, obj, success_call, error_call);
+    _int_caller(27, obj, success_call, error_call);
 }
 
 function int_ofs_customer_get(obj, success_call, error_call)
@@ -272,7 +288,7 @@ function int_ofs_customer_get(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: customerid
     // return content:return the customer obj
-    _int_caller(26, obj, success_call, error_call);
+    _int_caller(28, obj, success_call, error_call);
 }
 
 function int_ofs_customer_get_activated(obj, success_call, error_call)
@@ -280,7 +296,7 @@ function int_ofs_customer_get_activated(obj, success_call, error_call)
     // request type 1. return type 2
     // required args: None
     // return content:return an array of "activated" customer objects
-    _int_caller(27, obj, success_call, error_call);
+    _int_caller(29, obj, success_call, error_call);
 }
 
 function int_ofs_customer_get_all(obj, success_call, error_call)
@@ -288,7 +304,7 @@ function int_ofs_customer_get_all(obj, success_call, error_call)
     // request type 1. return type 2
     // required args: None
     // return content:return an array of customer objects
-    _int_caller(28, obj, success_call, error_call);
+    _int_caller(30, obj, success_call, error_call);
 }
 
 function int_ofs_customer_get_page(obj, success_call, error_call)
@@ -297,7 +313,7 @@ function int_ofs_customer_get_page(obj, success_call, error_call)
     // required args: page_num
     // request obj: page_num is the page index
     // return content:return an array of customer objects on page page_num
-    _int_caller(29, obj, success_call, error_call);
+    _int_caller(31, obj, success_call, error_call);
 }
 
 function int_ofs_customer_getbybarcode(obj, success_call, error_call)
@@ -305,7 +321,7 @@ function int_ofs_customer_getbybarcode(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: customerid
     // return content:return the customer obj
-    _int_caller(30, obj, success_call, error_call);
+    _int_caller(32, obj, success_call, error_call);
 }
 
 function int_ofs_customer_getbyusername(obj, success_call, error_call)
@@ -313,7 +329,7 @@ function int_ofs_customer_getbyusername(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: customerid
     // return content:return the customer obj
-    _int_caller(31, obj, success_call, error_call);
+    _int_caller(33, obj, success_call, error_call);
 }
 
 function int_ofs_customer_mass_add(obj, success_call, error_call)
@@ -321,7 +337,7 @@ function int_ofs_customer_mass_add(obj, success_call, error_call)
     // request type 2. return type 1
     // required args: collection
     // request obj: an array of new customer list with ['username','barcode','password','usertype']
-    _int_caller(32, obj, success_call, error_call);
+    _int_caller(34, obj, success_call, error_call);
 }
 
 function int_ofs_customer_mass_deactivate(obj, success_call, error_call)
@@ -329,7 +345,7 @@ function int_ofs_customer_mass_deactivate(obj, success_call, error_call)
     // request type 2. return type 1
     // required args: collection
     // request obj: an array of {barcode:xxx}
-    _int_caller(33, obj, success_call, error_call);
+    _int_caller(35, obj, success_call, error_call);
 }
 
 function int_ofs_customer_page_count(obj, success_call, error_call)
@@ -337,7 +353,7 @@ function int_ofs_customer_page_count(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: None
     // return content:Count the number of customer pages we have. return {page_count: number_of_pages}
-    _int_caller(34, obj, success_call, error_call);
+    _int_caller(36, obj, success_call, error_call);
 }
 
 function int_ofs_customer_topup(obj, success_call, error_call)
@@ -345,14 +361,14 @@ function int_ofs_customer_topup(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: customerid, value
     // return content:return the customer obj
-    _int_caller(35, obj, success_call, error_call);
+    _int_caller(37, obj, success_call, error_call);
 }
 
 function int_ofs_ofsuser_add(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: username, password, usertype, name
-    _int_caller(36, obj, success_call, error_call);
+    _int_caller(38, obj, success_call, error_call);
 }
 
 function int_ofs_ofsuser_edit(obj, success_call, error_call)
@@ -361,14 +377,14 @@ function int_ofs_ofsuser_edit(obj, success_call, error_call)
     // required args: ofsuid
     // request obj: optional arg: password, is_activated
     // return content:return the updated ofs_user entry
-    _int_caller(37, obj, success_call, error_call);
+    _int_caller(39, obj, success_call, error_call);
 }
 
 function int_ofs_ofsuser_get(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: ofsuid
-    _int_caller(38, obj, success_call, error_call);
+    _int_caller(40, obj, success_call, error_call);
 }
 
 function int_ofs_ofsuser_get_activated(obj, success_call, error_call)
@@ -376,7 +392,7 @@ function int_ofs_ofsuser_get_activated(obj, success_call, error_call)
     // request type 1. return type 2
     // required args: None
     // return content:return an array of "activated" ofs_user objects
-    _int_caller(39, obj, success_call, error_call);
+    _int_caller(41, obj, success_call, error_call);
 }
 
 function int_ofs_ofsuser_get_all(obj, success_call, error_call)
@@ -384,7 +400,15 @@ function int_ofs_ofsuser_get_all(obj, success_call, error_call)
     // request type 1. return type 2
     // required args: None
     // return content:return an array of ofs_user objects
-    _int_caller(40, obj, success_call, error_call);
+    _int_caller(42, obj, success_call, error_call);
+}
+
+function int_ofs_report(obj, success_call, error_call)
+{
+    // request type 1. return type 1
+    // required args: None
+    // return content:yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize
+    _int_caller(43, obj, success_call, error_call);
 }
 
 function int_ofs_stall_add(obj, success_call, error_call)
@@ -393,14 +417,14 @@ function int_ofs_stall_add(obj, success_call, error_call)
     // required args: name, description, canteen, category, username_prefix
     // request obj: A manager and an operator account will be created, with password=password, and username=username_prefix_{op/mgr}
     // return content:returns creatd stall entry
-    _int_caller(41, obj, success_call, error_call);
+    _int_caller(44, obj, success_call, error_call);
 }
 
 function int_ofs_stall_deactivate(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: stallid
-    _int_caller(42, obj, success_call, error_call);
+    _int_caller(45, obj, success_call, error_call);
 }
 
 function int_ofs_stall_edit(obj, success_call, error_call)
@@ -408,21 +432,29 @@ function int_ofs_stall_edit(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: name
     // request obj: optional args: description, canteen, category, is_activated
-    _int_caller(43, obj, success_call, error_call);
+    _int_caller(46, obj, success_call, error_call);
+}
+
+function int_ofs_stall_report(obj, success_call, error_call)
+{
+    // request type 1. return type 1
+    // required args: stallid
+    // return content:yearRevenue, yearOrderSize, monthRevenue, monthOrderSize, todayRevenue, todayOrderSize
+    _int_caller(47, obj, success_call, error_call);
 }
 
 function int_ofs_stall_reset_mgrpwd(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: stallid
-    _int_caller(44, obj, success_call, error_call);
+    _int_caller(48, obj, success_call, error_call);
 }
 
 function int_ofs_stalluser_add(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: username, password, usertype, stall, name
-    _int_caller(45, obj, success_call, error_call);
+    _int_caller(49, obj, success_call, error_call);
 }
 
 function int_ofs_stalluser_edit(obj, success_call, error_call)
@@ -431,14 +463,14 @@ function int_ofs_stalluser_edit(obj, success_call, error_call)
     // required args: stalluid
     // request obj: optional arg: password, is_activated
     // return content:returns the updated stall_user entry
-    _int_caller(46, obj, success_call, error_call);
+    _int_caller(50, obj, success_call, error_call);
 }
 
 function int_ofs_stalluser_get(obj, success_call, error_call)
 {
     // request type 1. return type 1
     // required args: stalluid
-    _int_caller(47, obj, success_call, error_call);
+    _int_caller(51, obj, success_call, error_call);
 }
 
 function int_ofs_stalluser_get_activated(obj, success_call, error_call)
@@ -446,7 +478,7 @@ function int_ofs_stalluser_get_activated(obj, success_call, error_call)
     // request type 1. return type 2
     // required args: None
     // return content:return an array of "activated" stall_user objects
-    _int_caller(48, obj, success_call, error_call);
+    _int_caller(52, obj, success_call, error_call);
 }
 
 function int_ofs_stalluser_get_all(obj, success_call, error_call)
@@ -454,7 +486,7 @@ function int_ofs_stalluser_get_all(obj, success_call, error_call)
     // request type 1. return type 2
     // required args: None
     // return content:return an array of stall_user objects
-    _int_caller(49, obj, success_call, error_call);
+    _int_caller(53, obj, success_call, error_call);
 }
 
 function int_cus_change_settings(obj, success_call, error_call)
@@ -463,7 +495,7 @@ function int_cus_change_settings(obj, success_call, error_call)
     // required args: password, hpnumber
     // request obj: change settings for customer logged in
     // return content:return the updated entry of the currently logged-in customer, no password contained
-    _int_caller(50, obj, success_call, error_call);
+    _int_caller(54, obj, success_call, error_call);
 }
 
 function int_cus_get_cart(obj, success_call, error_call)
@@ -472,7 +504,7 @@ function int_cus_get_cart(obj, success_call, error_call)
     // required args: None
     // request obj: get cart_items of default customer cart
     // return content:return all cart_item in current customer's default cart, parent is cart_item, children is a single menu_item
-    _int_caller(51, obj, success_call, error_call);
+    _int_caller(55, obj, success_call, error_call);
 }
 
 function int_cus_get_customer(obj, success_call, error_call)
@@ -481,7 +513,7 @@ function int_cus_get_customer(obj, success_call, error_call)
     // required args: None
     // request obj: get information of the customer who's been logged in
     // return content:return the entry of the currently logged-in customer
-    _int_caller(52, obj, success_call, error_call);
+    _int_caller(56, obj, success_call, error_call);
 }
 
 function int_cus_pay(obj, success_call, error_call)
@@ -489,7 +521,7 @@ function int_cus_pay(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: None
     // request obj: pay for items in cart, and clear cart
-    _int_caller(53, obj, success_call, error_call);
+    _int_caller(57, obj, success_call, error_call);
 }
 
 function int_cus_pay_canteen(obj, success_call, error_call)
@@ -497,7 +529,7 @@ function int_cus_pay_canteen(obj, success_call, error_call)
     // request type 1. return type 1
     // required args: canteenid
     // request obj: pay for items in cart in specific canteen, and clear those items
-    _int_caller(54, obj, success_call, error_call);
+    _int_caller(58, obj, success_call, error_call);
 }
 
 function int_cus_set_cart(obj, success_call, error_call)
@@ -506,7 +538,7 @@ function int_cus_set_cart(obj, success_call, error_call)
     // required args: collection
     // request obj: set cart_items of default customer cart, collection is array of cart_item entries
     // return content:return all cart_item in current customer's default cart
-    _int_caller(55, obj, success_call, error_call);
+    _int_caller(59, obj, success_call, error_call);
 }
 
 

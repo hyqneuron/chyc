@@ -214,7 +214,7 @@ def place_order_to_stall(stallobj, cusobj, orderitems):
     print "Get queue number: "+str(queue_number)
     # create order
     neworder = order(customer=cusobj, stall=stallobj, 
-        queue_num=queue_number, payment_time=datetime.now())
+        queue_num=queue_number, payment_time=datetime.now(), total=total)
     valid_save(neworder)
     # TODO we might or might not want to provide more detailed info regarding
     # which item is wrong, since whenever error occurs, it's an API error or
@@ -293,7 +293,45 @@ def sendSMS(sms, number):
         from_=our_number) 
     print message.sid
 
+def calculate_year_revenue(orderList):
+    returnString = {}
+    yearOrderSize = 0
+    yearRevenue = 0.0;
+    curYear = datetime.today().strftime("%Y")
+    for entry in orderList:
+        if entry.finish_time.strftime("%Y")==curYear:
+            yearRevenue += float(entry.total)
+            yearOrderSize += 1
+    returnString["yearRevenue"] = yearRevenue
+    returnString["yearOrderSize"] = yearOrderSize
+    return returnString
 
+def calculate_month_revenue(orderList):
+    returnString = {}
+    monthOrderSize = 0
+    monthRevenue = 0.0;
+    curMonth = datetime.today().strftime("%m")
+    for entry in orderList:
+        if entry.finish_time.strftime("%m")==curMonth:
+            monthRevenue += float(entry.total)
+            monthOrderSize += 1
+    returnString["monthRevenue"] = monthRevenue
+    returnString["monthOrderSize"] = monthOrderSize
+    return returnString
+
+def calculate_today_revenue(orderList):
+    returnString = {}
+    todayOrderSize = 0
+    todayRevenue = 0.0;
+    today = datetime.today().strftime("%x")
+    for entry in orderList:
+        if entry.finish_time.strftime("%x")==today:
+            todayRevenue += float(entry.total)
+            todayOrderSize += 1
+    returnString["todayRevenue"] = todayRevenue
+    returnString["todayOrderSize"] = todayOrderSize
+    return returnString
+    
 class loginBackend:
     ### login/logout
     @staticmethod

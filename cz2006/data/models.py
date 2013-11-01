@@ -197,6 +197,7 @@ class order(models.Model):
     finish_time = models.DateTimeField('Time when processing was finished.',
                     null=True, default=None)
     json_excluded=[]
+    total = models.DecimalField(decimal_places=2, max_digits=5, default=0.00)
     def get_json_dict(self):
         return get_simplified(self, order.json_excluded)
 
