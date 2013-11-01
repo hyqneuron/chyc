@@ -449,6 +449,14 @@ class infoBackend:
 
     @staticmethod
     @setcm(1, ["stallid"], "",
+        2, "An array of menu_item table entries")
+    def int_get_menu_item_install_online(request, content):
+        # get parameter
+        stallid = get_attribute(content, "stallid")
+        return case2(menu_item.objects.filter(stall=stallid, is_activated=True, is_available_online=True))
+
+    @staticmethod
+    @setcm(1, ["stallid"], "",
         1, "queue_length: integer representing queue length")
     def int_get_stall_queue_length(request, content):
         # get parameter

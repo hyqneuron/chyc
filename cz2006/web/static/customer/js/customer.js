@@ -164,7 +164,7 @@ function NewStall(stobj){
     res.Expand = function(){
         if(res.Showing)return;
         if(!res.MenuItems){
-            int_get_menu_item_install({stallid: res.id}, function(data){
+            int_get_menu_item_install_online({stallid: res.id}, function(data){
                 res.MenuItems = [];
                 var c = data.content;
                 if(c.length>0)
@@ -551,8 +551,8 @@ function UIManager(){
     };
     this.Alert = function(msg){
         //FIXME need better alert box
-        alert(msg);
-        return;
+        //alert(msg);
+        //return;
         uiMgr.BlackMsg.html(msg);
         uiMgr.Blacker.show();
     };
