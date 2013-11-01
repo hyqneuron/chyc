@@ -231,22 +231,8 @@ function show_ofs_report()
 	int_ofs_report(obj, function(data){jalert(data);});
 }
 
-function show_ofs_canteen_report()
-{
-	var obj ={canteenid: 1}
-	int_ofs_canteen_report(obj, function(data){jalert(data);});
-}
-
-function show_ofs_stall_report()
-{
-	var obj ={stallid: 1}
-	int_ofs_stall_report(obj, function(data){jalert(data);});
-}
-
 function test()
 {
-	//show_ofs_stall_report();
-	//show_ofs_canteen_report();
 	//show_ofs_report();
 	show_stall_report();
     //ofs_customer_add();
@@ -274,8 +260,8 @@ function test()
 }
 function test2()
 {
-    int_login_check_ofs({}, function(data){jalert(data);});
-	//int_login_check_stall({}, function(data){jalert(data);});
+    //int_login_check_ofs({}, function(data){jalert(data);});
+	int_login_check_stall({}, function(data){jalert(data);});
 }
 
 </script>
