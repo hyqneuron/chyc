@@ -177,7 +177,7 @@ class stallBackend:
         targetcus.balance += totalPrice
         targetcus.save()
         targetorder.delete()
-        for i in range(len(targetitems)-1, -1):
+        for i in range(len(targetitems)-1, -1, -1):
             targetitems[i].delete()
         # calculate total price
         return error(err_success)
