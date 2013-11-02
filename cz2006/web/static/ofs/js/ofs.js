@@ -28,6 +28,7 @@ var uiMgr;
 var cusMgr; //customer UI manager
 var canMgr;// canteen UI manager
 var dataMgr;
+var repMgr;
 var loginMgr;
 
 // convenience functions
@@ -57,6 +58,7 @@ $(document).ready(function()
     cusMgr=  new CusUIManager();
     canMgr = new CanUIManager();
     loginMgr=new LoginManager();
+    repMgr  =new ReportManager();
     // Initialize data
     dataMgr.InitTemplates();
     dataMgr.InitData();
@@ -125,6 +127,7 @@ function LoginManager(){
             // load customer page information and load page 0
             cusMgr.UpdatePageCount();
         }
+        uiMgr.ResetUI();
     };
     this.CheckLogin=function(){
         int_login_check_ofs({},loginMgr.PassLogin,function (data){
@@ -279,9 +282,23 @@ function UIManager(){
         $("#canRegister").click(canMgr.AddCanteen);
         $("#canUpdate").click(canMgr.UpdateCanteens);
 
+        // reporting
+        $("#repButGen").click(repMgr.GenerateReport);
+
         // temporary log out button
         $("#ButLogout").click(loginMgr.Logout);
     };
+
+    // Clear things left behind by previous login
+    this.ResetUI = function(){
+        //TODO
+        // things to clear include:
+        // 1. customer info tab
+        // 2. report tab
+        $("#repStatusMsg").html("No report has been generated.");
+        // 3. mass reg/dereg text box
+        // 4. customer list init to page 1
+    }
 }
 
 function CusUIManager(){
@@ -587,3 +604,64 @@ function CanUIManager(){
         uiMgr.ShowBlacker(newAddCanteenDIV());
     };
 } // class CanUIManager
+
+///////////////////////Report manager/////////////////////////
+function ReportManager(){
+    // whether we're already loading data
+    this.loading = false;
+    // we cache stall and canteen info separately, as we need info of stalls and
+    // canteens that have been deactivated
+    this.stalls=null
+    this.canteens=null
+    this.reportData=null;
+    
+    this.allArrived = function(){
+        return this.stalls != null &&
+               this.canteens!=null &&
+               this.reportData!=null;
+    };
+    // get stalls, canteens, and reportData. Trigger UpdateReport when all have
+    // been received
+    this.LoadData = function(){
+        repMgr.stalls=[];
+        repMgr.canteens=[];
+        repMgr.reportData=null;
+        int_ofs_stall_get_all({}, function(data){
+            repMgr.stalls=data.content;
+            if(repMgr.allArrived())
+                repMgr.UpdateReport();
+        });
+        int_ofs_canteen_get_all({}, function(data){
+            repMgr.canteens=data.content;
+            if(repMgr.allArrived())
+                repMgr.UpdateReport();
+        });
+        // for now use temporary data
+        var pData = {period: "P1", total: 12, order_count: 9};
+        repMgr.reportData = [
+            {stallid: 1, daily:[pData, pData], monthly:[pData, pData, pData]},
+            {stallid: 2, daily:[pData, pData], monthly:[pData, pData, pData]},
+            {stallid: 3, daily:[pData, pData], monthly:[pData, pData, pData]},
+            {stallid: 4, daily:[pData, pData], monthly:[pData, pData, pData]},
+        ];
+        return;
+        int_ofs_report({}, function(data){
+            repMgr.reportData=data.content;
+            if(repMgr.allArrived())
+                repMgr.UpdateReport();
+        });
+    };
+
+    // update report UI according to reportData, stalls, and canteens
+    this.UpdateReport = function(){
+        // short-hand
+        var cs = repMgr.canteens;
+        var ss = repMgr.stalls;
+        var rd = repMgr.reportData;
+    };
+    this.GenerateReport=function(){
+        $("#repStatusMsg").html("Report is being generated...");
+        // Load data and LoadData will do the update when it arrives
+        repMgr.LoadData();
+    };
+}

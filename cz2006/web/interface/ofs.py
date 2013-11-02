@@ -130,6 +130,13 @@ class ofsBackend:
 
 
     @staticmethod
+    @setcm(1, [], "",
+        2, "")
+    def int_ofs_stall_get_all(request, content):
+        get_login_ofs_manager(request)
+        return case2(stall.objects.all())
+
+    @staticmethod
     @setcm(1, ["name", "description", "canteen", "category", "username_prefix"], 
         "A manager and an operator account will be created, with password=password, and username=username_prefix_{op/mgr}",
         1, "returns creatd stall entry")
@@ -529,7 +536,15 @@ class ofsBackend:
         valid_save(cus)
         return case1(cus)
 
+
     #-------------- canteen management ----------------------    
+    @staticmethod
+    @setcm(1, [], "",
+        2, "")
+    def int_ofs_canteen_get_all(request, content):
+        get_login_ofs_manager(request)
+        return case2(canteen.objects.all())
+
 
     @staticmethod
     @setcm(1,["name", "description"],"",
