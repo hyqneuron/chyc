@@ -175,10 +175,13 @@
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </span>
-			<input class="remarks"></input>
+                    
+                    
+	
                         <button type="button" class="btn btn-info btn-sm trash">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
+                <input style="margin-top:5px; width:150px" type="text" class="form-control remarks" placeholder="Remarks" /> 
                 </div>
             </ul>
             <br class="clear-float"/>
@@ -208,7 +211,7 @@
             </table>
             </div>
             <div class="processing-order-form">
-               <button type="button" class="btn-defualt btn-md processing-order-revoke-btn">
+               <button type="button" class="btn btn-warning btn-md processing-order-revoke-btn">
                     <span class="glyphicon glyphicon-remove-circle"></span>
                 </button>
                 
@@ -250,8 +253,13 @@
             </div>
 
         <div id="menu-info">
+            <h3>Menu Info</h3>
+            
+            
             <div id="menu-info-add">
-                <button id="menu-info-add-btn">Add</button>
+                <button type="button" class="btn btn-info btn-md" id="menu-info-add-btn">
+                    <span class="glyphicon glyphicon-plus"> Add</span>
+                </button> 
             </div>
         </div>
 
@@ -260,18 +268,20 @@
             
     
        <div style="display:none">
-        <div id="menu-info-item-display-template" class="menu-info-item-display" style="display:none">
+        <div id="menu-info-item-display-template" class="list-group-item menu-info-item-display" style="display:none">
             <div class="image-data"></div>
+            
+            
             <div class="menu-info-edit-btn">
                 <div class="line1">
                     <span class="name-data"></span>
                     <span class="price-data"></span>
-                    <span class="is_available_online-data">online</span>
+                    <span class="is_available_online-data">Online</span>
                 </div>
                 <div class="line2">
                     <span>Promotion: </span>
                     <span class="promotion-data"></span>
-                    <span>until: </span>
+                    <span>Until: </span>
                     <span class="promotion_until-data"></span>
                 </div>
                 <div class="line3">
@@ -284,48 +294,59 @@
         <div id="menu-info-item-edit-template" class="menu-info-item-edit" style="display:none">
             <div class="image-data" id="imgUploadPreview"></div>
             <form id="imgForm" enctype="multipart/form-data" method="post">
-                <input type=hidden name="itemid" id="itemid" ></input>
+                <input type=hidden name="itemid" id="itemid">
                 <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
-                <br />
-                <input type=button class="resetUploadBut" value="Reset Upload"/>
+                <button type="button" class="btn btn-info btn-sm resetUploadBut">
+                    <span class="glyphicon glyphicon-ok"> Reset</span>
+                </button>
             </form>
             <div style="clear:both"></div>
-            <label>Name</label>
-            <input type="text" class="menu-info-edit-name"></input>
-            <br class="clear-float">
-            <label>Activated</label>
-            <select class="menu-info-edit-is_activated">
+            
+            <label class ="menu-edit-title"  >Name</label>
+            <input style="margin-right:10px" type="text"class="menu-info-edit-name menu-edit-data form-control" />    
+    
+            <label class ="menu-edit-title">Activated</label>
+            <select class="menu-info-edit-is_activated form-control menu-edit-data" style="margin-right:10px">
                 <option value="1">yes</option>
                 <option value="0">no</option>
             </select>
-            <br class="clear-float">
-            <label>Price</label>
-            <input type="number" class="menu-info-edit-price"></input>
-            <br class="clear-float">
-            <label>Promotion until</label>
-            <input type="date" class="menu-info-edit-promotion_until"></input>
-            <br class="clear-float">
-            <label>Available </label>
-            <select class="menu-info-edit-is_available">
+          
+            <label class ="menu-edit-title">Price</label>
+            
+            <input style="margin-right:10px" type="number" class="menu-info-edit-price form-control menu-edit-data"/>
+    
+          
+            <label class ="menu-edit-title">Promotion until</label>
+            
+            <input style="margin-right:10px" type="date" class="menu-info-edit-promotion_until form-control menu-edit-data"/>
+          
+            <label class ="menu-edit-title">Available </label>
+            <select class="menu-info-edit-is_available form-control menu-edit-data">
                 <option value="1">yes</option>
                 <option value="0">no</option>
             </select>
-            <br class="clear-float">
-            <label>promotion</label>
-            <input type="number" class="menu-info-edit-promotion"></input>
-            <br class="clear-float">
-            <label>Available online</label>
-            <select class="menu-info-edit-is_available_online">
+           
+            <label class ="menu-edit-title">promotion</label>
+            <input style="margin-right:10px" type="number" class="menu-info-edit-promotion form-control menu-edit-data"/>
+
+        
+            <label class ="menu-edit-title">Available online</label>
+            <select style="margin-right:10px"class="menu-info-edit-is_available_online form-control menu-edit-data">
                 <option value="1">yes</option>
                 <option value="0">no</option>
             </select>
-            <br class="clear-float">
+        
             <label>Description</label>
-            <textarea class="menu-info-edit-description"></textarea>
-            <br class="clear-float">
-            <button class="menu-info-edit-submit-btn">submit</button>
-            <button class="menu-info-edit-cancel-btn">cancel</button>
-            <br class="clear-float">
+            <textarea style="margin-bottom:5px" class="menu-info-edit-description form-control" rows="2" ng-model="result" ></textarea>
+            
+        
+            <button type="button" class="btn btn-info btn-md menu-info-edit-submit-btn">
+                    <span class="glyphicon glyphicon-ok"> Submit</span>
+            </button>
+            <button type="button" class="btn btn-info btn-md menu-info-edit-cancel-btn">
+                    <span class="glyphicon glyphicon-remove"> Cancel</span>
+            </button>
+
         </div>
         <div id="report-template" class="report">
             <table class="daily">
