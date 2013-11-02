@@ -118,7 +118,7 @@
     <div id="menu">
     </div>
     
-    <div class= "list-group"id="order-cart">
+    <div id="order-cart">
         
         <h3> Order Cart </h3>
         <div id=cart-items></div>
@@ -159,7 +159,7 @@
     <!--take-order-templates-->
     <div style="display:none">
 
-        <div id="cart-item-template" class="cart-item list-group-item">
+        <div id="cart-item-template" class="cart-item">
             <ul>
                 <li class="cart-item-name">
                 </li>
@@ -174,6 +174,7 @@
                         <button type="button" class="btn btn-info btn-sm plus">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
+                        <input style="width:145px; display:inline" type="text" class="form-control remarks" placeholder="Remarks" /> 
                     </span>
                     
                     
@@ -181,9 +182,10 @@
                         <button type="button" class="btn btn-info btn-sm trash">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-                <input style="margin-top:5px; width:150px" type="text" class="form-control remarks" placeholder="Remarks" /> 
+              
                 </div>
             </ul>
+            
             <br class="clear-float"/>
         </div>
 
@@ -301,10 +303,12 @@
                 </button>
             </form>
             <div style="clear:both"></div>
-            
-            <label class ="menu-edit-title"  >Name</label>
-            <input style="margin-right:10px" type="text"class="menu-info-edit-name menu-edit-data form-control" />    
     
+          
+            <label class ="menu-edit-title" >Name</label>
+            <input style="margin-right:10px" type="text"class="menu-info-edit-name menu-edit-data form-control" />    
+          
+      
             <label class ="menu-edit-title">Activated</label>
             <select class="menu-info-edit-is_activated form-control menu-edit-data" style="margin-right:10px">
                 <option value="1">yes</option>
@@ -338,8 +342,7 @@
         
             <label>Description</label>
             <textarea style="margin-bottom:5px" class="menu-info-edit-description form-control" rows="2" ng-model="result" ></textarea>
-            
-        
+           
             <button type="button" class="btn btn-info btn-md menu-info-edit-submit-btn">
                     <span class="glyphicon glyphicon-ok"> Submit</span>
             </button>
