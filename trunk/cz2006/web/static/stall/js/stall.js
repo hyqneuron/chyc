@@ -233,146 +233,50 @@ function NewMenuInfoItemAdd(){
 function NewReport(){
     var res=tmplReport.clone();
     var allItem;
-    //TODO to change to get all menu including deactivated
-    //int_get_menu_item_install({},function(data){
-    //    allItem=data;
-    //});
-    allItem=cache_menu;
-    //int_stall_report({},function(data){
-        var data={
-        "daily":[
-            {"period":"1",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"2",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"3",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"4",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"5",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"6",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"7",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"8",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"9",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"10",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150}
-        ],
-        "monthly":[
-            {"period":"1",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"2",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"3",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"4",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"5",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"6",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"7",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"8",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"9",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"10",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"11",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-            {"period":"12",
-            "details":[{"id":1,"quantity":3},{"id":2,"quantity":3}],
-            "order_count":18,
-            "revenue":150},
-        ],
-        };
-
-        for (key in data){
-            var periodLine="";
-            var orderLine="";
-            var revenueLine="";
-            var tablelines=new Array();
-            var subTotalNumOrder=0;
-            var subTotalRevenue=0;
-            var subTotal=new Array();
-            for ( var i =0;i<data[key].length;i++){
-                periodLine+="<th>"+data[key][i].period+"</th>";
-                orderLine+="<td>"+data[key][i].order_count+"</td>";
-                revenueLine+="<td>"+data[key][i].revenue+"</td>";
-                subTotalNumOrder+=data[key][i].order_count;
-                subTotalRevenue+=data[key][i].revenue;
-            }
-            periodLine+="<th>Total</th>";
-            orderLine+="<td>"+subTotalNumOrder+"</td>";
-            revenueLine+="<td>"+subTotalRevenue+"</td>";
-
-            for (var i=0;i<data[key][0].details.length;i++){
-                tablelines.push("<tr><th>"+fia(allItem,"id",data[key][0].details[i].id).name+"</th>");
-                subTotal.push(0);
-            }
-            for (var i in data[key]){
-                for ( var j in data[key][i].details){
-                    tablelines[j]+="<td>"+data[key][i].details[j].quantity+"</td>";
-                    subTotal[j]+=data[key][i].details[j].quantity;
+    int_stall_get_all_menu_item({},function(data){
+        allItem=data.content;
+        int_stall_report({},function(data){
+            data=data["content"];
+            for (key in data){
+                var periodLine="";
+                var orderLine="";
+                var revenueLine="";
+                var tablelines=new Array();
+                var subTotalNumOrder=0;
+                var subTotalRevenue=0;
+                var subTotal=new Array();
+                for ( var i =0;i<data[key].length;i++){
+                    periodLine+="<th>"+data[key][i].period+"</th>";
+                    orderLine+="<td>"+data[key][i].order_count+"</td>";
+                    revenueLine+="<td>"+data[key][i].revenue+"</td>";
+                    subTotalNumOrder+=data[key][i].order_count;
+                    subTotalRevenue+=data[key][i].revenue;
                 }
+                periodLine+="<th>Total</th>";
+                orderLine+="<td>"+subTotalNumOrder+"</td>";
+                revenueLine+="<td>"+subTotalRevenue+"</td>";
+
+                for (var i=0;i<data[key][0].details.length;i++){
+                    tablelines.push("<tr><th>"+fia(allItem,"id",data[key][0].details[i].id).name+"</th>");
+                    subTotal.push(0);
+                }
+                for (var i in data[key]){
+                    for ( var j in data[key][i].details){
+                        tablelines[j]+="<td>"+data[key][i].details[j].quantity+"</td>";
+                        subTotal[j]+=data[key][i].details[j].quantity;
+                    }
+                }
+                
+                for ( var j=0;j<tablelines.length;j++){
+                        tablelines[j]+="<td>"+subTotal[j]+"</td></tr>"
+                }
+                res.find("."+key+" thead tr").append(periodLine);
+                res.find("."+key+" .no_orders").append(orderLine);
+                res.find("."+key+" .revenue").append(revenueLine);
+                res.find("."+key+" tbody").append(tablelines);
             }
-            
-            for ( var j=0;j<tablelines.length;j++){
-                    tablelines[j]+="<td>"+subTotal[j]+"</td></tr>"
-            }
-            res.find("."+key+" thead tr").append(periodLine);
-            res.find("."+key+" .no_orders").append(orderLine);
-            res.find("."+key+" .revenue").append(revenueLine);
-            res.find("."+key+" tbody").append(tablelines);
-        }
-    //});
+        });
+    });
     return res;
 }
 //manager class
@@ -425,7 +329,6 @@ function DataManager(){
         
         this.LoadStoreInfo();    
 
-        this.LoadReport();
     };
     this.LoadStoreInfo=function(){
         int_get_stall({"stallid":stallUser.stall},function(data){
@@ -433,9 +336,6 @@ function DataManager(){
             $("#stall-info-description").val(data["content"]["description"]);
         });
     }
-    this.LoadReport=function(){
-
-    };
     this.UpdateProcessingQueue=function(data){
         //order in cache but not in the queue on server
         for (var i in DivProcessingOrderItem){
@@ -663,6 +563,7 @@ function UIManager(){
     };
 
     this.LoadReport=function(){
+        this.Report.empty();
         this.Report.append(NewReport());
     };
     //Init Events
