@@ -195,6 +195,8 @@ def calcOrderPrice(order):
     return total
 
 
+# FIXME even though frontend does availability validation, at backend it is
+# still better that we do the same. Right now it's not done
 # create an order for a specific stall
 def place_order_to_stall(stallobj, cusobj, orderitems):
     # validate orderitems (see if indeed in this stall)
