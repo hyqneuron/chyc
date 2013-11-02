@@ -224,7 +224,7 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
 function NewMenuInfoItemAdd(){
     var res=tmplMenuInfoItemEdit.clone().attr({"style":"","id":"menu-info-item-add",});
     $.each($(res).find("[class]"),function(key,value){
-        $(value).attr({"id":"menu-info-add"+$(value).attr("class").substring(14),"class":""});
+        $(value).attr({"id":"menu-info-add"+$(value).attr("class").substring(14)});
     });
     $(res).find("#menu-info-add-promotion").attr("value",1);
     return res;
@@ -595,7 +595,11 @@ function UIManager(){
             }
         });
         $("#confirm-order").click(function(){
-            var confirm_msg="Order details:\n";
+            if (DivCartItem.length==0){
+                alert("Empty cart. Cannot submit");
+                return;
+            }
+            var confirm_msg="Order details:<ul>";
             var cart_submit_collection=new Array();
             for (cart_entry in DivCartItem){
                 var item=DivCartItem[cart_entry];
@@ -604,25 +608,38 @@ function UIManager(){
                                 quantity:item.quantity,
                                 remarks:r};
                 cart_submit_collection.push(itemToPush);
-                confirm_msg+=fia(cache_menu,"id",item.id).name;
-                confirm_msg+="\t"+item.quantity;
-                confirm_msg+="\t"+r+"\n";
+                confirm_msg+="<li>"+fia(cache_menu,"id",item.id).name;
+                confirm_msg+="    |    "+item.quantity;
+                confirm_msg+="    |    "+r+"<\li>";
             }
-            confirm_msg+="Please confirm the order. Click OK to proceed to payment.\n";
+            confirm_msg+="</ul>Please confirm the order by scanning the bar code.\n";
 
-            if(confirm(confirm_msg)){
-            //TODO payment need to be implemented here
-                var obj={customer_barcode: id("barcode").value,//TODO to be change later
-                    collection:cart_submit_collection};
+            var barcode="";
+            $("#take-order").append("<div id='black-out' tabindex='0'></div>");
+            $("#black-out").focus();
+            $("#black-out").append("<div style='max-width: 500px;padding: 15px;margin: 0 auto;background: white;margin-top: 70px;overflow: auto;'>"+confirm_msg+"</div>");
+            $("#black-out").keypress(function(event){
+                if(event.which==13){
+                    var obj={"customer_barcode":barcode, 
+                    "collection":cart_submit_collection};
 
-                int_stall_order_submit(obj,function(data){
-                    alert("Order Submitted");
-                    uiMgr.ClearOrderCart.call(uiMgr);
-
-                    int_stall_get_processing_queue({},dataMgr.UpdateProcessingQueue);
-                });
-            }
+                    int_stall_order_submit(obj,function(data){
+                        alert("Order Submitted");
+                        uiMgr.ClearOrderCart.call(uiMgr);
+                        int_stall_get_processing_queue({},dataMgr.UpdateProcessingQueue);
+                    });
+                    barcode="";
+                    $("#black-out").remove();
+                    return;
+                }
+                else if((event.which< 48 || event.which>57) &&
+                    (event.which<65 || event.which>90) &&
+                    (event.which<97 || event.which>122))
+                    return;
+                barcode += String.fromCharCode(event.which);
+            });
         });
+
         this.ProcessingOrder.on("click",".processing-order-done-btn",function(event){
             var tar=$(event.currentTarget).data("order");
             tar.Done();
