@@ -21,8 +21,8 @@ text-decoration: none;
 color: #000;
 background: #ffb;
 display: block;
-height: 90px;
-width: 145px;
+height: 120px;
+width: 200px;
 padding: 10px;
 border-top: 10px;
 top: 5px;
@@ -31,7 +31,7 @@ font-size: 20px;
 -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
 -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
 box-shadow: 5px 5px 7px rgba(33,33,33,.7);
--webkit-transform: rotate(-2.5deg);
+margin-right:10px;
 }
 #menu ul:hover{
     background: #ff5;
@@ -42,29 +42,26 @@ box-shadow: 5px 5px 7px rgba(33,33,33,.7);
 }
 
 .menu-item{
-    margin: 15px;
     float:left;
     padding: 10px
-    height: 80px;
-    width: 140px;
-    position: relative;
+
 }
 
 .menu-item-name{
-    font-size: 22px;
+    font-size: 18px;
     font: bold;
 }
 
 .menu-item-price{
-    font-size: 18px;
+    font-size: 15px;
 
 }
 
 #order-cart{
     position: fixed;
-    left: 700px;
+    left: 980px;
     top: 50px;
-    width: 300px;
+    width: 400px;
     height: 670px;
     overflow: auto;
     padding-bottom: 70px;
@@ -87,6 +84,13 @@ box-shadow: 5px 5px 7px rgba(33,33,33,.7);
     width: 75px;
 }
 
+.cart-item{
+    border-bottom:solid;    
+    border-width:1px;
+    border-bottom-color:grey;
+    
+}
+
 .minus{
     display:inline;
 }
@@ -107,7 +111,7 @@ box-shadow: 5px 5px 7px rgba(33,33,33,.7);
 
 
 #menu{
-    width: 700px;
+    width: 950px;
     height: 670px;
     overflow: auto;
 }
@@ -133,7 +137,7 @@ box-shadow: 5px 5px 7px rgba(33,33,33,.7);
     -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
     -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
     box-shadow: 5px 5px 7px rgba(33,33,33,.7);
-    -webkit-transform: rotate(-2.5deg);
+    /*-webkit-transform: rotate(-2.5deg);*/
     overflow: auto;
 
 
