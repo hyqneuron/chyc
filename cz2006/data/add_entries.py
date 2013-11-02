@@ -6,34 +6,29 @@ from data.models import *
 from web.interface.common import get_queue_number
 from web.interface.ofs import ofsBackend
 
+def clearTable(table):
+    entries = table.objects.all()
+    for i in range(len(entries)-1, -1):
+        entries[i].delete()
 
-def rebuildData():
-    call_command('flush')
-
-    """
-    classes = [ofs_user, customer, canteen, stall, cart, stall_user, menu_item,
-                cart_item, order, order_item]
-    for c in classes:
-        c.initialize()
-        if c.objects.count()!=1:
-            raise Exception("Initialization error in" + c.__name__)"""
-
-    # ofs user
-    ou1 = ofs_user(username="ofs1", password="password",
-        usertype=ofs_user.manager, name="OFS Manager")
-    ou2 = ofs_user(username="ofs2", password="password",
-        usertype=ofs_user.operator, name="OFS Operator")
-    ou1.save()
-    ou2.save()
-
-    # customer
+def rebuildUser(deleted=False):
+    # things to clear: customer, cart, cart_item, ofs_user
+    if not deleted:
+        clearTable(customer)
+        clearTable(cart)
+        clearTable(cart_item)
+        clearTable(ofs_user)
+    # 2 customers named user1/2
     cus1 = customer(username='user1', barcode='105', password='password',
                     usertype=customer.student, balance=0.0)
     cus2 = customer(username='user2', barcode='106', password='password',
                     usertype=customer.student, balance=0.0)
     cus1.save()
+    cus1.build_cart()
     cus2.save()
+    cus2.build_cart()
 
+    # 999 test customers
     print "Adding 999 test customers"
     for i in range(1, 1000):
         testcus = customer(username='testuser'+str(i), barcode=str(1000+i), password='password',
@@ -44,6 +39,19 @@ def rebuildData():
             print i
     print "999 test customers added"
 
+    # ofs user
+    ou1 = ofs_user(username="ofs1", password="password",
+        usertype=ofs_user.manager, name="OFS Manager")
+    ou2 = ofs_user(username="ofs2", password="password",
+        usertype=ofs_user.operator, name="OFS Operator")
+    ou1.save()
+    ou2.save()
+
+def rebuildCanteen(deleted=False):
+    # things to clear: canteen, canteen_queues
+    if not deleted:
+        clearTable(canteen)
+        clearTable(canteen_queues)
     # canteen
     c1 = canteen(name='Canteen 1', description='Canteen at South Spine')
     c2 = canteen(name='Canteen 2', description='Canteen at North Spine')
@@ -67,6 +75,12 @@ def rebuildData():
     c6.buildQueueTable()
     print "Queue table built"
 
+def rebuildStall(deleted=False):
+    # things to clear: stall, stall_user menu_item
+    if not deleted:
+        clearTable(stall)
+        clearTable(stall_user)
+        clearTable(menu_item)
     # stall
     s1 = stall(name='Xiao Jiang Nan', description='Good Food at LOW Price', 
         canteen=c1, username_prefix="stall1", category="Chinese")
@@ -258,19 +272,11 @@ def rebuildData():
     m88.save()
     m89.save()
 
-
-
-
-    # cart
-    cart1 = cart(customer=cus1)
-    cart2 = cart(customer=cus2)
-    cart1.save()
-    cart2.save()
-
-    # cart item
-    ci1 = cart_item(cart=cart1, item=m11, quantity=1)
-    ci1.save()
-
+def rebuildOrder(deleted=False):
+    # things to clear: order, order_item
+    if not deleted:
+        clearTable(order)
+        clearTable(order_item)
     # order
     order1 = order(customer=cus1, stall = s1, 
         queue_num=get_queue_number(s1.canteen, cus1), 
@@ -288,5 +294,12 @@ def rebuildData():
     oi11.save()
     oi12.save()
     oi21.save()
+
+def rebuildData():
+    call_command('flush')
+    rebuildUser(True)
+    rebuildCanteen(True)
+    rebuildStall(True)
+    rebuildOrder(True)
     print "Data rebuild complete"
 
