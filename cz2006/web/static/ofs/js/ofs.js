@@ -21,6 +21,9 @@ var tmpl_new_stall;
 var tmpl_new_canteen;
 var tmpl_topup;
 var tmpl_cus;
+var tmpl_mentry;
+var tmpl_dentry;
+var tmpl_can_details;
 var tmpl_blacker_wait;
 
 
@@ -84,6 +87,9 @@ function DataManager(){
         tmpl_new_canteen = $("#newCanteenTMPL").clone().attr("id","");
         tmpl_topup = $("#topupTMPL").clone().attr("id","") ;
         tmpl_cus = $("#cusTMPL").clone().attr("id","");
+        tmpl_mentry = $("#repMEntryTMPL").clone().attr("id","");
+        tmpl_dentry = $("#repDEntryTMPL").clone().attr("id","");
+        tmpl_can_details=$("#repCanDetails").clone().attr("id","");
         tmpl_blacker_wait = $("#blackerWaitTMPL").clone().attr("id","");
     };
     this.ValidateFloat = function (amt) {
@@ -614,6 +620,11 @@ function ReportManager(){
     this.stalls=null
     this.canteens=null
     this.reportData=null;
+    this.repMsg = $("#repStatusMsg");
+    this.MTable = $("#repTableMonthly");
+    this.MBody =  $("#repBodyMonthly");
+    this.DTable = $("#repTableDaily");
+    this.DBody =  $("#repBodyDaily");
     
     this.allArrived = function(){
         return this.stalls != null &&
@@ -636,6 +647,7 @@ function ReportManager(){
             if(repMgr.allArrived())
                 repMgr.UpdateReport();
         });
+        /*
         // for now use temporary data
         var pData = {period: "P1", total: 12, order_count: 9};
         repMgr.reportData = [
@@ -645,6 +657,7 @@ function ReportManager(){
             {stallid: 4, daily:[pData, pData], monthly:[pData, pData, pData]},
         ];
         return;
+        */
         int_ofs_report({}, function(data){
             repMgr.reportData=data.content;
             if(repMgr.allArrived())
@@ -658,10 +671,88 @@ function ReportManager(){
         var cs = repMgr.canteens;
         var ss = repMgr.stalls;
         var rd = repMgr.reportData;
+        if(rd.length==0){
+            uiMgr.Alert("No stalls to generate report for.");
+            repMgr.repMsg.html("");
+            return;
+        }
+        //ja(rd[0]);
+        //return;
+        // Steps:
+        // 1. Initialize headers (P1, P2 etc)
+        // 2. Insert rows into table body
+
+        // -------Monthly-------
+        // set headers
+        repMgr.MTable.find(".First").html("Canteen");
+        for(var i = 0; i<12; i++){
+            repMgr.MTable.find(".P"+(i+1)).html(rd[0].monthly[i].period);
+        }
+        repMgr.MTable.find(".Last").html("Total");
+        // insert rows for each canteen
+        repMgr.MBody.empty();
+        for(var i = 0; i<cs.length; i++){
+            var newentry = newReportEntry("monthly", cs, i, ss, rd);
+            repMgr.MBody.append(newentry);
+        }
+
+        // -------Daily-------
+        // set headers
+        repMgr.DTable.find(".First").html("Stall");
+        for(var i = 0; i<10; i++){
+            repMgr.DTable.find(".P"+(i+1)).html(rd[0].daily[i].period);
+        }
+        repMgr.DTable.find(".Last").html("Total");
+        // insert rows 
+        repMgr.DBody.empty();
+        for(var i = 0; i<cs.length; i++){
+            var newentry = newReportEntry("daily", cs, i, ss, rd);
+            repMgr.DBody.append(newentry);
+        }
+        // clear empty msg
+        repMgr.repMsg.html("");
+
     };
     this.GenerateReport=function(){
-        $("#repStatusMsg").html("Report is being generated...");
+        repMgr.repMsg.html("Report is being generated...");
         // Load data and LoadData will do the update when it arrives
         repMgr.LoadData();
     };
+    // calculate total order_count or revenue for stall, monthly or daily
+    // arr is the stall report object
+    // key1 is "monthly" or "daily"
+    // key2 is "order_count" or "revenue"
+    this.SumStallTotal = function (arr, key1, key2){
+        var sum = 0;
+        // i indexes period
+        for(var i = 0; i<arr.length; i++)
+            sum += arr[key1][i][key2];
+        return sum;
+    }
+    // calculate order_count and revenue stalls (of the same canteen)
+    // stalls is the array of stall report objects (of the same canteen)
+    // key is either "daily" or "monthly"
+    // returns an array of {order_count, revenue}. First length-1 elements are
+    // for each period. Last is the sum of all periods
+    this.SumForCanteen = function(stalls, key){
+        var res = [];
+        // iterate through stalls
+        for(var i = 0; i<stalls.length; i++){
+            // iterate through each period of this stall
+            for(var p=0; p<stalls[i][key].length; p++){
+                if(res.length<=p)
+                    res.push({order_count:0, revenue:0});
+                res[p].order_count += stalls[i][key][p].order_count;
+                res[p].revenue += stalls[i][key][p].revenue;
+            }
+        }
+        // total revenue and total order_count
+        var TR = 0, TO = 0;
+        for(var i = 0; i<res.length; i++){
+            TR += res[i].revenue;
+            TO += res[i].order_count;
+        }
+        res.push({order_count:TO, revenue:TR});
+        return res;
+    }
 }
