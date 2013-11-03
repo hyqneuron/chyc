@@ -40,16 +40,20 @@ class UnitFunctionTest(TestCase):
 
         # customer objects
         customer.objects.create(username='user1', barcode='105', password='password',
-                    usertype=customer.student, balance=0.0)
+                    usertype=customer.student, balance=30.5)
         customer.objects.create(username='user2', barcode='106', password='password',
                     usertype=customer.student, balance=0.0)
 
+        self.cus1 = customer.objects.get(username='user1')
+        self.cus2 = customer.objects.get(username='user2')
+
         # canteen objects
         canteen.objects.create(name='Canteen 1', description='Best canteen in NTU')
-        canteen.objects.create(name='Canteen 2', description='Worst canteen in NTU')
+        canteen.objects.create(name='Canteen 2', description='Worst canteen in NTU',is_activated = False)
+        canteen.objects.create(name='Canteen 3', description='Canteen in NTU',is_activated = False)
 
-        c1 = canteen.objects.get(name='Canteen 1')
-        c2 = canteen.objects.get(name='Canteen 2')
+        self.can1 = canteen.objects.get(name='Canteen 1')
+        self.can2 = canteen.objects.get(name='Canteen 2')
 
         # build queue 
         #c1.buildQueueTable()
@@ -57,22 +61,56 @@ class UnitFunctionTest(TestCase):
         
         # stall objects
         stall.objects.create(name='Mixed Rice', description='good food at low price',
-                             canteen=c1, username_prefix="stall1", category="Chinese")
+                             canteen=self.can1, username_prefix="stall1", category="Chinese")
         stall.objects.create(name='Japanese Delight', description='best from Japan',
-                             canteen=c1, username_prefix="stall2", category="Japanese")
+                             canteen=self.can1, username_prefix="stall2", category="Japanese")
         stall.objects.create(name='Big Wok', description='blah blah blah desc',
-                             canteen=c2, username_prefix="stall3", category="Chinese")
+                             canteen=self.can2, username_prefix="stall3", category="Chinese")
         stall.objects.create(name='Western Food', description='desc lah lah',
-                             canteen=c2, username_prefix="stall4", category="Western")
+                             canteen=self.can2, username_prefix="stall4", category="Western")
 
-        s1 = stall.objects.get(name='Mixed Rice')
-        s2 = stall.objects.get(name='Japanese Delight')
+        self.stall1 = stall.objects.get(name='Mixed Rice')
+        self.stall2 = stall.objects.get(name='Japanese Delight')
+        self.stall3 = stall.objects.get(name='Big Wok')
+        self.stall4 = stall.objects.get(name='Western Food')
+        
+        
         
         # stall user objects
-        stall_user.objects.create(username="stall1", password="password",
-                                  usertype=stall_user.manager, name="Stall 1 Manager", stall=s1)
-        stall_user.objects.create(username="stall2", password="password",
-                                  usertype=stall_user.manager, name="Stall 2 Manager", stall=s2)
+        stall_user.objects.create(password="password",usertype=stall_user.manager, username="stall1_mgr", stall=self.stall1)
+        stall_user.objects.create(password="password",usertype=stall_user.manager, username="stall2_mgr", stall=self.stall2)
+
+        # menu item objects
+        menu_item.objects.create(stall=self.stall1, name='Curry Beef Fried Rice',price=2.5, is_available_online=True)
+        menu_item.objects.create(stall=self.stall1, name='Wonton Noodles Soup',price=2.5, is_available_online=True)
+        menu_item.objects.create(stall=self.stall1, name='Roast Pork Lo Mein',price=2.5, is_available_online=True)
+
+        menu_item.objects.create(stall=self.stall2, name='Ochazuke', price=2.5, description="Hot green tea poured ", is_available_online=True)
+        menu_item.objects.create(stall=self.stall2, name='Katsudon', price=3.5, description="Donburi topped ", is_available_online=True)
+        menu_item.objects.create(stall=self.stall2, name='Hiyashi chuka', price=2.5, description="Thin, yellow noodles", is_available_online=True)
+
+        menu_item.objects.create(stall=self.stall3, name='Bulgogi', price=4.5, description="Shredded beef", is_available_online=True)
+        menu_item.objects.create(stall=self.stall3, name='Kimchi jjigae', price=4.0, description="A soup", is_available_online=True)
+        menu_item.objects.create(stall=self.stall3, name='Bibimbap', price=4.0, description="Mixed rice", is_available_online=True)  
+
+        menu_item.objects.create(stall=self.stall4, name='Spicy Potato Wedges', price=3.5, description="Seasoned with spicy herbs and fried till golden brown", is_available_online=True)
+        menu_item.objects.create(stall=self.stall4, name='Crispy Calamari', price=4.0, description="Crispy squid rings served with salsa sauce", is_available_online=True)
+        menu_item.objects.create(stall=self.stall4, name='Seafood Bisque', price=4.5, description="Creamy bouillabaisse seafood soup", is_available_online=True)
+
+        self.m21= menu_item.objects.get(name='Ochazuke')
+        self.m22= menu_item.objects.get(name='Katsudon')
+
+        # order objects 
+        order.objects.create(customer=self.cus1, stall = self.stall1, queue_num=get_queue_number(self.stall1.canteen, self.cus1), payment_time=datetime.now(),total=2.5)
+        order.objects.create(customer=self.cus2, stall = self.stall2, queue_num=get_queue_number(self.stall2.canteen, self.cus2), payment_time=datetime.now(),total=4)
+
+        self.order1=order.objects.get(customer=self.cus1)
+        self.order2=order.objects.get(customer=self.cus2)
+
+        # order item objects
+        order_item.objects.create(order=self.order1, item=self.m21, quantity=1, remarks='spicy')
+        order_item.objects.create(order=self.order1, item=self.m22, quantity=2)
+        order_item.objects.create(order=self.order2, item=self.m21, quantity=1)
         
     ''' for common.py '''
     #--------------------------------------------------------------------------------------------
@@ -197,14 +235,9 @@ class UnitFunctionTest(TestCase):
 
     def test_method_getLoginOfsManager(self): 
         ''' test for get_login_ofs_manager() function '''
-
-        # the code need to return back a ofs_manager object
         self.request.session['logged_in'] =True
         self.request.session['user_domain']='ofs_user'
         self.request.session['user_id'] = 1
-
-        usr = get_login_ofs(self.request)
-        usr.usertype = ofs_user.manager
         
         expected = ofs_user.objects.get(id=1)   
         response = get_login_ofs_manager(self.request)
@@ -370,7 +403,7 @@ class UnitFunctionTest(TestCase):
         """
         response = loginBackend.int_login_check_customer (self.request,content)
         case1Resp = json.loads(response.content)["content"]
-        expected = {'id':1,'balance': '0','barcode':'105','is_activated':True,'username': 'user1', 'usertype': 'S'}
+        expected = {'id':1,'barcode':'105','username': 'user1', 'hpnumber':'', 'is_activated':True,'balance':'0','usertype': 'S'}
         self.assertEqual(response.status_code, 200)
         self.assertEqual(case1Resp,expected)
 
@@ -382,24 +415,180 @@ class UnitFunctionTest(TestCase):
 
     
     #---------------for ofs.py ------------------------------------------------------
-    '''
-    ofs:
-        int_ofs_stall_add
-        int_ofs_customer_add
-        int_ofs_canteen_add
-        int_ofs_canteen_setactivated
-    '''
+
+    def test_ofsBackend_customerAdd(self):
+        '''test for int_ofs_customer_add() method '''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='ofs_user'
+        self.request.session['user_id'] = 1
+        # valid input, with username not added before
+        content1 = {'username':'user123', 'barcode':210, 'password': 'password',
+                   'usertype':customer.student}
+        response1 = ofsBackend.int_ofs_customer_add(self.request,content1)
+        case1Resp1 = json.loads(response1.content)["content"]
+        expected1 = {'id':3,'barcode':210,'username': 'user123', 'hpnumber':'',
+                     'is_activated':True,'balance':0.0,'usertype': 'S'}
+        self.assertEqual(case1Resp1, expected1)
+
+        # invalid input, with user added before
+        content2 = {'username':'user1', 'barcode':105, 'password': 'password',
+                   'usertype':customer.student}
+        response2 = ofsBackend.int_ofs_customer_add(self.request,content2)
+        case1Resp2 = json.loads(response2.content)['err_code']              # error is returned 
+        expected = 24
+        self.assertEqual(case1Resp2, expected)
+        
+    def test_ofsBackend_stallAdd(self):
+        '''test for int_ofs_stall_add() method '''
+        
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='ofs_user'
+        self.request.session['user_id'] = 1
+        #valid input, with bypass == True
+        bypass = True
+        content = {'name':'Test case1', 'description':'test case 1',
+                    'canteen':1, 'username_prefix':"stall20", 'category':"Chinese"}
+        response = ofsBackend.int_ofs_stall_add(self.request,content,bypass)
+        case1Resp = json.loads(response.content)["content"]
+        expected = {'id':5,'name':'Test case1', 'description':'test case 1',
+                    'canteen':1, 'username_prefix':"stall20", 'category':"Chinese",'is_activated':True}
+        self.assertEqual(case1Resp, expected)
+        
+        # valid input, with stall name not added before
+        content1 = {'name':'Test case2', 'description':'test case 2',
+                    'canteen':1, 'username_prefix':"stall21", 'category':"Chinese"}
+        response1 = ofsBackend.int_ofs_stall_add(self.request,content1)
+        case1Resp1 = json.loads(response1.content)['content']
+        expected1 = {'id':6,'name':'Test case2', 'description':'test case 2',
+                    'canteen':1, 'username_prefix':"stall21", 'category':"Chinese",'is_activated':True}
+        self.assertEqual(case1Resp1, expected1)
+
+        #invalid input, with canteen object with invalid id (not exist)
+        content2 = {'name':'Test case3', 'description':'Test case 3',
+                    'canteen':-1, 'username_prefix':"stall33", 'category':"Chinese"}
+        with self.assertRaises(cams_ex) as e:
+            ofsBackend.int_ofs_stall_add(self.request,content2)
+        repliedEx = e.exception
+        self.assertEqual(repliedEx.err_obj[0], 18)
+
+        # invalid input, with stall manager account added before
+        content3 = {'name':'Mixed Rice', 'description':'good food at low price',
+                    'canteen':1, 'username_prefix':"stall1", 'category':"Chinese"}
+        response3 = ofsBackend.int_ofs_stall_add(self.request,content3)
+        case1Resp3 = json.loads(response3.content)['err_code']          # error is returned 
+        expected3 = 35
+        self.assertEqual(case1Resp3, expected3)
+
+##        content3 = {'name':1, 'description':'good food at low price',
+##                    'canteen':1, 'username_prefix':"stalltestcasetestcase", 'category':"Chinese"}
+##        response3 = ofsBackend.int_ofs_stall_add(self.request,content3)
+##        case1Resp3 = json.loads(response3.content)          # error is returned 
+##        expected3 = 35
+##        self.assertEqual(case1Resp3, None)
+
+    def test_ofsBackend_canAdd(self):
+        '''test for int_ofs_canteen_add method '''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='ofs_user'
+        self.request.session['user_id'] = 1
+        # valid input, with canteen not added before
+        content1 = {'name':'CanteenTest', 'description':'Canteen Test'}
+        response1 = ofsBackend.int_ofs_canteen_add(self.request,content1)
+        case1Resp1 = json.loads(response1.content)["content"]
+        expected1 = {'id':3,'name':'CanteenTest', 'description':'Canteen Test','is_activated':True}
+        self.assertEqual(case1Resp1, expected1)
+
+        # invalid input, with canteen added before
+        content2 = {'name':'Canteen 1', 'description':'Best canteen in NTU'}
+        response2 = ofsBackend.int_ofs_canteen_add(self.request,content2)
+        case1Resp2 = json.loads(response2.content)["err_code"]         # error is returned 
+        expected2 = 24
+        self.assertEqual(case1Resp2, expected2)
+
+    def test_ofsBackend_canSetDeactivated(self):
+        '''test for int_ofs_canteen_setactivated method'''
+            #-------------- the name of the function should be deactivated??
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='ofs_user'
+        self.request.session['user_id'] = 1
+        # invalid input, with canteen still contains active stalls
+        content1 = {'canteenid':2,'value':False}
+        response1 = ofsBackend.int_ofs_canteen_setactivated(self.request,content1)
+        case1Resp1 = json.loads(response1.content)['err_code']
+        expected1 = 39
+        self.assertEqual(case1Resp1, expected1)
+        #valid input, with canteen contains no active stalls
+        content2 = {'canteenid':3,'value':False}
+        response2 = ofsBackend.int_ofs_canteen_setactivated(self.request,content2)
+        case1Resp2 = json.loads(response2.content)['content']
+        expected2 = {'id':3,'name':'Canteen 3', 'description':'Canteen in NTU','is_activated':False}
+        self.assertEqual(case1Resp2, expected2)
 
 
-
+        
     #---------------for stall.py--------------------------------------------------------------
     '''
-stall:
-    int_stall_order_submit
-    int_stall_get_processing_queue
-    int_stall_order_complete
-    int_stall_order_complete
+
     '''
+    def test_stallBackend_stallOrderSubmit(self):
+        '''test for int_stall_order_submit method'''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='stall_user'
+        self.request.session['user_id'] = 1
+
+        # valid input with valid menu items and user account
+        collection = [{'itemid': 1, 'quantity':2, 'remarks':''},
+                      {'itemid': 2, 'quantity':1, 'remarks':'spicy'},
+                      {'itemid': 3, 'quantity':2, 'remarks':''}]
+        content = {'customer_barcode':105, 'collection':collection}    
+        response = stallBackend.int_stall_order_submit(self.request,content)
+        case1Resp = json.loads(response.content)['err_code']
+        expected = 0                            # err_code == 0 means succeed
+        self.assertEqual(case1Resp, expected)
+
+
+    def test_stallBackend_stallGetProcessingQueue(self):  
+        '''test for int_stall_get_processing_queue method '''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='stall_user'
+        self.request.session['user_id'] = 2
+        content ={}
+        response = stallBackend.int_stall_get_processing_queue(self.request,content)
+        cus_case3Resp = json.loads(response.content)['content'][0]['parent']['customer']
+        cus_expected = 2
+        stall_case3Resp = json.loads(response.content)['content'][0]['parent']['stall']
+        stall_expected = 2
+        finish_case3Resp = json.loads(response.content)['content'][0]['parent']['is_finished']
+        finish_expected = False
+        item_case3Resp = json.loads(response.content)['content'][0]['children'][0]['item']
+        item_expected = 4
+        self.assertEqual(cus_case3Resp, cus_expected)
+        self.assertEqual(stall_case3Resp, stall_expected)
+        self.assertEqual(finish_case3Resp, finish_expected)
+        self.assertEqual(item_case3Resp, item_expected)
+        
+    def test_stallBackend_stallOrderComplete(self):  
+        '''test for int_stall_order_complete method'''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='stall_user'
+        self.request.session['user_id'] = 2
+        content ={'orderid':2}
+        response = stallBackend.int_stall_order_complete(self.request,content)
+        cus_case3Resp = json.loads(response.content)['content']['customer']
+        cus_expected = 2
+        stall_case3Resp = json.loads(response.content)['content']['stall']
+        stall_expected = 2
+        finish_case3Resp = json.loads(response.content)['content']['is_finished']
+        finish_expected = True
+        total_case3Resp = json.loads(response.content)['content']['total']
+        total_expected = '4'
+        
+        self.assertEqual(cus_case3Resp,cus_expected)
+        self.assertEqual(stall_case3Resp,stall_expected)
+        self.assertEqual(finish_case3Resp,finish_expected)
+        self.assertEqual(total_case3Resp,total_expected)
+        
+        
 
     #---------------for customer.py-----------------------------------------------------------------
     '''
@@ -407,3 +596,20 @@ customer:
     cus_pay_canteen
     cus_set_cart
     '''
+
+
+    def test_customerBackend_setCart(self):
+        ''' test for int_cus_set_cart method '''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='customer'
+        self.request.session['user_id'] = 1
+
+        collection = [{'item': 1, 'quantity':2, 'remarks':''},
+                      {'item': 2, 'quantity':1, 'remarks':'spicy'},
+                      {'item': 3, 'quantity':2, 'remarks':''}]
+        content = {'collection':collection}
+ 
+        response = customerBackend.int_cus_set_cart(self.request,content)
+        case2Resp = json.loads(response.content)
+        self.assertEqual(case2Resp, None)
+        
