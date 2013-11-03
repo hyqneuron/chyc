@@ -598,18 +598,24 @@ customer:
     '''
 
 
-    def test_customerBackend_setCart(self):
-        ''' test for int_cus_set_cart method '''
-        self.request.session['logged_in'] =True
-        self.request.session['user_domain']='customer'
-        self.request.session['user_id'] = 1
-
-        collection = [{'item': 1, 'quantity':2, 'remarks':''},
-                      {'item': 2, 'quantity':1, 'remarks':'spicy'},
-                      {'item': 3, 'quantity':2, 'remarks':''}]
-        content = {'collection':collection}
- 
-        response = customerBackend.int_cus_set_cart(self.request,content)
-        case2Resp = json.loads(response.content)
-        self.assertEqual(case2Resp, None)
+##    def test_customerBackend_setCart(self):
+##        ''' test for int_cus_set_cart method '''
+##        self.request.session['logged_in'] =True
+##        self.request.session['user_domain']='customer'
+##        self.request.session['user_id'] = 1
+##
+##        collection = [{'item': 1, 'quantity':2, 'remarks':''},
+##                      {'item': 2, 'quantity':1, 'remarks':'spicy'},
+##                      {'item': 3, 'quantity':2, 'remarks':''}]
+##        content = {'collection':collection}
+## 
+##        response = customerBackend.int_cus_set_cart(self.request,content)
+##        case2Resp = json.loads(response.content)
+##        self.assertEqual(case2Resp, None)
         
+
+##    def test_customerBackend_payCanteen(self):
+##        ''' test for int_cus_pay_canteen '''
+##        self.request.session['logged_in'] =True
+##        self.request.session['user_domain']='stall_user'
+##        self.request.session['user_id'] = 2

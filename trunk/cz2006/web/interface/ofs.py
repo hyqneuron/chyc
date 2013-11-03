@@ -50,15 +50,15 @@ class ofsBackend:
         if len(users)>0:
             return error(err_invalid_info_submitted)
         # create item
-            cust1 = customer(
-                username=username,
-                barcode=barcode,
-                password=password,
-                usertype=usertype,
-                balance=0.0,
-                is_activated=True
+        cust1 = customer(
+            username=username,
+            barcode=barcode,
+            password=password,
+            usertype=usertype,
+            balance=0.0,
+            is_activated=True
             )
-            valid_save(cust1)
+        valid_save(cust1)
         return case1(cust1)
 
     @staticmethod
