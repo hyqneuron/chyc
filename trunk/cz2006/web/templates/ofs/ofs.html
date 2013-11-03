@@ -303,6 +303,57 @@
                 </button>
                 <br />
                 <div id="repContainer">
+                    <!-- monthly table first -->
+                    <div class=panel>
+                        <h3 class="panel-heading">Monthly Report</h3>
+                        <table class="table" id="repTableMonthly">
+                            <thead>
+                            <tr id="HeadRowMonthly">
+                                <th class="First PColumn"></th>
+                                <th class="P1 PColumn"></th>
+                                <th class="P2 PColumn"></th>
+                                <th class="P3 PColumn"></th>
+                                <th class="P4 PColumn"></th>
+                                <th class="P5 PColumn"></th>
+                                <th class="P6 PColumn"></th>
+                                <th class="P7 PColumn"></th>
+                                <th class="P8 PColumn"></th>
+                                <th class="P9 PColumn"></th>
+                                <th class="P10 PColumn"></th>
+                                <th class="P11 PColumn"></th>
+                                <th class="P12 PColumn"></th>
+                                <th class="Last PColumn"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="repBodyMonthly">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- daily table -->
+                    <div class=panel>
+                        <h3 class="panel-heading">Daily Report</h3>
+                        <table class="table" id="repTableDaily">
+                            <thead>
+                            <tr id="HeadRowDaily">
+                                <th class="First PColumn"></th>
+                                <th class="P1 PColumn"></th>
+                                <th class="P2 PColumn"></th>
+                                <th class="P3 PColumn"></th>
+                                <th class="P4 PColumn"></th>
+                                <th class="P5 PColumn"></th>
+                                <th class="P6 PColumn"></th>
+                                <th class="P7 PColumn"></th>
+                                <th class="P8 PColumn"></th>
+                                <th class="P9 PColumn"></th>
+                                <th class="P10 PColumn"></th>
+                                <th class="Last PColumn"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="repBodyDaily">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div id="repStatusMsg">
                     No report has been generated.
@@ -359,11 +410,11 @@
 </div>
 
 <table>
-<tr class="CanteenStallDIV" id="canStallTMPL" >
-    <td class="CanteenStallName" href="#"></td>
-    <td class="CanteenStallCategory"></td>
-    <td class="CanteenStallDesc"></td>
-</tr>
+    <tr class="CanteenStallDIV" id="canStallTMPL" >
+        <td class="CanteenStallName" href="#"></td>
+        <td class="CanteenStallCategory"></td>
+        <td class="CanteenStallDesc"></td>
+    </tr>
 </table>
 
 <div class="StallInfoDIV" id="stallInfoTMPL" >
@@ -436,6 +487,59 @@
     <input type=button value="Exit" class="ncdButClose"/>
     <input type=button value="Register Canteen" class="ncdButReg"/>
 </div>
+
+<table>
+    <tr class="EntryMonthly" id="repMEntryTMPL" >
+        <td class="First PColumn"></td>
+        <td class="P1 PColumn"></td>
+        <td class="P2 PColumn"></td>
+        <td class="P3 PColumn"></td>
+        <td class="P4 PColumn"></td>
+        <td class="P5 PColumn"></td>
+        <td class="P6 PColumn"></td>
+        <td class="P7 PColumn"></td>
+        <td class="P8 PColumn"></td>
+        <td class="P9 PColumn"></td>
+        <td class="P10 PColumn"></td>
+        <td class="P11 PColumn"></td>
+        <td class="P12 PColumn"></td>
+        <td class="Last PColumn"></td>
+    </tr>
+    <tr class="EntryDaily" id="repDEntryTMPL" >
+        <td class="First PColumn"></td>
+        <td class="P1 PColumn"></td>
+        <td class="P2 PColumn"></td>
+        <td class="P3 PColumn"></td>
+        <td class="P4 PColumn"></td>
+        <td class="P5 PColumn"></td>
+        <td class="P6 PColumn"></td>
+        <td class="P7 PColumn"></td>
+        <td class="P8 PColumn"></td>
+        <td class="P9 PColumn"></td>
+        <td class="P10 PColumn"></td>
+        <td class="Last PColumn"></td>
+    </tr>
+    <tr class="ReportCanDetails" id="repCanDetails" >
+        <td colspan="99">
+            <div class="DetailContent panel ReportCanContent">
+                <div class="ReportCanEmptyMsg">
+                    This canteen has no stalls.
+                </div>
+                <div class="ReportStallContainer" style="display:none">
+                    <div class="panel-heading">Details for <span class="ReportCanteenName"></span></div>
+                    <table>
+                        <thead class="RCH">
+                        </thead>
+                        <tbody class="RCB">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
 
 <div class="BlackerWaitDIV" id="blackerWaitTMPL" >
 </div>

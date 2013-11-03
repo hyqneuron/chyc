@@ -1,5 +1,6 @@
 * {
  margin: 0;
+ z-index:auto;
 }
 html{
     background-color:white;
@@ -52,6 +53,7 @@ body {
     font-weight:bold;
 }
 #BlackMsg{
+    padding: 5px;
     height: 60px;
     text-align:center;
 }
@@ -289,6 +291,8 @@ body {
     height: 145px;
     margin: 10px;
     overflow:hidden;
+    position:relative;
+    z-index:auto;
 }
 .MenuItem:hover{
     /*box-shadow: 0 0 5px 2px rgba(0, 201, 204, 0.7);*/
@@ -296,8 +300,9 @@ body {
 .MICaption{
     text-align:center;
     line-height:25px;
-    height:25px;
-    margin-top:-25px;
+    position:absolute;
+    bottom: 0px;
+    z-index:auto;
     width:145px;
     overflow:hidden;
     color: white;

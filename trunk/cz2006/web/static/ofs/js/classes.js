@@ -306,6 +306,131 @@ function newStallInfoDIV(data)
     return res;
 }
 
+function findMultipleInArray(arr, key, value){
+    var res = [];
+    for(var i = 0; i<arr.length; i++)
+        if(arr[i][key]==value)
+            res.push(arr[i]);
+    return res;
+}
+function toStr(order_count, revenue){
+    return order_count+"<br />$"+parseFloat(revenue).toFixed(2);
+}
+// this is a collapsible entry in TableMonthly or TableDaily
+// key is either "monthly" or "daily"
+// allcanteens is obtained using int_ofs_canteen_get_all
+// idx is the index to allcanteens
+// allstalls is obtained using int_ofs_stall_get_all
+// alldata is obtained using int_ofs_report
+function newReportEntry(key, allcanteens, idx, allstalls, alldata){
+    var res;
+    var pCount;
+    if(key=="monthly"){
+        res = tmpl_mentry.clone();
+        pCount=12;
+    }
+    else if(key=="daily"){
+        res = tmpl_dentry.clone();
+        pCount=10;
+    }
+    // class for stall entries that belong to this canteen
+    res.childrenClass="ReportEntry"+key+"For"+idx;
+    // copykeys(res, allcanteens);
+    // get canteen and stalls
+    var canobj = allcanteens[idx];
+    // stall obj, not report data
+    var stallobjs = findMultipleInArray(allstalls, "canteen", canobj.id);
+    // report data
+    var stalls = [];
+    for(var i = 0; i<stallobjs.length; i++)
+        stalls.push(findInArray(alldata, "stall", stallobjs[i].id));
+    // calculate stall totals
+    var stallTR = []; // total revenue
+    var stallTO = []; // total order count
+    for(var i = 0; i<stalls.length; i++){
+        stallTR.push(repMgr.SumStallTotal(stalls[i], key, "revenue"));
+        stallTO.push(repMgr.SumStallTotal(stalls[i], key, "order_count"));
+    }
+    // calculate canteen stats
+    var canStats = repMgr.SumForCanteen(stalls, key);
+
+    // fill in first and last
+    res.find(".First").html(canobj.name);
+    var total = canStats[canStats.length-1];
+    res.find(".Last").html(toStr(total.order_count, total.revenue));
+    // fill in periods
+    for( var i = 0; i<pCount; i++){
+        var str;
+        if(canStats.length==1)
+            str = toStr(0,0);
+        else
+            str = toStr(canStats[i].order_count, canStats[i].revenue);
+        res.find(".P"+(i+1)).html(str);
+    }
+
+    // now, build one entry for each stall
+    // if no stall in this canteen, then append tmpl_can_empty
+    res.detailsShown = false;
+    res.Toggle = function(){
+        if(res.detailsShown){
+            res.details.find(".DetailContent").slideUp(400, function(){
+                res.details.hide();
+            });
+            res.detailsShown = false;
+        }
+        else{
+            res.details.show();
+            res.details.find(".DetailContent").slideDown();
+            res.detailsShown = true;
+        }
+    };
+    res.click(res.Toggle);
+    res.details = tmpl_can_details.clone().hide();
+    res.details.find(".DetailContent").hide();
+    res.details.find(".ReportCanteenName").html(canobj.name);
+    // if it's empty, we simply return
+    if(stalls.length==0)
+        return [res, res.details];
+    // if it's not, we hide empty message, and show stall table
+    res.hasStall = true;
+    res.details.find(".ReportCanEmptyMsg").hide();
+    res.stalltable=res.details.find(".ReportStallContainer");
+    res.stalltable.show();
+    // set inner header
+    res.stalltable.find(".RCH").append($(key=="monthly"?"#HeadRowMonthly":"#HeadRowDaily").clone());
+    // set inner body
+    var ibody = res.stalltable.find(".RCB");
+    for(var i = 0; i<stalls.length; i++){
+        var stentry=newReportStallEntry(key, stalls[i], stallobjs[i].name, 
+                                        stallTR[i], stallTO[i]);
+        ibody.append(stentry);
+    }
+    return [res, res.details];
+}
+
+function newReportStallEntry(key, stall, stallname, TR, TO){
+    var res;
+    var pCount;
+    if(key=="monthly"){
+        res = tmpl_mentry.clone();
+        pCount=12;
+    }
+    else if(key=="daily"){
+        res = tmpl_dentry.clone();
+        pCount=10;
+    }
+    res.addClass("StallEntry");
+    // fill in first and last
+    res.find(".First").html(stallname).addClass("tmp1");
+    res.find(".Last").html(toStr(TO, TR)).addClass("tmp1");
+    // fill in periods
+    for( var i = 0; i<pCount; i++){
+        var str = toStr(stall[key][i].order_count, stall[key][i].revenue);
+        res.find(".P"+(i+1)).html(str).addClass("tmp1");
+    }
+    return res;
+}
+
 function newBlackerWait(msg)
 {
     var res = tmpl_blacker_wait.clone();

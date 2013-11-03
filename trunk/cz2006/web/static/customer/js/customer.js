@@ -40,7 +40,7 @@ $(document).ready(function(){
     uiMgr.InitEvents();
     uiMgr.ShowLogin();
     // check login
-    loginMgr.CheckLogin();
+    int_app_error_handler = uiMgr.ErrHandler;
 });
 
 // find in array with key=value)
@@ -555,6 +555,9 @@ function UIManager(){
         //return;
         uiMgr.BlackMsg.html(msg);
         uiMgr.Blacker.show();
+    };
+    this.ErrHandler = function(data){
+        uiMgr.Alert(data.err_msg);
     };
 }
 
