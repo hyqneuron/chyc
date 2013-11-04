@@ -395,12 +395,7 @@ class UnitFunctionTest(TestCase):
         self.request.session['logged_in'] =True
         self.request.session['user_domain']='customer'
         self.request.session['user_id'] = 1
-        """
-        cus = customer(username="hhhhhh", password="lalalalala", usertype="S")
-        cus.save()
-        customer.objects.get(username="hhhhhh")
-        print cus.username
-        """
+        
         response = loginBackend.int_login_check_customer (self.request,content)
         case1Resp = json.loads(response.content)["content"]
         expected = {'id':1,'barcode':'105','username': 'user1', 'hpnumber':'', 'is_activated':True,'balance':'0','usertype': 'S'}
