@@ -615,14 +615,18 @@ class ofsBackend:
             # monthly
             monthlyReport = []
             curYear = datetime.today().strftime('%Y')
+            curMonth = datetime.today().strftime('%m')
             for i in range(1,13):
-                firstDay = datetime.strptime(curYear+("%02d"%(i))+'01', '%Y%m%d')
-                if i==12:
-                    lastDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(1))+'01', '%Y%m%d')
+                if (i+int(curMonth)-1)>12:
+                    firstDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(int(curMonth)+i-13))+'01', '%Y%m%d')
                 else:
-                    lastDay = datetime.strptime(curYear+("%02d"%(i+1))+'01', '%Y%m%d')
+                    firstDay = datetime.strptime(curYear+("%02d"%(int(curMonth)+i-1))+'01', '%Y%m%d')
+                if (i+int(curMonth))>12:
+                    lastDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(i+int(curMonth)-12))+'01', '%Y%m%d')
+                else:
+                    lastDay = datetime.strptime(curYear+("%02d"%(i+int(curMonth)))+'01', '%Y%m%d')
                 monthDetails = get_report_details_in_period(our_stall,firstDay,lastDay)
-                monthDetails.update({"period":str(i)})
+                monthDetails.update({"period":firstDay.strftime('%m')})
                 monthlyReport.append(monthDetails)  
             report.append({"stall":our_stall.id, "daily":dailyReport, "monthly":monthlyReport})
         return case1_raw(report)
