@@ -9,7 +9,7 @@ body{
 }
 #wrapper{
     width:1024;
-    padding-top: 30px;
+    padding-top: 10px;
 }
 
 .black-out{
@@ -39,7 +39,7 @@ width:1024px;
 {
 text-decoration: none;
 color: #000;
-background: #ffe;
+background: #ffb;
 display: block;
 height: 100px;
 width: 150px;
@@ -57,7 +57,7 @@ margin-right:3px;
 }
 .menu-ul:hover{
 /*    background: #ff5;*/
-    background:#ffb;
+    background:#ff9;
 }
 
 #menu-li{
@@ -158,11 +158,13 @@ margin-right:3px;
     border-top: 10px;
     top: 5px;
     position: relative;
-    font-size: 20px;
+    font-size: 13px;
+/*
     -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
     -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
     box-shadow: 5px 5px 7px rgba(33,33,33,.7);
-    /*-webkit-transform: rotate(-2.5deg);*/
+    -webkit-transform: rotate(-2.5deg);
+*/
     overflow: auto;
 
 
