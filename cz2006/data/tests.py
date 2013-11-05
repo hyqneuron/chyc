@@ -47,9 +47,6 @@ class UnitFunctionTest(TestCase):
         self.cus1 = customer.objects.get(username='user1')
         self.cus2 = customer.objects.get(username='user2')
 
-        self.cus1.build_cart
-        self.cus2.build_cart
-
         # canteen objects
         canteen.objects.create(name='Canteen 1', description='Best canteen in NTU')
         canteen.objects.create(name='Canteen 2', description='Worst canteen in NTU',is_activated = False)
@@ -347,7 +344,6 @@ class UnitFunctionTest(TestCase):
     '''     
     def test_method_getQueueNumber(self):
         #test for get_queue_number() method
-        # currently no queues in the system ?!-------------------------?????????????
         canObj = canteen()
         tUser = customer()
         qNum = get_queue_number(canObj, tUser)
@@ -355,9 +351,8 @@ class UnitFunctionTest(TestCase):
 
     def test_method_returnQueueNumber(self):
         #test for return_queue_number() method
-        #canObj = canteen()                 #---------------------------???????
+        #canObj = canteen()     
         canObj = canteen.objects.get(name='Canteen 1')
-                            # canteen matching query does not exist
         qNum = 1
         #qNum = bad_luck_number
         qNumReturned = return_queue_number(canObj, qNum)
@@ -392,7 +387,7 @@ class UnitFunctionTest(TestCase):
         
         response = loginBackend.int_login_check_customer (self.request,content)
         case1Resp = json.loads(response.content)["content"]
-        expected = {'id':1,'barcode':'105','username': 'user1', 'hpnumber':'', 'is_activated':True,'balance':'0','usertype': 'S'}
+        expected = {'id':1,'barcode':'105','username': 'user1', 'hpnumber':'', 'is_activated':True,'balance':'30.5','usertype': 'S'}
         self.assertEqual(response.status_code, 200)
         self.assertEqual(case1Resp,expected)
 
@@ -473,7 +468,7 @@ class UnitFunctionTest(TestCase):
         content1 = {'name':'CanteenTest', 'description':'Canteen Test'}
         response1 = ofsBackend.int_ofs_canteen_add(self.request,content1)
         case1Resp1 = json.loads(response1.content)["content"]
-        expected1 = {'id':3,'name':'CanteenTest', 'description':'Canteen Test','is_activated':True}
+        expected1 = {'id':4,'name':'CanteenTest', 'description':'Canteen Test','is_activated':True}
         self.assertEqual(case1Resp1, expected1)
 
         # invalid input, with canteen added before
@@ -483,9 +478,8 @@ class UnitFunctionTest(TestCase):
         expected2 = 24
         self.assertEqual(case1Resp2, expected2)
 
-    def test_ofsBackend_canSetDeactivated(self):
+    def test_ofsBackend_canSetActivated(self):
         '''test for int_ofs_canteen_setactivated method'''
-            #-------------- the name of the function should be deactivated??
         self.request.session['logged_in'] =True
         self.request.session['user_domain']='ofs_user'
         self.request.session['user_id'] = 1
@@ -576,12 +570,23 @@ class UnitFunctionTest(TestCase):
         self.request.session['user_domain']='customer'
         self.request.session['user_id'] = 1
 
+        cust = customer.objects.get(id=1)
+        cust.build_cart()
+        
         collection = [{'item': 1, 'quantity':2, 'remarks':''},
                       {'item': 2, 'quantity':1, 'remarks':'spicy'},
                       {'item': 3, 'quantity':2, 'remarks':''}]
         content = {'collection':collection}
 
         response = customerBackend.int_cus_set_cart(self.request,content)
-        case2Resp = json.loads(response.content)
-        self.assertEqual(case2Resp, None)
+        case2Resp1 = json.loads(response.content)['content'][0]
+        expected1= {'item': 1, 'quantity':2, 'remarks':'', 'cart':1, 'id':1}
+        case2Resp2 = json.loads(response.content)['content'][1]
+        expected2= {'item': 2, 'quantity':1, 'remarks':'spicy', 'cart':1, 'id':2}
+        case2Resp3 = json.loads(response.content)['content'][2]
+        expected3= {'item': 3, 'quantity':2, 'remarks':'', 'cart':1, 'id': 3}
         
+        self.assertEqual(case2Resp1, expected1)
+        self.assertEqual(case2Resp2, expected2)
+        self.assertEqual(case2Resp3, expected3)
+
