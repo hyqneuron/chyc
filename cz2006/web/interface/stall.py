@@ -13,6 +13,9 @@ from web.interface.common import *
 from web.interface.error import *
 import web.interface.error as error_module
 
+
+default_img_path="/static/stall/imgs/m0.jpg"
+
 def get_report_details_in_period(stobj, begin, end):
     orders = stobj.order_set.filter(payment_time__gte=begin,
                                     payment_time__lt =end)
@@ -225,7 +228,8 @@ class stallBackend:
             is_available_online = is_available_online,
             is_activated = True,
             promotion = promotion,
-            promotion_until = promotion_until
+            promotion_until = promotion_until, 
+            img_location = default_img_path
         )
         valid_save(item)
         return error(err_success)

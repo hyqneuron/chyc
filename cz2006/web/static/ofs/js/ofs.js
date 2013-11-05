@@ -163,16 +163,16 @@ function UIManager(){
     this.PageLogin = $("#page_login");
     this.PageMain  = $("#page_main");
 
-    this.ShowTab = function(tabid, grpid){
+    this.ShowTab = function(tabid){
         if(!tabid)return;
         $(".tab").hide();
         $("#"+tabid).show();
-        // change navigation bar
-        // set group.open to true
+        /*
         $(".MenuGroup,.MenuGroupExpand").attr("opened", "false");
         $(".MenuGroupExpand").attr("class", "MenuGroup");
         $("#"+grpid).attr("class", "MenuGroupExpand");
         $("#"+grpid).attr("opened", "true");
+        */
     }
     this.Alert = function(msg){
         alert(msg);
@@ -243,14 +243,15 @@ function UIManager(){
         // main buttons
         var buts1 = $(".MenuChild");
         var buts2 = $(".MenuParent");
-        var mainbuts = $.merge(buts1, buts2);
+        var butmain=$("#MenuMain");
+        var mainbuts1 = $.merge(buts1, buts2)
+        mainbuts = $.merge(mainbuts1, butmain);
         for(var i = 0; i<mainbuts.length; i++)
         {
             //TODO need to fix the click event
             $(mainbuts[i]).click(function(event){
                 var tabid = $(event.currentTarget).attr("tab");
-                var grpid = $(event.currentTarget).attr("group");
-                uiMgr.ShowTab(tabid, grpid);
+                uiMgr.ShowTab(tabid);
             });
         }
         // navigation buttons
