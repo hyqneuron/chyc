@@ -103,7 +103,7 @@ function DataManager(){
     };
     this.ValidateBarcode = function (barcode){
         barcode = barcode.trim();
-        if(!barcode.match(/^[0-9]+$/)) 
+        if(!barcode.match(/^[a-zA-Z0-9]+$/)) 
             return false;
         return barcode;
     }
