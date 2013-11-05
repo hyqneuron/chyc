@@ -1,6 +1,11 @@
 body{
     width: 1024px;
     height:768px;
+    margin:auto;
+}
+
+.navbar-collapse{
+    width:1024px;
 }
 #wrapper{
     padding-top: 30px;
