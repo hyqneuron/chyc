@@ -339,6 +339,8 @@ function DataManager(){
         DivProcessingOrderItem=new Array();
         DivMenuInfoItemDisplay=new Array();
         DivMenuInfoItemEdit={};
+        
+        $("#user-display").html(stallUser.username);
 
         int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
             cache_menu=data.content;
