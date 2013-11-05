@@ -186,6 +186,7 @@ function newEditAddCanDIV(data)
     else
     {
         res.type="edit";
+        res.find(".NewCanDIVHeader").html(data.name);
         res.find(".ncdInputName").val(data.name);
         res.find(".ncdInputDesc").val(data.description);
         res.find(".ncdButReg").val("Confirm edit");
