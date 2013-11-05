@@ -66,7 +66,7 @@
     <div style="display:none">
 
         <div id="cart-item-template" class="cart-item">
-            <ul>
+            <ul class="cart-item-ul">
                 <li class="cart-item-name">
                 </li>
                 <li class="cart-item-price">
@@ -76,11 +76,11 @@
                          <button type="button" class="btn btn-info btn-sm minus">
                             <span class="glyphicon glyphicon-minus"></span>
                         </button>
-                        <input class="cart-item-quantity" type="number" size="4" maxlength="3">
+                        <input class="cart-item-quantity" size="4" maxlength="3">
                         <button type="button" class="btn btn-info btn-sm plus">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <input style="width:100px; display:inline" type="text" class="form-control remarks" placeholder="Remarks" /> 
+                        <input style="width:120px; display:inline" type="text" class="form-control remarks" placeholder="Remarks" /> 
                     </span>
                     
                     
@@ -136,8 +136,8 @@
         <div id="stall-management" >
             
             <ul class="nav nav-tabs">
-              <li><a  id="stall-info-btn">Stall Info</a></li>
               <li><a id="menu-info-btn">Menu Info</a></li>
+              <li><a  id="stall-info-btn">Stall Info</a></li>
               <li><a id="report-btn">Report</a></li>
             </ul>
                         
@@ -162,13 +162,13 @@
             </div>
 
         <div id="menu-info">
-            <h3>Menu Info</h3>
-            
-            
-            <div id="menu-info-add">
-                <button type="button" class="btn btn-info btn-md" id="menu-info-add-btn">
-                    <span class="glyphicon glyphicon-plus"> Add</span>
-                </button> 
+            <div id='menu-info-top'>
+                <h3 id="menu-info-header" >Menu Info</h3>
+                <div id="menu-info-add">
+                    <button type="button" class="btn btn-info btn-md" id="menu-info-add-btn">
+                        <span class="glyphicon glyphicon-plus"> Add Item</span>
+                    </button> 
+                </div>
             </div>
         </div>
 
@@ -317,10 +317,11 @@
 
         </div>
         <div id="report-template" class="report">
+            <h3>Daily Report</h3>
             <table class="daily">
             <thead>
                 <tr>
-                    <th>item</th>
+                    <th>Item</th>
                     <th class="p1"></th>
                     <th class="p2"></th>
                     <th class="p3"></th>
@@ -370,10 +371,11 @@
             </tfoot>
             </table>
 
+            <h3>Monthly Report</h3>
             <table class="monthly">
             <thead>
                 <tr>
-                    <th>item</th>
+                    <th>Item</th>
                     <th class="p1"></th>
                     <th class="p2"></th>
                     <th class="p3"></th>

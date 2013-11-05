@@ -22,6 +22,7 @@ var tmplStall;
 var tmplMenuItem;
 var tmplCartItem;
 var tmplCanButton;
+var tmplRemarkEditor;
 
 var canSlideTime=600;
 var stallSlideTime=500;
@@ -264,12 +265,38 @@ function NewCartItem(ciobj, miobj){
             res.find(".CIQuantity").html("x"+res.quantity);
         uiMgr.AdjustTotalPrice();
     };
+    res.Remarks= res.find(".CIRemarks");
+    res.UpdateRemarks=function(){
+        if(res.remarks)
+            res.Remarks.html(res.remarks);
+        else
+            res.Remarks.html("add remark");
+    };
+    res.EditRemarks = function(){
+        var editor = NewRemarkEditor(res);
+        $("body").append(editor);
+    };
     res.find(".CIName").html(miobj.name);
     res.find(".CIPrice").html("$"+dataMgr.calcMIPrice(miobj));
     res.find(".CIQuantity").html("x"+ciobj.quantity);
+    res.UpdateRemarks();
+    res.Remarks.click(res.EditRemarks);
     // init event directly, since CIs don't get hidden and then reattached
     res.find(".CIInc").click(res.Increment);
     res.find(".CIDec").click(res.Decrement);
+    return res;
+}
+
+function NewRemarkEditor(CIDIV){
+    var res = tmplRemarkEditor.clone();
+    res.CIDIV = CIDIV;
+    res.remarkInput = res.find(".remarkInput");
+    res.remarkInput.val(CIDIV.remarks);
+    res.find(".remarkBut").click(function(){
+        res.CIDIV.remarks = res.remarkInput.val();
+        res.CIDIV.UpdateRemarks();
+        res.remove();
+    });
     return res;
 }
 
@@ -290,6 +317,7 @@ function DataManager(){
         tmplMenuItem = $("#TmplMenuItem").clone().attr("id","");
         tmplCartItem = $("#TmplCartItem").clone().attr("id","");
         tmplCanButton= $("#TmplCanButton").clone().attr("id","");
+        tmplRemarkEditor=$("#TmplRemarkEditor").clone().attr("id","");
     };
     // 0: data hasn't arrived; 1: data arrived; 2: DIVs created
     this.can_arrived = 0;

@@ -92,6 +92,9 @@ margin-right:3px;
     padding-bottom: 70px;
 }
 
+.cart-item-ul{
+    padding-left:0px;
+}
 .cart-item-name{
     font-size: 18px;
     display:inline; 
@@ -186,15 +189,33 @@ margin-right:3px;
 }
 
 #stall-management {
-  max-width: 750px;
+  max-width: 1024;
   padding: 15px;
   margin: 0 auto;
+}
+.daily,.monthly{
+    width:100%;
 }
 
 
 /*below original*/
+#menu-info-top{
+    margin-bottom:20px;
+}
+#menu-info-header{
+    display:inline-block;
+}
+#menu-info-add{
+    float:right;
+    display:inline-block;
+    margin-right:20px;
+    margin-top:20px;
+    margin-left:20px;
+}
 .menu-info-item-display{
     margin:5px;
+    width:485px;
+    float:left;
 }
 .menu-info-item-edit{
   max-width: 500px;
@@ -238,7 +259,7 @@ margin-right:3px;
     padding:10px;
 }
 .line1,.line2{
-    border-bottom:2px solid black;
+    border-bottom:1px solid #ddd;
 }
 
 .menu-info-item-pic{
