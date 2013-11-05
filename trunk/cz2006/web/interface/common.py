@@ -10,8 +10,8 @@ from datetime import *
 from web.interface.error import *
 from re import *
 import re
-# from twilio.rest import TwilioRestClient
-# from sms import *
+from twilio.rest import TwilioRestClient
+from sms import *
  
 
 
@@ -285,7 +285,7 @@ def return_queue_number(canobj, qnum):
     queue.save()
 
 # Your Account Sid and Auth Token from twilio.com/user/account
-'''
+
 def sendSMS(sms, number):
     # create client
     client = TwilioRestClient(account_sid, auth_token)
@@ -294,7 +294,7 @@ def sendSMS(sms, number):
         to=number,    
         from_=our_number) 
     print message.sid
-'''
+
     
 class loginBackend:
     ### login/logout
