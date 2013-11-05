@@ -39,7 +39,6 @@ $(document).ready(function(){
     uiMgr   = new UIManager();
     loginMgr= new LoginManager();
 
-    uiMgr.InitTemplates();
     uiMgr.InitEvents();
     // check login
     loginMgr.CheckLogin();
@@ -422,6 +421,8 @@ function LoginManager(){
         dataMgr = new DataManager();
         dataMgr.InitData();
         // Initialize UI
+        uiMgr.InitTemplates();
+
         uiMgr.ShowTakeOrder();
         //set timer
         queue_check_timer = window.setInterval(function(){int_stall_get_processing_queue({},dataMgr.UpdateProcessingQueue)}, 5000);
