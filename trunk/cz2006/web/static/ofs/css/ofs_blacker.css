@@ -1,4 +1,14 @@
-
+*{
+    z-index:auto;
+}
+/*
+#sidebar-wrapper{
+    z-index:auto;
+}
+.navbar-fixed-top{
+    z-index:auto;
+}
+*/
 /* customer listing */
 .CusEntry:hover{
     background-color:#ddd;

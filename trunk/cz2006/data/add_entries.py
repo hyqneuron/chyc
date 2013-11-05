@@ -64,12 +64,19 @@ def rebuildParts(arg, deleted=False):
         c4 = canteen(name='Canteen 4', description='Canteen at East Spine')
         c5 = canteen(name='Canteen 5', description='Asian Food Market')
         c6 = canteen(name='Cafeteria', description='Campus Snack Bar')
+
+        # c7 = canteen(name='Can 7', description='some canteen')
+        # c8 = canteen(name='Can 8', description='some canteen')
+        # c9 = canteen(name='Can 9', description='some canteen')
         c1.save()
         c2.save()
         c3.save()
         c4.save()
         c5.save()
         c6.save()
+        # c7.save()
+        # c8.save()
+        # c9.save()
         
         print "Building queue tables, this may take a while..."
         c1.buildQueueTable()
@@ -78,6 +85,9 @@ def rebuildParts(arg, deleted=False):
         c4.buildQueueTable()
         c5.buildQueueTable()
         c6.buildQueueTable()
+        # c7.buildQueueTable()
+        # c8.buildQueueTable()
+        # c9.buildQueueTable()
         print "Queue table built"
 
         print "canteen, canteen_queues rebuilt"
