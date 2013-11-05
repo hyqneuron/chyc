@@ -8,6 +8,8 @@ var tmplReport;
 var tmplBlack;
 var tmplAlert;
 var tmplConfirm;
+var tmplRow;
+var tmplCol;
 
 //manager object
 var loginMgr;
@@ -47,7 +49,7 @@ $(document).ready(function(){
 
 //helper function
 function id(n) {return document.getElementById(n);}
-function ja(o) {my_alert(JSON.stringify(o));}
+function ja(o) {alert(JSON.stringify(o));}
 function my_fail(data){my_alert(data.err_msg);}
 function my_alert(message){
     $("body").append(tmplAlert);
@@ -270,42 +272,39 @@ function NewReport(){
         int_stall_report({},function(data){
             data=data["content"];
             for (key in data){
-                var periodLine="";
-                var orderLine="";
-                var revenueLine="";
                 var tablelines=new Array();
                 var subTotalNumOrder=0;
                 var subTotalRevenue=0;
                 var subTotal=new Array();
                 for ( var i =0;i<data[key].length;i++){
-                    periodLine+="<th>"+data[key][i].period+"</th>";
-                    orderLine+="<td>"+data[key][i].order_count+"</td>";
-                    revenueLine+="<td>"+data[key][i].revenue+"</td>";
+                    res.find("."+key+" thead tr .p"+(i+1)).html(data[key][i].period);
+                    res.find("."+key+" tfoot .num-orders .p"+(i+1)).html(data[key][i].order_count);
+                    res.find("."+key+" tfoot .revenue .p"+(i+1)).html(data[key][i].revenue);
                     subTotalNumOrder+=data[key][i].order_count;
                     subTotalRevenue+=data[key][i].revenue;
                 }
-                periodLine+="<th>Total</th>";
-                orderLine+="<td>"+subTotalNumOrder+"</td>";
-                revenueLine+="<td>"+subTotalRevenue+"</td>";
+                res.find("."+key+" tfoot .num-orders .total").html(subTotalNumOrder);
+                res.find("."+key+" tfoot .revenue .total").html(subTotalRevenue);
 
                 for (var i=0;i<data[key][0].details.length;i++){
-                    tablelines.push("<tr><th>"+fia(allItem,"id",data[key][0].details[i].id).name+"</th>");
+                    var newRow=tmplRow.clone();
+                    newRow.find("th").html(fia(allItem,"id",data[key][0].details[i].id).name);
+                    tablelines.push(newRow);
                     subTotal.push(0);
                 }
                 for (var i in data[key]){
                     for ( var j in data[key][i].details){
-                        tablelines[j]+="<td>"+data[key][i].details[j].quantity+"</td>";
+                        var newCol=tmplCol.clone().html(data[key][i].details[j].quantity);
+                        tablelines[j].append(newCol);
                         subTotal[j]+=data[key][i].details[j].quantity;
                     }
                 }
                 
                 for ( var j=0;j<tablelines.length;j++){
-                        tablelines[j]+="<td>"+subTotal[j]+"</td></tr>"
+                        var newCol=tmplCol.clone().html(subTotal[j]);
+                        tablelines[j].append(newCol);
+                        res.find("."+key+" tbody").append(tablelines[j]);
                 }
-                res.find("."+key+" thead tr").append(periodLine);
-                res.find("."+key+" .no_orders").append(orderLine);
-                res.find("."+key+" .revenue").append(revenueLine);
-                res.find("."+key+" tbody").append(tablelines);
             }
         });
     });
@@ -448,6 +447,8 @@ function UIManager(){
         tmplBlack=$("#black-out").clone().attr("id","").show();
         tmplAlert=tmplBlack.clone().append($("#alert").clone().attr("id","").show());
         tmplConfirm=tmplBlack.clone().append($("#confirm").clone().attr("id","").show());
+        tmplRow=$(".one-row").clone().show();
+        tmplCol=$(".one-col").clone().show();
     };
 
 
@@ -698,12 +699,12 @@ function UIManager(){
             var obj=fia(cache_menu,"id",$(event.currentTarget).data("obj").id);
             DivMenuInfoItemEdit=NewMenuInfoItemEdit(obj);
             $("#menu-info").append(tmplBlack);
-            $(".black-out").css("display","block");
             $(".black-out").append(DivMenuInfoItemEdit);
         });
         this.MenuInfo.on("click",".menu-info-edit-cancel-btn",function(event){
             DivMenuInfoItemEdit=null;
-            $(".black-out").remove();
+            tmplBlack.empty();
+            tmplBlack.remove();
         });
         this.MenuInfo.on("click",".menu-info-edit-submit-btn",function(event){
             var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
@@ -748,7 +749,8 @@ function UIManager(){
                         cache_menu=data.content;
                         uiMgr.ReloadMenu();
                     });
-                    $(".black-out").remove();
+                    tmplBlack.empty();
+                    tmplBlack.remove();
                 });
             }
         });
@@ -758,12 +760,12 @@ function UIManager(){
                     "is_available_online":"","description":""};*/
             DivMenuInfoItemAdd=NewMenuInfoItemAdd();
             $("#menu-info").append(tmplBlack);
-            $(".black-out").css("display","block");
             $(".black-out").append(DivMenuInfoItemAdd);
         });
         this.MenuInfo.on("click","#menu-info-add-cancel-btn",function(event){
             DivMenuInfoItemAdd=null;
-            $(".black-out").remove();
+            tmplBlack.empty();
+            tmplBlack.remove();
         });
     
         this.MenuInfo.on("click","#menu-info-add-submit-btn",function(event){
