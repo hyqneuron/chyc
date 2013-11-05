@@ -36,7 +36,7 @@
         Please scan your barcode to login.
         <br /> 
         <div id="LoginBarcode"></div>
-        <!--input id="LoginBarcode" />
+        <input id="LoginBarcode" />
         <input type=button value="Login" id="LoginButLogin"/-->
     <!--
         <input type=button value="Clear" id="LoginButClear"/>
@@ -46,9 +46,9 @@
 
 
 <div id="PagePay" class="SinglePage">
-    <form class="payment-info">
-        <h4 align="center"> CaMS Payment</h4>
-        <h3 align="center"> Welcome to <span align="center" id="PayCanName"></span>, <span id="PayUser"></span></h3>
+    <div class="payment-info panel">
+        <h3 align="center" class="panel-heading"> CaMS Payment</h3>
+        <h4 align="center"> Welcome to <span align="center" id="PayCanName"></span>, <span id="PayUser"></span></h4>
       
         <h4>Your balance: <span id="PayBalance"></span></h4>
         <table id="CartTable" class = "table table-bordered">
@@ -58,6 +58,7 @@
                 <td>Price</td>
                 <td>Quantity</td>
                 <td>Stall</td>
+                <td>Remarks</td>
             </tr>
         </thead>
         <tbody id="CartItemContainer">
@@ -65,10 +66,10 @@
         </table>
         <div id="PayEmptyMsg">You have no items in this canteen.</div>
         <h4 id="PayTotalMsg">Total amount: <span id="PayTotal"></span></h4>
-        <button type="button" id="PayButPay" class="btn btn-lg btn-info" style="width: 48%">Pay Now</button>
-        <button type="button" id="PayButLogout" class="btn btn-lg btn-warning" style="width: 48%">Log Out</button>
+        <button type="button" id="PayButPay" class="btn btn-lg btn-info" style="width: 49%">Pay Now</button>
+        <button type="button" id="PayButLogout" class="btn btn-lg btn-warning" style="width: 49%">Log Out</button>
         
-    </form>
+    </div>
 
 </div>
 <!--
@@ -128,6 +129,7 @@
         <td class="CIPrice">Price</td>
         <td class="CIQuantity">Quantity</td>
         <td class="CIStall">Stall</td>
+        <td class="CIRemarks">Remarks</td>
     </tr>
 </table>
 

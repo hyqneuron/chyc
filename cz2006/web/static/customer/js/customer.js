@@ -548,7 +548,7 @@ function UIManager(){
         var win = $(window);
         var width = win.width();
         width = 1024;
-        var fullwidth = 764;
+        var fullwidth = 724;
         if(width>1024)
             uiMgr.LeftWidth = fullwidth;
         else

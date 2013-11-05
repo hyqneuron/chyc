@@ -331,5 +331,6 @@ function NewCartItem(ciobj, miobj){
     res.find(".CIPrice").html("$"+dataMgr.calcMIPrice(miobj));
     res.find(".CIQuantity").html(ciobj.quantity);
     res.find(".CIStall").html(fia(loginMgr.stalls, "id", miobj.stall).name);
+    res.find(".CIRemarks").html(ciobj.remarks);
     return res;
 }
