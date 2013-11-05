@@ -605,28 +605,28 @@ class ofsBackend:
             #daily
             dailyReport = []
             today = datetime.today().strftime('%Y/%m/%d')
-            today = datetime.strptime(today, '%Y/%m/%d')
+            today = datetime.strptime(today, '%Y/%m/%d') - timedelta(days=10)
             for i in range(0,10):
+                today = today + timedelta(days=1)
                 tomorrow = today + timedelta(days=1)
                 dailyDetails = get_report_details_in_period(our_stall,today,tomorrow)
-                dailyDetails.update({"period":today.strftime('%Y/%m/%d')})
+                dailyDetails.update({"period":today.strftime('%m/%d')})
                 dailyReport.append(dailyDetails)
-                today = today - timedelta(days=1)
             # monthly
             monthlyReport = []
             curYear = datetime.today().strftime('%Y')
             curMonth = datetime.today().strftime('%m')
             for i in range(1,13):
-                if (i+int(curMonth)-1)>12:
-                    firstDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(int(curMonth)+i-13))+'01', '%Y%m%d')
+                if (int(curMonth)+i)<13:
+                    firstDay = datetime.strptime(str(int(curYear)-1)+("%02d"%(int(curMonth)+i))+'01', '%Y%m%d')
                 else:
-                    firstDay = datetime.strptime(curYear+("%02d"%(int(curMonth)+i-1))+'01', '%Y%m%d')
-                if (i+int(curMonth))>12:
-                    lastDay = datetime.strptime(str(int(curYear)+1)+("%02d"%(i+int(curMonth)-12))+'01', '%Y%m%d')
+                    firstDay = datetime.strptime(curYear+("%02d"%(int(curMonth)+i-12))+'01', '%Y%m%d')
+                if (int(curMonth)+i+1)<13:
+                    lastDay = datetime.strptime(str(int(curYear)-1)+("%02d"%(int(curMonth)+i+1))+'01', '%Y%m%d')
                 else:
-                    lastDay = datetime.strptime(curYear+("%02d"%(i+int(curMonth)))+'01', '%Y%m%d')
+                    lastDay = datetime.strptime(curYear+("%02d"%(int(curMonth)+i-11))+'01', '%Y%m%d')
                 monthDetails = get_report_details_in_period(our_stall,firstDay,lastDay)
-                monthDetails.update({"period":firstDay.strftime('%m')})
+                monthDetails.update({"period":firstDay.strftime('%Y/%m')})
                 monthlyReport.append(monthDetails)  
             report.append({"stall":our_stall.id, "daily":dailyReport, "monthly":monthlyReport})
         return case1_raw(report)
