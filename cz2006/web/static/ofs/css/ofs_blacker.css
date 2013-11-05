@@ -59,7 +59,7 @@
     vertical-align:middle;
 }
 .StallInfoDIV{
-    padding: 12px;
+
     position:fixed;
     left: 50%;
     top: 50%;
@@ -67,12 +67,9 @@
     margin-top: -260px;
     width: 600px;
     height: 512px;
-    z-index: 102;
-    background-color:white;
-    border-radius:10px;
 }
 .sidMenuContainer{
-    border: solid 1px rgb(62,121,187);
+    border: solid 1px rgb(182,182,182);
     border-radius:8px;
     padding:8px;
     height: 300px;
@@ -110,57 +107,68 @@
 }
 
 .NewStallDIV{
-    padding: 8px;
+/*    padding: 8px;*/
     position:fixed;
     left: 50%;
     top: 50%;
-    margin-left: -300px;
+    margin-left: -200px;
     margin-top: -150px;
-    width: 600px;
-    height: 300px;
+
+
+/*
     z-index: 102;
     background-color:white;
     border-radius:10px;
+*/
 
 }
 .TopupDIV {
-    padding: 8px;
+/*    padding: 8px;*/
     position:fixed;
     left: 50%;
     top: 50%;
     margin-left: -150px;
-    margin-top: -50px;
+    margin-top: -150px;
+/*
     width: 300px;
     height: 100px;
     z-index: 102;
     background-color:white;
+*/
 }
 .topLabel {
     display:inline-block;
     width: 50%;
-    text-align:right;
+    text-align:left;
 }
 .topInput {
     width: 40%;
 }
 .NewCanteenDIV{
-    padding: 12px;
+/*    padding: 12px;*/
     position:fixed;
     left: 50%;
     top: 50%;
-    margin-left: -180px;
+    margin-left: -200px;
     margin-top: -150px;
-    width: 400px;
-    height: 200px;
+
+/*
     z-index: 102;
     background-color:white;
     border-radius:10px;
 
+*/
 }
 
 .NewCanteenForm{
     width:280px;
 }
+
+.NewStallForm{
+    width:330px;
+}
+
+
 
 .sidInfoBtnGroup{
     margin:10px;
