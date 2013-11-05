@@ -8,6 +8,7 @@ body{
     width:1024px;
 }
 #wrapper{
+    width:1024;
     padding-top: 30px;
 }
 
@@ -30,56 +31,62 @@ body{
 }
 
 
+.navbar{
+width:1024px;
+}
 
-
-#menu ul,#menu-info-item-display-template 
+.menu-ul,#menu-info-item-display-template 
 {
 text-decoration: none;
 color: #000;
-background: #ffb;
+background: #ffe;
 display: block;
-height: 120px;
-width: 200px;
+height: 100px;
+width: 150px;
 padding: 10px;
-border-top: 10px;
+border-top:5px;
 top: 5px;
 position: relative;
-font-size: 20px;
+/*
+
 -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
 -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
 box-shadow: 5px 5px 7px rgba(33,33,33,.7);
-margin-right:10px;
+*/
+margin-right:3px;
 }
-#menu ul:hover{
-    background: #ff5;
+.menu-ul:hover{
+/*    background: #ff5;*/
+    background:#ffb;
 }
 
-#menu li{
+#menu-li{
     margin-left: 20px;
 }
 
 .menu-item{
     float:left;
-    padding: 10px;
+    padding: 7px;
     overflow:hide;
 
 }
 
 .menu-item-name{
-    font-size: 18px;
+    font-size: 15px;
     font: bold;
 }
 
 .menu-item-price{
-    font-size: 15px;
+    font-size: 12px;
+    color:rgb(226,159,72);
 
 }
 
 #order-cart{
     position: fixed;
-    left: 980px;
+    left: 700px;
     top: 50px;
-    width: 400px;
+    width: 320px;
     height: 670px;
     overflow: auto;
     padding-bottom: 70px;
@@ -99,7 +106,7 @@ margin-right:10px;
 }
 
 .cart-item-quantity{
-    width: 75px;
+    width: 40px;
 }
 
 .cart-item{
@@ -129,7 +136,7 @@ margin-right:10px;
 
 
 #menu{
-    width: 950px;
+    width: 670px;
     height: 670px;
     overflow: auto;
 }

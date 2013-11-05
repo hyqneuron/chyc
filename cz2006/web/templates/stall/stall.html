@@ -80,7 +80,7 @@
                         <button type="button" class="btn btn-info btn-sm plus">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <input style="width:145px; display:inline" type="text" class="form-control remarks" placeholder="Remarks" /> 
+                        <input style="width:100px; display:inline" type="text" class="form-control remarks" placeholder="Remarks" /> 
                     </span>
                     
                     
@@ -96,10 +96,11 @@
         </div>
 
         <div id="menu-item-template" class="menu-item" style="display:none">
-            <ul>
-                <li class="menu-item-name"></li>
-                <li class="menu-item-price"></li>
-            </ul>
+            <div class= "menu-ul">
+                <div class="menu-item-name menu-li"></div>
+                <div class="menu-item-price menu-li"></div>
+            </div>
+            
         </div>
     </div><!--end of take-order-templates-->
     </div><!--end div of take-order-->
@@ -297,7 +298,7 @@
     </div><!--end of stall-management-templates-->
     </div><!--end div of stall-management-->
     
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
