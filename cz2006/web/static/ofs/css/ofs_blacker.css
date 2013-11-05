@@ -59,7 +59,7 @@
     vertical-align:middle;
 }
 .StallInfoDIV{
-    padding: 8px;
+    padding: 12px;
     position:fixed;
     left: 50%;
     top: 50%;
@@ -69,24 +69,46 @@
     height: 512px;
     z-index: 102;
     background-color:white;
+    border-radius:10px;
 }
 .sidMenuContainer{
-    border: solid 1px green;
-    height: 380px;
+    border: solid 1px rgb(62,121,187);
+    border-radius:8px;
+    padding:8px;
+    height: 300px;
     overflow:auto;
 }
 .sidLabel,.nsdLabel{
     display:inline-block;
     width: 20%;
-    text-align:right;
+    text-align:left;
 }
 .sidInput{
     display:none;
 }
-.StallMenuName,.StallMenuDesc,.StallMenuPrice {
+
+.StallMenuDIV{
+    border-top:solid 1px ;
+    border-color:rgb(182,182,182);
+    vertical-align:text-top;
+    margin-bottom:3px;
+    margin-top:3px;
+}
+
+.StallMenuName {
     display:inline-block;
     width: 30%;
 }
+
+.StallMenuDesc{
+    display:inline-block;
+    width: 50%;
+}
+.StallMenuPrice {
+    display:inline-block;
+    width: 15%;
+}
+
 .NewStallDIV{
     padding: 8px;
     position:fixed;
@@ -98,6 +120,7 @@
     height: 300px;
     z-index: 102;
     background-color:white;
+    border-radius:10px;
 
 }
 .TopupDIV {
@@ -121,15 +144,25 @@
     width: 40%;
 }
 .NewCanteenDIV{
-    padding: 8px;
+    padding: 12px;
     position:fixed;
     left: 50%;
     top: 50%;
-    margin-left: -300px;
+    margin-left: -180px;
     margin-top: -150px;
-    width: 600px;
-    height: 300px;
+    width: 400px;
+    height: 200px;
     z-index: 102;
     background-color:white;
+    border-radius:10px;
 
+}
+
+.NewCanteenForm{
+    width:280px;
+}
+
+.sidInfoBtnGroup{
+    margin:10px;
+    float:right;
 }
