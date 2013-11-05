@@ -4,6 +4,7 @@ var tmplMenuItem;
 var tmplProcessingOrderItem;
 var tmplMenuInfoItemDisplay;
 var tmplMenuInfoItemEdit;
+var tmplMenuInfoItemAdd;
 var tmplReport;
 var tmplBlack;
 var tmplAlert;
@@ -255,11 +256,22 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
 }
 
 function NewMenuInfoItemAdd(){
-    var res=tmplMenuInfoItemEdit.clone().attr({"style":"","id":"menu-info-item-add",});
-    $.each($(res).find("[class]"),function(key,value){
-        $(value).attr({"id":"menu-info-add"+$(value).attr("class").substring(14)});
-    });
-    $(res).find("#menu-info-add-promotion").attr("value",1);
+    var res=tmplMenuInfoItemAdd.clone().attr({"style":"","id":"menu-info-item-add",});
+     res.uploadChange=function(e) {
+        if(this.disabled) return my_alert('File upload not supported!');
+        var F = this.files;
+        if(F && F[0]) 
+            readImage( F[0] );
+    };
+    res.resetUpload = function (e){
+        var editWindow = $(e.currentTarget.parentElement.parentElement);
+        editWindow.find(".fileToUpload")[0].files = null;
+        // reset image to original
+        id("imgForm").reset();
+        editWindow.find("#itemid").val(res.id);
+        editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
+    };
+    $(res).find(".menu-info-add-promotion").attr("value","1");
     return res;
 }
 
@@ -319,6 +331,7 @@ function DataManager(){
         tmplProcessingOrderItem=null;
         tmplMenuInfoItemDisplay=null;
         tmplMenuInfoItemEdit=null;
+        tmplMenuInfoItemAdd=null
 
         //cache
         stallUser=null;
@@ -446,6 +459,7 @@ function UIManager(){
         tmplProcessingOrderItem=$("#processing-order-item-template").clone().attr("id","").show();
         tmplMenuInfoItemDisplay=$("#menu-info-item-display-template").clone().attr("id","").show();
         tmplMenuInfoItemEdit=$("#menu-info-item-edit-template").clone().attr("id","").show();
+        tmplMenuInfoItemAdd=$("#menu-info-item-add-template").clone().attr("id","").show();
         tmplReport=$("#report-template").clone().attr("id","").show();
         tmplBlack=$("#black-out").clone().attr("id","").show();
         tmplAlert=tmplBlack.clone().append($("#alert").clone().attr("id","").show());
@@ -765,19 +779,19 @@ function UIManager(){
             $("#menu-info").append(tmplBlack);
             $(".black-out").append(DivMenuInfoItemAdd);
         });
-        this.MenuInfo.on("click","#menu-info-add-cancel-btn",function(event){
+        this.MenuInfo.on("click",".menu-info-add-cancel-btn",function(event){
             DivMenuInfoItemAdd=null;
             tmplBlack.empty();
             tmplBlack.remove();
         });
     
-        this.MenuInfo.on("click","#menu-info-add-submit-btn",function(event){
+        this.MenuInfo.on("click",".menu-info-add-submit-btn",function(event){
             var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
             var obj={};
             var res=$(event.currentTarget).parent();
             for (att_index in att_to_display){
                 att=att_to_display[att_index];
-                obj[att]=$($(res).find("#menu-info-add-"+att)[0]).val();
+                obj[att]=$($(res).find(".menu-info-add-"+att)[0]).val();
             }
             obj["is_available"]=obj["is_available"]==1;
             obj["is_available_online"]=obj["is_available_online"]==1;
@@ -785,6 +799,7 @@ function UIManager(){
             obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
             obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
             obj["price"]=+obj["price"];
+            ja(obj);
             int_stall_menu_item_add(obj,function(data){
                 $(".black-out").remove();
                 int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
@@ -814,7 +829,7 @@ function readImage(fileName) {
                 n = file.name,
                 s = ~~(file.size/1024) +'KB';
             img_invalid = false;
-            $('#imgUploadPreview').css("background-image", "url("+this.src+")");
+            $('.imgUploadPreview').css("background-image", "url("+this.src+")");
         };
         image.onerror= function() {
             img_invalid = true;

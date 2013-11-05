@@ -174,9 +174,9 @@
 
         <div id="report">
         </div>
-            
     
        <div style="display:none">
+
         <div id="menu-info-item-display-template" class="list-group-item menu-info-item-display" style="display:none">
             <div class="image-data"></div>
             
@@ -199,9 +199,67 @@
             </div>
             <br class="clear-float"/>
         </div>
+        <div id="menu-info-item-add-template" class="menu-info-item-add" style="display:none">
+            <div class="image-data imgUploadPreview"></div>
+            <form id="imgForm" enctype="multipart/form-data" method="post">
+                <input type=hidden name="itemid" id="itemid">
+                <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
+                <button type="button" class="btn btn-info btn-sm resetUploadBut">
+                    <span class="glyphicon glyphicon-ok"> Reset</span>
+                </button>
+            </form>
+            <div style="clear:both"></div>
+    
+          
+            <label class ="menu-edit-title" >Name</label>
+            <input style="margin-right:10px" type="text"class="menu-info-add-name menu-edit-data form-control" />    
+          
+      
+            <label class ="menu-edit-title">Activated</label>
+            <select class="menu-info-add-is_activated form-control menu-edit-data" style="margin-right:10px">
+                <option value="1">yes</option>
+                <option value="0">no</option>
+            </select>
+          
+            <label class ="menu-edit-title">Price</label>
+            
+            <input style="margin-right:10px" type="number" class="menu-info-add-price form-control menu-edit-data"/>
+    
+          
+            <label class ="menu-edit-title">Promotion until</label>
+            
+            <input style="margin-right:10px" type="date" class="menu-info-add-promotion_until form-control menu-edit-data"/>
+          
+            <label class ="menu-edit-title">Available </label>
+            <select class="menu-info-add-is_available form-control menu-edit-data">
+                <option value="1">yes</option>
+                <option value="0">no</option>
+            </select>
+           
+            <label class ="menu-edit-title">promotion</label>
+            <input style="margin-right:10px" type="number" class="menu-info-add-promotion form-control menu-edit-data"/>
 
+        
+            <label class ="menu-edit-title">Available online</label>
+            <select style="margin-right:10px"class="menu-info-add-is_available_online form-control menu-edit-data">
+                <option value="1">yes</option>
+                <option value="0">no</option>
+            </select>
+        
+            <label>Description</label>
+            <textarea style="margin-bottom:5px" class="menu-info-add-description form-control" rows="2" ng-model="result" ></textarea>
+           
+            <button type="button" class="btn btn-info btn-md menu-info-add-submit-btn">
+                    <span class="glyphicon glyphicon-ok"> Submit</span>
+            </button>
+            <button type="button" class="btn btn-info btn-md menu-info-add-cancel-btn">
+                    <span class="glyphicon glyphicon-remove"> Cancel</span>
+            </button>
+
+        </div>
+    
         <div id="menu-info-item-edit-template" class="menu-info-item-edit" style="display:none">
-            <div class="image-data" id="imgUploadPreview"></div>
+            <div class="image-data imgUploadPreview"></div>
             <form id="imgForm" enctype="multipart/form-data" method="post">
                 <input type=hidden name="itemid" id="itemid">
                 <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
