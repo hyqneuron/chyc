@@ -15,7 +15,7 @@ height: 100%;
 
 
 .sideParent {
-
+    padding-left:20px;
     font-size:18px;
 }
 
@@ -40,4 +40,8 @@ border-color: #999999;
 }
 .ReportCanContent{
     background-color: #eee;
+}
+
+.EntryMonthly,.EntryDaily{
+    cursor:pointer;
 }

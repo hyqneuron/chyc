@@ -63,6 +63,7 @@
 .sidMenuContainer{
     border: solid 1px green;
     height: 380px;
+    overflow:auto;
 }
 .sidLabel,.nsdLabel{
     display:inline-block;
