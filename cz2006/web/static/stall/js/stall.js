@@ -7,6 +7,7 @@ var tmplMenuInfoItemEdit;
 var tmplReport;
 var tmplBlack;
 var tmplAlert;
+var tmplConfirm;
 
 //manager object
 var loginMgr;
@@ -51,7 +52,23 @@ function my_fail(data){my_alert(data.err_msg);}
 function my_alert(message){
     $("body").append(tmplAlert);
     tmplAlert.find(".message").html(message);
+    tmplAlert.on("click",".alert-confirm",function(){
+        tmplAlert.remove();
+    });
 }
+function my_confirm(message,callbackTrue,callbackFalse){
+    $("body").append(tmplConfirm);
+    tmplConfirm.find(".confirm-message").html(message);
+    tmplConfirm.on("click",".confirm-confirm",function(){
+        tmplConfirm.remove();
+        callbackTrue();
+    });
+    tmplConfirm.on("click",".confirm-cancel",function(){
+        tmplConfirm.remove();
+        callbackFalse();
+    });
+}
+
 function copykeys(target, tocopy){
     for ( key in tocopy)
         target[key] = tocopy[key];
@@ -154,13 +171,22 @@ function NewProcessingOrderItem(processingOrderItemObj){
         table+="<tr><td>"+fia(cache_menu,"id",item.item).name+"</td><td>"+item.quantity+"</td><td>"+item.remarks+"</td></tr>";
     }
     res.Revoke = function(){
-        if(!confirm("Confirm to revoke this order?"))return;
-        var notify = confirm("Notify customer of the revoke?");
-        var obj = {orderid: res.parent.id, notify: notify};
-        int_stall_order_revoke(obj, function(data){
-            res.Remove();
-            my_alert("Order revoked");
-        });
+        my_confirm("Confirm to revoke this order?",function(){
+            var obj;
+            my_confirm("Notify customer of the revoke?",function(){
+                obj = {orderid: res.parent.id, notify: true};
+                int_stall_order_revoke(obj, function(data){
+                    res.Remove();
+                    my_alert("Order revoked");
+                });
+            },function(){
+                obj = {orderid: res.parent.id, notify: false};
+                int_stall_order_revoke(obj, function(data){
+                    res.Remove();
+                    my_alert("Order revoked");
+                });
+            });
+        },function(){});
     };
     res.Done=function(){
         int_stall_order_complete({"orderid":res.parent.id},function(data){
@@ -420,7 +446,8 @@ function UIManager(){
         tmplMenuInfoItemEdit=$("#menu-info-item-edit-template").clone().attr("id","").show();
         tmplReport=$("#report-template").clone().attr("id","").show();
         tmplBlack=$("#black-out").clone().attr("id","").show();
-        tmplAlert=tmplBlack.append($("#alert").clone().attr("id","").show());
+        tmplAlert=tmplBlack.clone().append($("#alert").clone().attr("id","").show());
+        tmplConfirm=tmplBlack.clone().append($("#confirm").clone().attr("id","").show());
     };
 
 
@@ -600,10 +627,9 @@ function UIManager(){
             uiMgr.ShowReport.call(uiMgr)
         });
         $("#cancel-order").click(function(){
-            if(confirm("Clear Order Cart?")){
+            my_confirm("Clear Order Cart?",function(){
                 uiMgr.ClearOrderCart.call(uiMgr);
-                
-            }
+            },function(){});
         });
         $("#confirm-order").click(function(){
             if (DivCartItem.length==0){
@@ -761,9 +787,6 @@ function UIManager(){
                     uiMgr.ReloadMenu();
                 });
             });
-        });
-        tmplAlert.on("click",".alert-confirm",function(){
-            tmplAlert.remove();
         });
     };
 }
