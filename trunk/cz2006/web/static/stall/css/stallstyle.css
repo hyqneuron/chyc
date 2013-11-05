@@ -2,7 +2,7 @@
     padding-top: 30px;
 }
 
-#black-out{
+.black-out{
     background-color:rgba(0,0,0,0.7);
     height:100%;
     width:100%;
@@ -11,7 +11,14 @@
     left:0;
     z-index:100;
 }
-
+.alert{
+    max-width: 500px;
+    padding: 15px;
+    margin: 0 auto;
+    background: white;
+    margin-top: 70px;
+    overflow: auto;
+}
 
 
 

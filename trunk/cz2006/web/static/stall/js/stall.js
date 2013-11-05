@@ -5,6 +5,8 @@ var tmplProcessingOrderItem;
 var tmplMenuInfoItemDisplay;
 var tmplMenuInfoItemEdit;
 var tmplReport;
+var tmplBlack;
+var tmplAlert;
 
 //manager object
 var loginMgr;
@@ -34,7 +36,7 @@ $(document).ready(function(){
     uiMgr   = new UIManager();
     loginMgr= new LoginManager();
 
-
+    uiMgr.InitTemplates();
     uiMgr.InitEvents();
     // check login
     loginMgr.CheckLogin();
@@ -44,8 +46,12 @@ $(document).ready(function(){
 
 //helper function
 function id(n) {return document.getElementById(n);}
-function ja(o) {alert(JSON.stringify(o));}
-function my_fail(data){alert(data.err_msg);}
+function ja(o) {my_alert(JSON.stringify(o));}
+function my_fail(data){my_alert(data.err_msg);}
+function my_alert(message){
+    $("body").append(tmplAlert);
+    tmplAlert.find(".message").html(message);
+}
 function copykeys(target, tocopy){
     for ( key in tocopy)
         target[key] = tocopy[key];
@@ -92,7 +98,7 @@ function NewCartItem(cartItemObj){
             res.quantity=quan;
             res.find(".cart-item-quantity").val(res.quantity);
         }else{
-            alert("Invalid input");
+            my_alert("Invalid input");
         }
         uiMgr.UpdatePrice();
     }
@@ -153,7 +159,7 @@ function NewProcessingOrderItem(processingOrderItemObj){
         var obj = {orderid: res.parent.id, notify: notify};
         int_stall_order_revoke(obj, function(data){
             res.Remove();
-            alert("Order revoked");
+            my_alert("Order revoked");
         });
     };
     res.Done=function(){
@@ -196,7 +202,7 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
     menuInfoItemDisplayObj["is_available"]=menuInfoItemDisplayObj["is_available"]?1:0;
     menuInfoItemDisplayObj["is_available_online"]=menuInfoItemDisplayObj["is_available_online"]?1:0;
     res.uploadChange=function(e) {
-        if(this.disabled) return alert('File upload not supported!');
+        if(this.disabled) return my_alert('File upload not supported!');
         var F = this.files;
         if(F && F[0]) 
             readImage( F[0] );
@@ -281,16 +287,7 @@ function NewReport(){
 }
 //manager class
 function DataManager(){
-    this.InitTemplates=function(){
-        tmplCartItem=$("#cart-item-template").clone().attr("id","").show();
-        tmplMenuItem=$("#menu-item-template").clone().attr("id","").show();
-        tmplProcessingOrderItem=$("#processing-order-item-template").clone().attr("id","").show();
-        tmplMenuInfoItemDisplay=$("#menu-info-item-display-template").clone().attr("id","").show();
-        tmplMenuInfoItemEdit=$("#menu-info-item-edit-template").clone().attr("id","").show();
-        tmplReport=$("#report-template").clone().attr("id","").show();
-    };
-
-    this.Clear=function(){
+   this.Clear=function(){
         
         //templates
         tmplCartItem=null;
@@ -399,7 +396,6 @@ function LoginManager(){
         // Initialize data
         dataMgr = new DataManager();
         dataMgr.InitData();
-        dataMgr.InitTemplates();
         // Initialize UI
         uiMgr.ShowTakeOrder();
         //set timer
@@ -416,6 +412,18 @@ function LoginManager(){
     };
 }
 function UIManager(){
+    this.InitTemplates=function(){
+        tmplCartItem=$("#cart-item-template").clone().attr("id","").show();
+        tmplMenuItem=$("#menu-item-template").clone().attr("id","").show();
+        tmplProcessingOrderItem=$("#processing-order-item-template").clone().attr("id","").show();
+        tmplMenuInfoItemDisplay=$("#menu-info-item-display-template").clone().attr("id","").show();
+        tmplMenuInfoItemEdit=$("#menu-info-item-edit-template").clone().attr("id","").show();
+        tmplReport=$("#report-template").clone().attr("id","").show();
+        tmplBlack=$("#black-out").clone().attr("id","").show();
+        tmplAlert=tmplBlack.append($("#alert").clone().attr("id","").show());
+    };
+
+
     //pages
     this.PageMain=$("#wrapper");
     this.PageLogin=$("#loginForm");
@@ -427,6 +435,9 @@ function UIManager(){
     this.StallInfo=$("#stall-info");
     this.MenuInfo=$("#menu-info");
     this.Report=$("#report");
+    
+    this.Black
+    this.Alert
 
     this.HideAll=function(){
         this.PageMain.hide();
@@ -596,7 +607,7 @@ function UIManager(){
         });
         $("#confirm-order").click(function(){
             if (DivCartItem.length==0){
-                alert("Empty cart. Cannot submit");
+                my_alert("Empty cart. Cannot submit");
                 return;
             }
             var confirm_msg="Order details:<ul>";
@@ -610,26 +621,26 @@ function UIManager(){
                 cart_submit_collection.push(itemToPush);
                 confirm_msg+="<li>"+fia(cache_menu,"id",item.id).name;
                 confirm_msg+="    |    "+item.quantity;
-                confirm_msg+="    |    "+r+"<\li>";
+                confirm_msg+="    |    "+r+"</li>";
             }
             confirm_msg+="</ul>Please confirm the order by scanning the bar code.\n";
 
             var barcode="";
-            $("#take-order").append("<div id='black-out' tabindex='0'></div>");
-            $("#black-out").focus();
-            $("#black-out").append("<div style='max-width: 500px;padding: 15px;margin: 0 auto;background: white;margin-top: 70px;overflow: auto;'>"+confirm_msg+"</div>");
-            $("#black-out").keypress(function(event){
+            $("#take-order").append(tmplBlack);
+            $(".black-out").focus();
+            $(".black-out").append("<div style='max-width: 500px;padding: 15px;margin: 0 auto;background: white;margin-top: 70px;overflow: auto;'>"+confirm_msg+"</div>");
+            $(".black-out").keypress(function(event){
                 if(event.which==13){
                     var obj={"customer_barcode":barcode, 
                     "collection":cart_submit_collection};
 
                     int_stall_order_submit(obj,function(data){
-                        alert("Order Submitted");
+                        my_alert("Order Submitted");
                         uiMgr.ClearOrderCart.call(uiMgr);
                         int_stall_get_processing_queue({},dataMgr.UpdateProcessingQueue);
                     });
                     barcode="";
-                    $("#black-out").remove();
+                    $(".black-out").remove();
                     return;
                 }
                 else if((event.which< 48 || event.which>57) &&
@@ -650,7 +661,7 @@ function UIManager(){
                     "name":$("#stall-info-name").attr("value"),
                     "description":$("#stall-info-description").val()}
             int_stall_edit(contentEdit,function(){
-                alert("update successfully");
+                my_alert("update successfully");
             });
         });
         $("#stall-info-cancel").click(function(){
@@ -660,20 +671,20 @@ function UIManager(){
         this.MenuInfo.on("click",".menu-info-item-display",function(event){
             var obj=fia(cache_menu,"id",$(event.currentTarget).data("obj").id);
             DivMenuInfoItemEdit=NewMenuInfoItemEdit(obj);
-            $("#menu-info").append("<div id='black-out'></div>");
-            $("#black-out").css("display","block");
-            $("#black-out").append(DivMenuInfoItemEdit);
+            $("#menu-info").append(tmplBlack);
+            $(".black-out").css("display","block");
+            $(".black-out").append(DivMenuInfoItemEdit);
         });
         this.MenuInfo.on("click",".menu-info-edit-cancel-btn",function(event){
             DivMenuInfoItemEdit=null;
-            $("#black-out").remove();
+            $(".black-out").remove();
         });
         this.MenuInfo.on("click",".menu-info-edit-submit-btn",function(event){
             var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
             var obj={};
             // validate image
             if(img_invalid){
-                alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
+                my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
                 return;
             }
             // upload image if selected
@@ -695,7 +706,7 @@ function UIManager(){
                 for(var i in DivProcessingOrderItem){
                     for (var j in DivProcessingOrderItem[i].children){
                         if (Number(DivProcessingOrderItem[i].children[j].item)==Number(obj.itemid)){
-                            alert("Cannot deactivate this menu. Still have order being processing");
+                            my_alert("Cannot deactivate this menu. Still have order being processing");
                             canDel=false;
                             break;
                         }
@@ -711,7 +722,7 @@ function UIManager(){
                         cache_menu=data.content;
                         uiMgr.ReloadMenu();
                     });
-                    $("#black-out").remove();
+                    $(".black-out").remove();
                 });
             }
         });
@@ -720,13 +731,13 @@ function UIManager(){
                     "promotion_until":"","stall":"","is_available":"","promotion":"",
                     "is_available_online":"","description":""};*/
             DivMenuInfoItemAdd=NewMenuInfoItemAdd();
-            $("#menu-info").append("<div id='black-out'></div>");
-            $("#black-out").css("display","block");
-            $("#black-out").append(DivMenuInfoItemAdd);
+            $("#menu-info").append(tmplBlack);
+            $(".black-out").css("display","block");
+            $(".black-out").append(DivMenuInfoItemAdd);
         });
         this.MenuInfo.on("click","#menu-info-add-cancel-btn",function(event){
             DivMenuInfoItemAdd=null;
-            $("#black-out").remove();
+            $(".black-out").remove();
         });
     
         this.MenuInfo.on("click","#menu-info-add-submit-btn",function(event){
@@ -744,12 +755,15 @@ function UIManager(){
             obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
             obj["price"]=+obj["price"];
             int_stall_menu_item_add(obj,function(data){
-                $("#black-out").remove();
+                $(".black-out").remove();
                 int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
                     cache_menu=data.content;
                     uiMgr.ReloadMenu();
                 });
             });
+        });
+        tmplAlert.on("click",".alert-confirm",function(){
+            tmplAlert.remove();
         });
     };
 }
@@ -776,7 +790,7 @@ function readImage(fileName) {
         };
         image.onerror= function() {
             img_invalid = true;
-            alert('Invalid file type: '+ file.type);
+            my_alert('Invalid file type: '+ file.type);
         };      
     };
 
@@ -795,10 +809,10 @@ function uploadComplete(evt)
 {
     var res = evt.target.responseText;
     if(res){
-        alert(res);
+        my_alert(res);
         return;
     }
-    alert("Image upload successful");
+    my_alert("Image upload successful");
     // grab new image url and update shit
 }
 function makeurl(img_location){
