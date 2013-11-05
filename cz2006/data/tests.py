@@ -47,6 +47,9 @@ class UnitFunctionTest(TestCase):
         self.cus1 = customer.objects.get(username='user1')
         self.cus2 = customer.objects.get(username='user2')
 
+        self.cus1.build_cart
+        self.cus2.build_cart
+
         # canteen objects
         canteen.objects.create(name='Canteen 1', description='Best canteen in NTU')
         canteen.objects.create(name='Canteen 2', description='Worst canteen in NTU',is_activated = False)
@@ -54,10 +57,6 @@ class UnitFunctionTest(TestCase):
 
         self.can1 = canteen.objects.get(name='Canteen 1')
         self.can2 = canteen.objects.get(name='Canteen 2')
-
-        # build queue 
-        #c1.buildQueueTable()
-        #c2.buildQueueTable()
         
         # stall objects
         stall.objects.create(name='Mixed Rice', description='good food at low price',
@@ -365,11 +364,6 @@ class UnitFunctionTest(TestCase):
         self.assertEqual(qNumReturned,bad_luck_number)
         #self.assertEqual(qNumReturned,None)
     '''
-
-    #def test_method_placeOrderToStall(self):
-    #    '''test for place_order_to_stall() method'''
-
-    #-------------test !!!!
         
 
 
@@ -379,7 +373,7 @@ class UnitFunctionTest(TestCase):
     #       class infoBackend
     def test_loginBackend_intLogin(self):
         '''test for int_login function'''
- 
+
         content = {"username": "ofs1","password":"password","domain":"ofs_user"}
         response = loginBackend.int_login (self.request,content)
         case1Resp = json.loads(response.content)["content"]
@@ -401,10 +395,6 @@ class UnitFunctionTest(TestCase):
         expected = {'id':1,'barcode':'105','username': 'user1', 'hpnumber':'', 'is_activated':True,'balance':'0','usertype': 'S'}
         self.assertEqual(response.status_code, 200)
         self.assertEqual(case1Resp,expected)
-
-    # test_loginBackend_intLoginCheckStall(self):   
-    # test int_login_check_ofs(request, content)
-    # test int_logout(request, content)
 
 
 
@@ -473,13 +463,6 @@ class UnitFunctionTest(TestCase):
         case1Resp3 = json.loads(response3.content)['err_code']          # error is returned 
         expected3 = 35
         self.assertEqual(case1Resp3, expected3)
-
-##        content3 = {'name':1, 'description':'good food at low price',
-##                    'canteen':1, 'username_prefix':"stalltestcasetestcase", 'category':"Chinese"}
-##        response3 = ofsBackend.int_ofs_stall_add(self.request,content3)
-##        case1Resp3 = json.loads(response3.content)          # error is returned 
-##        expected3 = 35
-##        self.assertEqual(case1Resp3, None)
 
     def test_ofsBackend_canAdd(self):
         '''test for int_ofs_canteen_add method '''
@@ -586,31 +569,19 @@ class UnitFunctionTest(TestCase):
         
 
     #---------------for customer.py-----------------------------------------------------------------
-    '''
-customer:
-    cus_pay_canteen
-    cus_set_cart
-    '''
 
+    def test_customerBackend_setCart(self):
+        ''' test for int_cus_set_cart method '''
+        self.request.session['logged_in'] =True
+        self.request.session['user_domain']='customer'
+        self.request.session['user_id'] = 1
 
-##    def test_customerBackend_setCart(self):
-##        ''' test for int_cus_set_cart method '''
-##        self.request.session['logged_in'] =True
-##        self.request.session['user_domain']='customer'
-##        self.request.session['user_id'] = 1
-##
-##        collection = [{'item': 1, 'quantity':2, 'remarks':''},
-##                      {'item': 2, 'quantity':1, 'remarks':'spicy'},
-##                      {'item': 3, 'quantity':2, 'remarks':''}]
-##        content = {'collection':collection}
-## 
-##        response = customerBackend.int_cus_set_cart(self.request,content)
-##        case2Resp = json.loads(response.content)
-##        self.assertEqual(case2Resp, None)
+        collection = [{'item': 1, 'quantity':2, 'remarks':''},
+                      {'item': 2, 'quantity':1, 'remarks':'spicy'},
+                      {'item': 3, 'quantity':2, 'remarks':''}]
+        content = {'collection':collection}
+
+        response = customerBackend.int_cus_set_cart(self.request,content)
+        case2Resp = json.loads(response.content)
+        self.assertEqual(case2Resp, None)
         
-
-##    def test_customerBackend_payCanteen(self):
-##        ''' test for int_cus_pay_canteen '''
-##        self.request.session['logged_in'] =True
-##        self.request.session['user_domain']='stall_user'
-##        self.request.session['user_id'] = 2
