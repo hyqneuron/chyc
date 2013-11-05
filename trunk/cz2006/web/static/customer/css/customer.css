@@ -135,7 +135,7 @@ body {
     margin-top: 5px;
     /*float:left;*/
     min-height: 400px;
-    margin-right: 260px;
+    margin-right: 300px;
     overflow:hidden;
 }
 .PanelShifter{
@@ -156,8 +156,8 @@ body {
 .PanelRight{
     position:fixed;
     z-index: auto;
-    margin-left:-250px;
-    width: 250px;
+    margin-left:-290px;
+    width: 290px;
     min-height: 400px;
     max-height:500px;
     overflow:auto;
@@ -222,13 +222,14 @@ body {
 .CIRemarks{
     line-height:30px;
     vertical-align:bottom;
-    max-width:80px;
+    max-width:120px;
     text-decoration: underline;
     cursor:pointer;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
     display:inline-block;
+    float:right;
 }
 .RemarkEditor{
     position:fixed;
