@@ -262,10 +262,6 @@
             <div id="tab_reports" class="tab" style="display:none">
                 <h3>Reporting</h3>
                 <br />
-                <button type="button" id="repButGen" class="btn btn-info btn-sm ">
-                    <span class="glyphicon glyphicon-edit"></span> Generate Report
-                </button>
-                <br />
                 <div id="repContainer">
                     <!-- monthly table first -->
                     <div class=panel>
@@ -322,6 +318,9 @@
                 <div id="repStatusMsg">
                     No report has been generated.
                 </div>
+                <button type="button" id="repButGen" class="btn btn-info btn-sm ">
+                    <span class="glyphicon glyphicon-edit"></span> Generate Report
+                </button>
             </div>
         </div>
             
@@ -607,7 +606,7 @@
                 </div>
                 <div class="ReportStallContainer" style="display:none">
                     <div class="panel-heading">Details for <span class="ReportCanteenName"></span></div>
-                    <table>
+                    <table class="reportSubTable">
                         <thead class="RCH">
                         </thead>
                         <tbody class="RCB">
