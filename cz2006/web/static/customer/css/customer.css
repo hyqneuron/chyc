@@ -189,7 +189,8 @@ body {
     overflow:hidden;
 }
 .CIQuantity{
-    line-height:14px;
+    line-height:30px;
+    vertical-align:top;
 }
 
 .Home{
@@ -219,7 +220,6 @@ body {
     text-align:center;
 }
 .FancyHeading{
-    cursor:pointer;
 }
 .FancyExpand{
 }
