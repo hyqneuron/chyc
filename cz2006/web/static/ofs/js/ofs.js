@@ -119,17 +119,16 @@ function LoginManager(){
     this.PassLogin=function(data){
         ofs_user = data.content;
         uiMgr.ShowMain();
+        // set username
+        $("#userName").html(ofs_user.username);
         // if user isn't manager, we're going to hide more stuffs, show only topup
         // FIXME more divs need to be labelled as mgrOnly
-        // FIXME need to properly initialize UI at this point to prevent content
-        // from previous session be shown here. Or maybe we should clear content
-        // at logout time
         if(ofs_user.usertype != "M")
             $(".mgrOnly").hide();
         else
         {
-            canMgr.UpdateCanteens();
             $(".mgrOnly").show();
+            canMgr.UpdateCanteens();
             // load customer page information and load page 0
             cusMgr.UpdatePageCount();
         }
@@ -302,9 +301,15 @@ function UIManager(){
         // things to clear include:
         // 1. customer info tab
         // 2. report tab
-        $("#repStatusMsg").html("No report has been generated.");
         // 3. mass reg/dereg text box
-        // 4. customer list init to page 1
+        // 4. customer list init to page 1 (done in PassLogin)
+        uiMgr.ShowTab("tab_main");
+        $("#repStatusMsg").html("No report has been generated.");
+        $("#cusInfoSearchUsername").val("");
+        $("#cusInfoSearchBarcode").val("");
+        $("#cusRegList").val("");
+        $("#cusDeList").val("");
+        $("#repContainer").hide();
     }
 }
 
@@ -711,6 +716,8 @@ function ReportManager(){
             repMgr.DBody.append(newentry);
         }
         // clear empty msg
+
+        $("#repContainer").show();
         repMgr.repMsg.html("");
 
     };

@@ -40,6 +40,8 @@ $(document).ready(function(){
     uiMgr.InitEvents();
     uiMgr.ShowLogin();
     // check login
+    loginMgr.CheckLogin();
+    // register error handler
     int_app_error_handler = uiMgr.ErrHandler;
 });
 

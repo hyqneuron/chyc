@@ -175,6 +175,12 @@ body {
 }
 .CartItem{
     color:#f90;
+    background-color:white;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:8px;
+    padding-right:8px;
+    border-bottom:solid 1px #fa0;
 }
 .CIName{
     line-height:14px;
@@ -368,6 +374,9 @@ body {
     margin-right: 5px;
     cursor:pointer;
     transition: font-size 0.4s;
+}
+.CIButContainer{
+    float:right;
 }
 .CIInc:hover{
     font-size: 30px;
