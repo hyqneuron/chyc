@@ -77,7 +77,9 @@ function copykeys(target, tocopy){
 }
 function is_numeric(input)
 {
-    return (input - 0) == input && (input+'').replace(/^\s+|\s+$/g, "").length > 0;
+    var nReg = new RegExp("^[1-9][0-9]*$");
+    return nReg.test(input+"");
+    //return (input - 0) == input && (input+'').replace(/^\s+|\s+$/g, "").length > 0;
 }
 // find in array with key=value)
 function fia(array, key, value){
@@ -113,9 +115,9 @@ function NewCartItem(cartItemObj){
         uiMgr.UpdatePrice();
     }
     res.SetQuan=function(quan){
-        if(is_numeric(res.find(".cart-item-quantity").val())){
+        if(is_numeric(quan)){
             res.quantity=quan;
-            res.find(".cart-item-quantity").val(res.quantity);
+            res.find(".cart-item-quantity").val(quan);
         }else{
             my_alert("Invalid input");
         }
@@ -511,7 +513,7 @@ function UIManager(){
         this.ProcessingOrder.show();
     };
     this.ShowStallManagement=function(){
-        this.ShowStallInfo();
+        this.ShowMenuInfo();
     };
     this.ShowStallInfo=function(){
         this.HideAll();

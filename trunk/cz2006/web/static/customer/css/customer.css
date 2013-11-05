@@ -184,13 +184,73 @@ body {
 }
 .CIName{
     line-height:14px;
-    display:inline-block;
-    width: 80px;
-    overflow:hidden;
+}
+.CIPrice{
+    float:right;
 }
 .CIQuantity{
     line-height:30px;
     vertical-align:top;
+}
+.CIInc,.CIDec{
+    float:right;
+    border: solid 1px #fa0;
+    color:#fa0;
+    background-color: white;
+    width:30px;
+    height:30px;
+    line-height:30px;
+    vertical-align:middle;
+    text-align:center;
+    margin-right: 5px;
+    cursor:pointer;
+    transition: font-size 0.4s;
+}
+.CIDec{
+    float:left;
+}
+.CIQuantityBox{
+    width:100px;
+    display:inline-block;
+}
+.CIInc:hover{
+    font-size: 30px;
+}
+.CIDec:hover{
+    font-size: 30px;
+}
+.CIRemarks{
+    line-height:30px;
+    vertical-align:bottom;
+    max-width:80px;
+    text-decoration: underline;
+    cursor:pointer;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:inline-block;
+}
+.RemarkEditor{
+    position:fixed;
+    z-index:auto;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0, 0.7);
+}
+.remarkBox{
+    background-color:white;
+    position:fixed;
+    left:50%;
+    top:50%;
+    width:200px;
+    height:70px;
+    margin-left:-100px;
+    margin-top:-35px;
+}
+.remarkBut{
+    width:100%;
 }
 
 .Home{
@@ -360,29 +420,6 @@ body {
 }
 .RightBut:hover{
     box-shadow: 0 0 2px 1px rgba(0, 201, 204, 0.7);
-}
-.CIInc,.CIDec{
-    float:right;
-    border: solid 1px #fa0;
-    color:#fa0;
-    background-color: white;
-    width:30px;
-    height:30px;
-    line-height:30px;
-    vertical-align:middle;
-    text-align:center;
-    margin-right: 5px;
-    cursor:pointer;
-    transition: font-size 0.4s;
-}
-.CIButContainer{
-    float:right;
-}
-.CIInc:hover{
-    font-size: 30px;
-}
-.CIDec:hover{
-    font-size: 30px;
 }
 
 .PriceDivider{

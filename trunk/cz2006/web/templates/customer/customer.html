@@ -178,14 +178,26 @@
 </div>
 
 <div id="TmplCartItem" class="CartItem " >
-    <span class="CIName"></span>
-    <!--span class="CIPrice"></span-->
-    <span class="CIQuantity"></span>
-    <div class="CIButContainer">
-        <div class="CIInc ">+</div>
-        <div class="CIDec ">-</div>
+    <div class="CILine1">
+        <span class="CIName"></span>
+        <span class="CIPrice"></span>
     </div>
-    <div class="Clearer"></div>
+    <div class="CILine2">
+        <div class="CIQuantityBox">
+            <div class="CIDec ">-</div>
+            <span class="CIQuantity"></span>
+            <div class="CIInc ">+</div>
+        </div>
+        <div class="CIRemarks"></div>
+        <div class="Clearer"></div>
+    </div>
+</div>
+
+<div id="TmplRemarkEditor" class="RemarkEditor">
+    <div class="remarkBox">
+        <input class="remarkInput form-control" />
+        <div class="remarkBut ButDefault">Set Remarks</div>
+    </div>
 </div>
 
 <div id="TmplCanButton" class="CanButton">
