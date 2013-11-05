@@ -394,7 +394,7 @@
                 <span class="glyphicon glyphicon-edit"></span> Edit Canteen Information
             </button>
             
-            <button type="button" class="btn btn-info btn-sm cdButDeact">
+            <button type="button" class="btn btn-warning btn-sm cdButDeact">
                 <span class="glyphicon glyphicon-minus-sign"></span> Deactivate Canteen
             </button>
             
@@ -454,7 +454,7 @@
             <span class="glyphicon glyphicon-refresh"></span> Reset Password
         </button>
         
-        <button type="button"  class="btn btn-info btn-sm sidButDereg">
+        <button type="button"  class="btn btn-warning btn-sm sidButDereg">
             <span class="glyphicon glyphicon-remove"></span> Deregister Stall
         </button>
         
@@ -482,60 +482,87 @@
     <span class="StallMenuPrice"></span>
 </div>
 
-<div class="NewStallDIV" id="newStallTMPL" >
-    <span class="nsdLabel">Name:</span>
-    <input class="nsdInput nsdInputName" />
-    <br />
-    <span class="nsdLabel">Description:</span>
-    <input class="nsdInput nsdInputDesc" />
-    <br />
-    <span class="nsdLabel">Category:</span>
-    <input class="nsdInput nsdInputCate" />
-    <br />
-    <span class="nsdLabel">Username prefix:</span>
-    <input class="nsdInput nsdInputPref" />
-    <br />
-    <input type=button value="Exit" class="nsdButClose"/>
-    <input type=button value="Register Stall" class="nsdButReg"/>
+<div class="NewStallDIV controls form-inline panel panel-default" id="newStallTMPL" >
+    <div class="panel-heading">Register New Stall</div>
+    <div class="panel-body">
+        <span class="nsdLabel">Name:</span>
+        <input class="nsdInput nsdInputName form-small NewStallForm" />
+        <br />
+        <br />
+        <span class="nsdLabel">Category:</span>
+        <input class="nsdInput nsdInputCate form-small NewStallForm" />
+        <br />
+        <br />
+        <span class="nsdLabel">Username prefix:</span>
+        <input class="nsdInput nsdInputPref form-small NewStallForm" />
+        <br />
+        <br />
+        
+        <span class="nsdLabel">Description:</span> 
+        
+        <textarea id="cusRegList" class="form-control " rows="2" ng-model="result" placeholder="Description"></textarea>
+        <br />
+        
+        <div style="float:right">
+                
+                <button type="button"  class="btn btn-info btn-sm nsdButReg">
+                    <span class="glyphicon glyphicon-ok"></span> Register
+                </button>        
+                
+                
+                <button type="button"  class="btn btn-warning btn-sm nsdButClose">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                </button>
+        
+        </div>
+        
+    </div>
 </div>
 
-<div class="TopupDIV" id="topupTMPL" >
-    <span class="topLabel">Customer Barcode:</span>
-    <span class="topFill topBarcodeFill"></span>
-    <br/>
-    <span class="topLabel">Topup amount:</span>
-    <input class="topInput topInputAmt" />
-    <br />
-    <input type=button value="Exit" class="topButClose"/>
-    <input type=button value="Topup" class="topButTopup"/>
+<div class="TopupDIV controls form-inline panel panel-default" id="topupTMPL" >
+    <div class="panel-heading">Top Up</div>
+        <div class = "panel-body">
+            <span class="topLabel">Customer Barcode:</span>
+            <span class="topFill topBarcodeFill "></span>
+            <br/>
+            <br/>
+            <span class="topLabel">Topup amount:</span>
+            <input class="topInput topInputAmt form-small" />
+            <br />
+            <br />
+            <div style="float:right;">
+                <button type="button"  class="btn btn-info btn-sm topButTopup">
+                    <span class="glyphicon glyphicon-ok"></span> Topup
+                </button>  
+                <button type="button"  class="btn btn-warning btn-sm topButClose">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                </button>  
+            </div>
+        </div>
 </div>
 
-<div class="NewCanteenDIV controls form-inline" id="newCanteenTMPL" >
-    <h4>Register New Stall</h4>
-    <br />
-    <span class="nsdLabel">Name:</span>
-    <input class="nsdInput ncdInputName form-small NewCanteenForm" />
-    <br />
-    <br />
-    <span class="nsdLabel">Description:</span>
-    <input class="nsdInput ncdInputDesc form-small NewCanteenForm" />
-    <br />
-    <br />
-    <div style="float:right">
-        
-        <button type="button"  class="btn btn-info btn-sm ncdButReg">
-            <span class="glyphicon glyphicon-ok"></span> Register
-        </button>        
-        
-        
-        <button type="button"  class="btn btn-warning btn-sm ncdButClose">
-            <span class="glyphicon glyphicon-remove"></span> Cancel
-        </button>
-        
-        <!--
-    <input type=button value="Exit" class="ncdButClose"/>
-    <input type=button value="Register Canteen" class="ncdButReg"/>
--->
+<div class="NewCanteenDIV controls form-inline panel panel-default" id="newCanteenTMPL" >
+    <div class="panel-heading NewCanDIVHeader">Register New Canteen</div>
+    <div class="panel-body">
+        <span class="nsdLabel">Name:</span>
+        <input class="nsdInput ncdInputName form-small NewCanteenForm" />
+        <br />
+        <br />
+        <span class="nsdLabel">Description:</span>
+        <input class="nsdInput ncdInputDesc form-small NewCanteenForm" />
+        <br />
+        <br />
+            <div style="float:right">
+                
+                <button type="button"  class="btn btn-info btn-sm ncdButReg">
+                    <span class="glyphicon glyphicon-ok"></span> Register
+                </button>        
+                
+                
+                <button type="button"  class="btn btn-warning btn-sm ncdButClose">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                </button>
+            </div>
     </div>
 </div>
 
