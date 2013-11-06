@@ -39,11 +39,11 @@ $(document).ready(function(){
     // Initiaze managers
     uiMgr   = new UIManager();
     loginMgr= new LoginManager();
-
+    uiMgr.InitTemplates();
     uiMgr.InitEvents();
+
     // check login
     loginMgr.CheckLogin();
-
 });
 
 
@@ -175,6 +175,7 @@ function NewProcessingOrderItem(processingOrderItemObj){
         table+="<tr><td>"+fia(cache_menu,"id",item.item).name+"</td><td>"+item.quantity+"</td><td>"+item.remarks+"</td></tr>";
     }
     res.Revoke = function(){
+        alert('inside revoke');
         my_confirm("Confirm to revoke this order?",function(){
             var obj;
             my_confirm("Notify customer of the revoke?",function(){
@@ -245,11 +246,12 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
         editWindow.find("#itemid").val(res.id);
         editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
     }
-    var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
+    var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online"]
     for (j in att_to_display){
         att=att_to_display[j];
         $($(res).find(".menu-info-edit-"+att)[0]).val(menuInfoItemDisplayObj[att]);
     }
+    res.find(".menu-info-edit-description").html(menuInfoItemDisplayObj["description"]);
     res.find("#itemid").val(menuInfoItemDisplayObj['id']);
     res.find(".fileToUpload").change(res.uploadChange);
     res.find(".resetUploadBut").click(res.resetUpload);
@@ -286,7 +288,6 @@ function NewReport(){
         int_stall_report({},function(data){
             data=data["content"];
             for (key in data){
-                ja(data[key]);
                 var tablelines=new Array();
                 var subTotalNumOrder=0;
                 var subTotalRevenue=0;
@@ -310,7 +311,7 @@ function NewReport(){
                 for (var i in data[key]){
                     for ( var j in data[key][i].details){
                         var newCol=tmplCol.clone().html(data[key][i].details[j].quantity);
-                        if(key=="daily"&&i=10||key=="monthly"&&i=12){
+                        if(key=="daily"&&i==9||key=="monthly"&&i==11){
                             newCol.addClass("pthis");
                         }
                         tablelines[j].append(newCol);
@@ -331,15 +332,6 @@ function NewReport(){
 //manager class
 function DataManager(){
    this.Clear=function(){
-        
-        //templates
-        tmplCartItem=null;
-        tmplMenuItem=null;
-        tmplProcessingOrderItem=null;
-        tmplMenuInfoItemDisplay=null;
-        tmplMenuInfoItemEdit=null;
-        tmplMenuInfoItemAdd=null
-
         //cache
         stallUser=null;
         cache_menu=null;
@@ -443,7 +435,6 @@ function LoginManager(){
         dataMgr = new DataManager();
         dataMgr.InitData();
         // Initialize UI
-        uiMgr.InitTemplates();
 
         uiMgr.ShowTakeOrder();
         //set timer
@@ -631,18 +622,21 @@ function UIManager(){
     };
     //Init Events
     this.InitEvents=function(){
+        // login events
         $("#loginSubmit").click(loginMgr.DoLogin);
         $("#loginReset").click(function(){
-            $("#username").val("");
             $("#password").val("");
+            $("#username").val("");
         });
         $("#logout").click(loginMgr.Logout);
+        // nav button events
         $("#take-order-btn").click(function(){
             uiMgr.ShowTakeOrder.call(uiMgr)});
         $("#processing-order-btn").click(function(){
             uiMgr.ShowProcessingOrder.call(uiMgr)});
         $("#stall-management-btn").click(function(){
             uiMgr.ShowStallManagement.call(uiMgr)});
+        // buttons inside stall management
         $("#stall-info-btn").click(function(){
             uiMgr.ShowStallInfo.call(uiMgr)});
         $("#menu-info-btn").click(function(){
@@ -651,7 +645,9 @@ function UIManager(){
             uiMgr.LoadReport.call(uiMgr);
             uiMgr.ShowReport.call(uiMgr)
         });
+        // buttons inside take order
         $("#cancel-order").click(function(){
+            alert();
             my_confirm("Clear Order Cart?",function(){
                 uiMgr.ClearOrderCart.call(uiMgr);
             },function(){});
@@ -677,10 +673,19 @@ function UIManager(){
             confirm_msg+="</ul>Please confirm the order by scanning the bar code.\n";
 
             var barcode="";
-            tmplBlack.empty();
+            $(".black-out").empty();
             $("#take-order").append(tmplBlack);
             $(".black-out").focus();
-            $(".black-out").append("<div style='max-width: 500px;padding: 15px;margin: 0 auto;background: white;margin-top: 70px;overflow: auto;'>"+confirm_msg+"</div>");
+            var dialog=tmplConfirm.clone();
+            dialog.find(".confirm-confirm").remove();
+            dialog.find(".confirm-message").html(confirm_msg);
+            $(".black-out").append(dialog);
+
+            $(".confirm-cancel").click(function(){
+                $(".black-out").empty();
+                $(".black-out").remove();
+            });
+
             $(".black-out").keypress(function(event){
                 if(event.which==13){
                     var obj={"customer_barcode":barcode, 
@@ -702,7 +707,7 @@ function UIManager(){
                 barcode += String.fromCharCode(event.which);
             });
         });
-
+        // buttons for processing order
         this.ProcessingOrder.on("click",".processing-order-done-btn",function(event){
             var tar=$(event.currentTarget).data("order");
             tar.Done();
@@ -723,13 +728,13 @@ function UIManager(){
         this.MenuInfo.on("click",".menu-info-item-display",function(event){
             var obj=fia(cache_menu,"id",$(event.currentTarget).data("obj").id);
             DivMenuInfoItemEdit=NewMenuInfoItemEdit(obj);
-            tmplBlack.empty();
+            $(".black-out").empty();
             $("#menu-info").append(tmplBlack);
             $(".black-out").append(DivMenuInfoItemEdit);
         });
         this.MenuInfo.on("click",".menu-info-edit-cancel-btn",function(event){
             DivMenuInfoItemEdit=null;
-            tmplBlack.empty();
+            $(".black-out").empty();
             tmplBlack.remove();
         });
         this.MenuInfo.on("click",".menu-info-edit-submit-btn",function(event){
@@ -774,7 +779,7 @@ function UIManager(){
                         cache_menu=data.content;
                         uiMgr.ReloadMenu();
                     });
-                    tmplBlack.empty();
+                    $(".black-out").empty();
                     tmplBlack.remove();
                 });
             }
@@ -784,13 +789,13 @@ function UIManager(){
                     "promotion_until":"","stall":"","is_available":"","promotion":"",
                     "is_available_online":"","description":""};*/
             DivMenuInfoItemAdd=NewMenuInfoItemAdd();
-            tmplBlack.empty();
+            $(".black-out").empty();
             $("#menu-info").append(tmplBlack);
             $(".black-out").append(DivMenuInfoItemAdd);
         });
         this.MenuInfo.on("click",".menu-info-add-cancel-btn",function(event){
             DivMenuInfoItemAdd=null;
-            tmplBlack.empty();
+            $(".black-out").empty();
             tmplBlack.remove();
         });
     
@@ -826,7 +831,9 @@ function UIManager(){
             obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
             obj["price"]=+obj["price"];
             int_stall_menu_item_add(obj,function(data){
-                $(".black-out").remove();
+                DivMenuInfoItemAdd=null;
+                $(".black-out").empty();
+                tmplBlack.remove();
                 int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
                     cache_menu=data.content;
                     uiMgr.ReloadMenu();
