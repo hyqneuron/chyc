@@ -200,16 +200,16 @@
             </div>
             <br class="clear-float"/>
         </div>
-        <div id="menu-info-item-add-template" class="menu-info-item-add menu-info-item-edit" style="display:none">
+        <div id="menu-info-item-add-template" class="menu-info-item-add " style="display:none">
             <div class="image-data imgUploadPreview"></div>
-            <form id="imgForm" enctype="multipart/form-data" method="post">
+            <!--form id="imgFormAdd" enctype="multipart/form-data" method="post">
                 <input type=hidden name="itemid" id="itemid">
                 <input type=hidden name="newimgid" id="newimgid">
                 <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
                 <button type="button" class="btn btn-info btn-sm resetUploadBut">
                     <span class="glyphicon glyphicon-ok"> Reset</span>
                 </button>
-            </form>
+            </form-->
             <div style="clear:both" ></div>
     
           
@@ -263,7 +263,7 @@
     
         <div id="menu-info-item-edit-template" class="menu-info-item-edit" style="display:none">
             <div class="image-data imgUploadPreview"></div>
-            <form id="imgForm" enctype="multipart/form-data" method="post">
+            <form id="imgFormEdit" class="imgFormEdit" enctype="multipart/form-data" method="post">
                 <input type=hidden name="itemid" id="itemid">
                 <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
                 <button type="button" class="btn btn-info btn-sm resetUploadBut">
