@@ -199,10 +199,11 @@
             </div>
             <br class="clear-float"/>
         </div>
-        <div id="menu-info-item-add-template" class="menu-info-item-add" style="display:none">
+        <div id="menu-info-item-add-template" class="menu-info-item-add menu-info-item-edit" style="display:none">
             <div class="image-data imgUploadPreview"></div>
             <form id="imgForm" enctype="multipart/form-data" method="post">
                 <input type=hidden name="itemid" id="itemid">
+                <input type=hidden name="newimgid" id="newimgid">
                 <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
                 <button type="button" class="btn btn-info btn-sm resetUploadBut">
                     <span class="glyphicon glyphicon-ok"> Reset</span>
@@ -212,7 +213,8 @@
     
           
             <label class ="menu-edit-title" >Name</label>
-            <input style="margin-right:10px" type="text"class="menu-info-add-name menu-edit-data form-control" />    
+            <input style="margin-right:10px"
+            type="text"class="menu-info-add-name menu-edit-data form-control" />    
           
       
             <label class ="menu-edit-title">Activated</label>

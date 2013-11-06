@@ -216,6 +216,9 @@ class stallBackend:
         is_available_online = get_attribute(content, "is_available_online")
         promotion = get_attribute(content, "promotion")
         promotion_until = get_attribute(content, "promotion_until")
+        img_loc = default_img_path
+        if 'newimgid' in content:
+            img_loc = get_newitem_image_path(content['newimgid'])
         # get stall
         our_stall = get_login_stall(request)
         # create item
@@ -229,7 +232,7 @@ class stallBackend:
             is_activated = True,
             promotion = promotion,
             promotion_until = promotion_until, 
-            img_location = default_img_path
+            img_location = img_loc
         )
         valid_save(item)
         return error(err_success)
@@ -293,6 +296,13 @@ class stallBackend:
         return case1_raw(report)
         
 
+imgrelativepath = "/static/stall/imgs/"
+def get_item_image_path(itemid):
+    return imgrelativepath + "mi"+itemid+".jpg"
+
+def get_newitem_image_path(newimgid):
+    return imgrelativepath + "mitmp"+newimgid+".jpg"
+imgabsoluteprefix=os.getcwd()+"/web"
 
 # this is the view handler for img upload
 def handle_upload(request):
@@ -307,19 +317,25 @@ def handle_upload(request):
     if not (request.FILES and request.FILES['fileToUpload'] and request.POST and request.POST['itemid']):
         return HttpResponse("Upload failed")
 
-    relativepath = "/static/stall/imgs/"
-    itemid = request.POST['itemid']
-    relativepath += "mi"+itemid+".jpg"
+    newimgid=0
+    # we are uploading image for a new item (doesn't exist yet)
+    relativepath=""
+    if request.POST['newimgid']:
+        relativepath = get_newitem_image_path(request.POST['newimgid'])
+        
+    # we're uploading image for an existing item
+    else:
+        relativepath = get_item_image_path(request.POST['itemid'])
+        # validate item
+        try: item = menu_item.objects.get(id=int(itemid))
+        except Exception as e: 
+            return HttpResponse("This item no longer exists")
+        if item.stall != our_stall:
+            return HttpResponse("You cannot edit this item as it belongs to another stall")
 
-    # validate item
-    try: item = menu_item.objects.get(id=int(itemid))
-    except Exception as e: 
-        return HttpResponse("This item no longer exists")
-    if item.stall != our_stall:
-        return HttpResponse("You cannot edit this item as it belongs to another stall")
 
     # write file
-    path = os.getcwd()+"/web"+relativepath
+    path = +relativepath
     try:
         with open(path, "w") as dest:
             for chunk in request.FILES['fileToUpload'].chunks():
@@ -328,7 +344,7 @@ def handle_upload(request):
     except Exception:
         return HttpResponse("Failed to write file on server")
     # update database
-    item.img_location = relativepath
+    item.img_location = imgabsoluteprefix+relativepath
     item.save()
 
     # empty response indicates success
