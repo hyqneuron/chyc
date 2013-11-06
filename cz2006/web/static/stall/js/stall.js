@@ -434,6 +434,11 @@ function LoginManager(){
         // Initialize data
         dataMgr = new DataManager();
         dataMgr.InitData();
+        if(stallUser.usertype!="M"){
+            $("#stall-management-btn").hide();
+        }else{
+            $("#stall-management-btn").show();
+        }
         // Initialize UI
 
         uiMgr.ShowTakeOrder();
