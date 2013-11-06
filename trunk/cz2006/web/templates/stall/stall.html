@@ -14,7 +14,7 @@
 
 </head>
 
-<body>
+
 
     
     
@@ -85,7 +85,7 @@
                     
                     
 	
-                        <button type="button" class="btn btn-info btn-sm trash">
+                        <button type="button" class="btn btn-warning btn-sm trash">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
               
@@ -121,11 +121,11 @@
             </div>
             <div class="processing-order-form">
                <button type="button" class="btn btn-warning btn-md processing-order-revoke-btn">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
+                    <span class="glyphicon glyphicon-remove"></span>
                 </button>
                 
                 <button type="button" class="btn btn-info btn-md processing-order-done-btn">
-                    <span class="glyphicon glyphicon-ok-circle"></span>
+                    <span class="glyphicon glyphicon-ok"></span>
                 </button>
             </div>
         </div>
@@ -320,7 +320,7 @@
         </div>
         <div id="report-template" class="report">
             <h3>Daily Report</h3>
-            <table class="daily">
+            <table class="daily table">
             <thead>
                 <tr>
                     <th>Item</th>
@@ -374,7 +374,7 @@
             </table>
 
             <h3>Monthly Report</h3>
-            <table class="monthly">
+            <table class="monthly table">
             <thead>
                 <tr>
                     <th>Item</th>
@@ -476,12 +476,24 @@
     <div id="black-out" class='black-out' tabindex='0'></div>
     <div id="alert" class="alert">
         <p class="message"></p>
-        <button class="alert-confirm">OK</button>
+        
+        <button type="button" class="btn btn-info btn-sm alert-confirm">
+            <span class="glyphicon glyphicon-ok"> OK</span>
+        </button>
+
     </div>
     <div id="confirm" class="confirm">
         <p class="confirm-message"></p>
-        <button class="confirm-confirm" >Yes</button>
-        <button class="confirm-cancel">No</button>
+        <div style="float:right">
+            <button type="button" class="btn btn-info btn-sm confirm-confirm">
+                <span class="glyphicon glyphicon-ok"> Yes</span>
+            </button>
+            
+            <button type="button" class="btn btn-warning btn-sm confirm-cancel">
+                <span class="glyphicon glyphicon-remove"> No</span>
+            </button>
+            
+        </div>
     </div>
 </div>
 

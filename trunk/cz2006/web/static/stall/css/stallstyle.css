@@ -26,8 +26,9 @@ body{
     padding: 15px;
     margin: 0 auto;
     background: white;
-    margin-top: 70px;
+    margin-top: 90px;
     overflow: auto;
+    border-radius:8px;
 }
 
 
@@ -224,6 +225,7 @@ margin-right:3px;
   background: white;
   margin-top: 70px;
   overflow: auto;
+  border-radius:8px;
 }
 
 .menu-info-item-display span{
