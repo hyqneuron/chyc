@@ -218,7 +218,7 @@ margin-right:3px;
     width:485px;
     float:left;
 }
-.menu-info-item-edit{
+.menu-info-item-edit,.menu-info-item-add{
   max-width: 500px;
   padding: 15px;
   margin: 0 auto;

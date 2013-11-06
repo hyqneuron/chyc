@@ -209,6 +209,7 @@ function NewProcessingOrderItem(processingOrderItemObj){
 }
 function NewMenuInfoItemDisplay(menuInfoItemDisplayObj){
     var res=tmplMenuInfoItemDisplay.clone();
+    res.rawdata = menuInfoItemDisplayObj;
     copykeys(res,menuInfoItemDisplayObj);
     var att_to_display=["name","promotion_until","promotion","description"];
     if(!menuInfoItemDisplayObj["is_available_online"]){
@@ -221,7 +222,16 @@ function NewMenuInfoItemDisplay(menuInfoItemDisplayObj){
         att=att_to_display[j];
         $(res).find("."+att+"-data")[0].innerHTML=menuInfoItemDisplayObj[att];
     }
+    res.Edit = function(){
+        //var obj=fia(cache_menu,"id",$(event.currentTarget).data("obj").id);
+        DivMenuInfoItemEdit=NewMenuInfoItemEdit(res.rawdata);
+        //$(".black-out").empty();
+        uiMgr.ShowBlack(DivMenuInfoItemEdit);
+        //$("#menu-info").append(tmplBlack);
+        //$(".black-out").append(DivMenuInfoItemEdit);
+    };
     var url = makeurl(menuInfoItemDisplayObj.img_location);
+    res.click(res.Edit);
     res.find(".image-data").css("background-image", makeurl(menuInfoItemDisplayObj.img_location));
     res.data("obj",res);
     return res;
@@ -246,6 +256,62 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
         editWindow.find("#itemid").val(res.id);
         editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
     }
+    res.Cancel = function()
+    {
+        DivMenuInfoItemEdit=null;
+        //$(".black-out").empty();
+        //tmplBlack.remove();
+        uiMgr.ExitBlack();
+    };
+    res.find(".menu-info-edit-cancel-btn").click(res.Cancel);
+    res.Submit = function(){
+        var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
+        var obj={};
+        // validate image
+        var files = res.find(".fileToUpload")[0].files;
+        if(files && files[0]){
+            if(img_invalid){
+                my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
+                return;
+            }
+            uploadImage(res.find(".imgFormEdit"));
+        }
+        for (att_index in att_to_display){
+            att=att_to_display[att_index];
+            obj[att]=res.find(".menu-info-edit-"+att).val();
+        }
+        obj["is_available"]=obj["is_available"]==1;
+        obj["is_available_online"]=obj["is_available_online"]==1;
+        obj["is_activated"]=obj["is_activated"]==1;
+        obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
+        obj["itemid"]=res.id;
+        var canDel=true;
+        if(!obj["is_activated"]){
+            for(var i in DivProcessingOrderItem){
+                for (var j in DivProcessingOrderItem[i].children){
+                    if (Number(DivProcessingOrderItem[i].children[j].item)==Number(obj.itemid)){
+                        my_alert("Cannot deactivate this menu. Still have order being processing");
+                        canDel=false;
+                        break;
+                    }
+                    if(!canDel){
+                        break;
+                    }
+                }
+            }
+        }
+        if(canDel){
+            int_stall_menu_item_edit(obj,function(data){
+                int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
+                    cache_menu=data.content;
+                    uiMgr.ReloadMenu();
+                });
+                $(".black-out").empty();
+                uiMgr.ExitBlack();
+            });
+        }
+    };
+    res.find(".menu-info-edit-submit-btn").click(res.Submit);
     var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online"]
     for (j in att_to_display){
         att=att_to_display[j];
@@ -267,6 +333,7 @@ function NewMenuInfoItemAdd(){
         if(F && F[0]) 
             readImage( F[0] );
     };
+    res.find(".fileToUpload").change(res.uploadChange);
     res.resetUpload = function (e){
         var editWindow = $(e.currentTarget.parentElement.parentElement);
         editWindow.find(".fileToUpload")[0].files = null;
@@ -276,7 +343,61 @@ function NewMenuInfoItemAdd(){
         // editWindow.find("#itemid").val(res.id);
         editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
     };
-    $(res).find(".menu-info-add-promotion").attr("value","1");
+    res.Cancel = function(){
+        DivMenuInfoItemAdd=null;
+        //$(".black-out").empty();
+        //tmplBlack.remove();
+        uiMgr.ExitBlack();
+    };
+    res.find(".menu-info-add-cancel-btn").click(res.Cancel);
+
+    res.Submit = function(){
+        alert();
+        var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
+        var obj={};
+        // validate image
+        var files = res.find(".fileToUpload")[0].files;
+        if(files && files[0])
+        {
+            if(img_invalid){
+                my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
+                return;
+            }
+            var newimgid = Math.floor(Math.random()*10000000);
+            // we are uploading image for an item that does not yet exist,
+            // so we use a special id to identify its image, so our backend
+            // knows which image to use
+            // set upload form newimgid
+            $("#newitemid").val(newimgid);
+            uploadImage(newimgid); // true: this is a new item
+            obj["newimgid"]= newimgid;
+        }
+        //var res=$(event.currentTarget).parent();
+        for (att_index in att_to_display){
+            att=att_to_display[att_index];
+            obj[att]=res.find(".menu-info-add-"+att).val();
+        }
+        obj["is_available"]=obj["is_available"]==1;
+        obj["is_available_online"]=obj["is_available_online"]==1;
+        obj["is_activated"]=obj["is_activated"]==1;
+        obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
+        obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
+        obj["price"]=+obj["price"];
+        int_stall_menu_item_add(obj,function(data){
+            /*
+            $(".black-out").empty();
+            tmplBlack.remove();
+            */
+            DivMenuInfoItemAdd=null;
+            uiMgr.ExitBlack();
+            int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
+                cache_menu=data.content;
+                uiMgr.ReloadMenu();
+            });
+        });
+    };
+    res.find(".menu-info-add-submit-btn").click(res.Submit);
+    res.find(".menu-info-add-promotion").val("1");
     return res;
 }
 
@@ -718,6 +839,7 @@ function UIManager(){
             tar.Done();
         });
 
+        // stall info buttons
         $("#stall-info-submit").click(function(){
             var contentEdit={
                     "name":$("#stall-info-name").attr("value"),
@@ -730,121 +852,25 @@ function UIManager(){
             dataMgr.LoadStoreInfo.call(dataMgr)
         });
         
-        this.MenuInfo.on("click",".menu-info-item-display",function(event){
-            var obj=fia(cache_menu,"id",$(event.currentTarget).data("obj").id);
-            DivMenuInfoItemEdit=NewMenuInfoItemEdit(obj);
-            $(".black-out").empty();
-            $("#menu-info").append(tmplBlack);
-            $(".black-out").append(DivMenuInfoItemEdit);
-        });
-        this.MenuInfo.on("click",".menu-info-edit-cancel-btn",function(event){
-            DivMenuInfoItemEdit=null;
-            $(".black-out").empty();
-            tmplBlack.remove();
-        });
-        this.MenuInfo.on("click",".menu-info-edit-submit-btn",function(event){
-            var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
-            var obj={};
-            // validate image
-            var files = DivMenuInfoItemEdit.find(".fileToUpload")[0].files;
-            if(files && files[0]){
-                if(img_invalid){
-                    my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
-                    return;
-                }
-                uploadImage();
-            }
-            for (att_index in att_to_display){
-                att=att_to_display[att_index];
-                obj[att]=$($(DivMenuInfoItemEdit).find(".menu-info-edit-"+att)[0]).val();
-            }
-            obj["is_available"]=obj["is_available"]==1;
-            obj["is_available_online"]=obj["is_available_online"]==1;
-            obj["is_activated"]=obj["is_activated"]==1;
-            obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
-            obj["itemid"]=DivMenuInfoItemEdit.id;
-            var canDel=true;
-            if(!obj["is_activated"]){
-                for(var i in DivProcessingOrderItem){
-                    for (var j in DivProcessingOrderItem[i].children){
-                        if (Number(DivProcessingOrderItem[i].children[j].item)==Number(obj.itemid)){
-                            my_alert("Cannot deactivate this menu. Still have order being processing");
-                            canDel=false;
-                            break;
-                        }
-                        if(!canDel){
-                            break;
-                        }
-                    }
-                }
-            }
-            if(canDel){
-                int_stall_menu_item_edit(obj,function(data){
-                    int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
-                        cache_menu=data.content;
-                        uiMgr.ReloadMenu();
-                    });
-                    $(".black-out").empty();
-                    tmplBlack.remove();
-                });
-            }
-        });
+        // menu info buttons
         $("#menu-info-add-btn").click(function(event){
             /*var obj={"img_location":"","name":"","is_activated":"","price":"","id":"",
                     "promotion_until":"","stall":"","is_available":"","promotion":"",
                     "is_available_online":"","description":""};*/
             DivMenuInfoItemAdd=NewMenuInfoItemAdd();
-            $(".black-out").empty();
-            $("#menu-info").append(tmplBlack);
-            $(".black-out").append(DivMenuInfoItemAdd);
+            //$(".black-out").empty();
+            //$("#menu-info").append(tmplBlack);
+            //$(".black-out").append(DivMenuInfoItemAdd);
+            uiMgr.ShowBlack(DivMenuInfoItemAdd);
         });
-        this.MenuInfo.on("click",".menu-info-add-cancel-btn",function(event){
-            DivMenuInfoItemAdd=null;
-            $(".black-out").empty();
-            tmplBlack.remove();
-        });
-    
-        this.MenuInfo.on("click",".menu-info-add-submit-btn",function(event){
-            var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
-            var obj={};
-            // validate image
-            var files = DivMenuInfoItemAdd.find(".fileToUpload")[0].files;
-            if(files && files[0])
-            {
-                if(img_invalid){
-                    my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
-                    return;
-                }
-                var newimgid = Math.floor(Math.random()*10000000);
-                // we are uploading image for an item that does not yet exist,
-                // so we use a special id to identify its image, so our backend
-                // knows which image to use
-                // set upload form newimgid
-                $("#newitemid").val(newimgid);
-                uploadImage(newimgid); // true: this is a new item
-                obj["newimgid"]= newimgid;
-            }
-            var res=$(event.currentTarget).parent();
-            for (att_index in att_to_display){
-                att=att_to_display[att_index];
-                obj[att]=$($(res).find(".menu-info-add-"+att)[0]).val();
-            }
-            obj["is_available"]=obj["is_available"]==1;
-            obj["is_available_online"]=obj["is_available_online"]==1;
-            obj["is_activated"]=obj["is_activated"]==1;
-            obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
-            obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
-            obj["price"]=+obj["price"];
-            int_stall_menu_item_add(obj,function(data){
-                DivMenuInfoItemAdd=null;
-                $(".black-out").empty();
-                tmplBlack.remove();
-                int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
-                    cache_menu=data.content;
-                    uiMgr.ReloadMenu();
-                });
-            });
-        });
+    };
+    this.ShowBlack=function(div){
+        newblack = tmplBlack.clone();
+        newblack.append(div);
+        $("body").append(newblack);
+    };
+    this.ExitBlack=function(){
+        $(".black-out").remove();
     };
 }
 
@@ -875,10 +901,11 @@ function readImage(fileName) {
     };
 
 }
-function uploadImage(newimgid)
+function uploadImage(form, newimgid)
 {
     var xhr = new XMLHttpRequest();
-    var fd = new FormData(id("imgForm"));
+    //var formID = newimgid?"imgFormAdd":"imgFormEdit";
+    var fd = new FormData(form);
     xhr.addEventListener("load", uploadComplete, false);
     xhr.addEventListener("error", uploadFailed, false);
     xhr.addEventListener("abort", uploadCanceled, false);
