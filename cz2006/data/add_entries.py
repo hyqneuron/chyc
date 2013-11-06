@@ -309,12 +309,24 @@ def rebuildParts(arg, deleted=False):
 
 
         # menu item
-        m11 = menu_item(stall=s1, name='Curry Beef Fried Rice', price=3.5,img_location="/static/stall/imgs/m11.jpg", is_available_online=True)
-        m12 = menu_item(stall=s1, name='Wonton Noodles Soup', price=2.5,img_location="/static/stall/imgs/m12.jpg", is_available_online=True)
-        m13 = menu_item(stall=s1, name='Roast Pork Lo Mein', price=4.0,img_location="/static/stall/imgs/m13.jpg", is_available_online=True)
-        m14 = menu_item(stall=s1, name='Sweet & Sour Chicken', price=3.5, img_location="/static/stall/imgs/m14.jpg", is_available_online=True)
-        m15 = menu_item(stall=s1, name='Chicken Chow Mein', price=3.0,img_location="/static/stall/imgs/m15.jpg", is_available_online=True)
-        m16 = menu_item(stall=s1, name='Xiao Long Bao', price=3.5,img_location="/static/stall/imgs/m16.jpg", is_available_online=True)
+        m11 = menu_item(stall=s1, name='Curry Beef Fried Rice', price=3.5,
+                        description="Marinated ground beef and curry powder add extra flavor to fried rice",
+                        img_location="/static/stall/imgs/m11.jpg", is_available_online=True)
+        m12 = menu_item(stall=s1, name='Wonton Noodles Soup', price=2.5,
+                        description="Steaming hot soup with shrimp wontons and garnished with leafy vegetables",
+                        img_location="/static/stall/imgs/m12.jpg", is_available_online=True)
+        m13 = menu_item(stall=s1, name='Roast Pork Lo Mein', price=4.0,
+                         description="Noodles mixed with stir-fried meat,vegetables and a savory sauce",
+                        img_location="/static/stall/imgs/m13.jpg", is_available_online=True)
+        m14 = menu_item(stall=s1, name='Sweet & Sour Chicken', price=3.5,
+                         description="Chinese-style sweet and sour chicken, stir-fried with bell peppers and pineapple chunks",
+                        img_location="/static/stall/imgs/m14.jpg", is_available_online=True)
+        m15 = menu_item(stall=s1, name='Chicken Chow Mein', price=3.0,
+                         description="Egg noodles with chicken, cabbage, bean sprouts and supreme soy sauce",
+                        img_location="/static/stall/imgs/m15.jpg", is_available_online=True)
+        m16 = menu_item(stall=s1, name='Xiao Long Bao', price=3.5,
+                        description="Delious steamed bun from the Jiangnan region of China",
+                        img_location="/static/stall/imgs/m16.jpg", is_available_online=True)
 
         m21 = menu_item(stall=s2, name='Ochazuke', price=2.5, description="Hot green tea poured over cooked white rice, with various savory ingredients", img_location="/static/stall/imgs/m21.jpg", is_available_online=True)
         m22 = menu_item(stall=s2, name='Katsudon', price=3.5, description="Donburi topped with deep-fried breaded cutlet of pork", img_location="/static/stall/imgs/m22.jpg", is_available_online=True)
