@@ -270,7 +270,8 @@ function NewMenuInfoItemAdd(){
         editWindow.find(".fileToUpload")[0].files = null;
         // reset image to original
         id("imgForm").reset();
-        editWindow.find("#itemid").val(res.id);
+        // new item has no id, don't set
+        // editWindow.find("#itemid").val(res.id);
         editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
     };
     $(res).find(".menu-info-add-promotion").attr("value","1");
@@ -729,13 +730,12 @@ function UIManager(){
             var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
             var obj={};
             // validate image
-            if(img_invalid){
-                my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
-                return;
-            }
-            // upload image if selected
             var files = DivMenuInfoItemEdit.find(".fileToUpload")[0].files;
             if(files && files[0]){
+                if(img_invalid){
+                    my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
+                    return;
+                }
                 uploadImage();
             }
             for (att_index in att_to_display){
@@ -790,6 +790,23 @@ function UIManager(){
         this.MenuInfo.on("click",".menu-info-add-submit-btn",function(event){
             var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
             var obj={};
+            // validate image
+            var files = DivMenuInfoItemAdd.find(".fileToUpload")[0].files;
+            if(files && files[0])
+            {
+                if(img_invalid){
+                    my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
+                    return;
+                }
+                var newimgid = Math.floor(Math.random()*10000000);
+                // we are uploading image for an item that does not yet exist,
+                // so we use a special id to identify its image, so our backend
+                // knows which image to use
+                // set upload form newimgid
+                $("#newitemid").val(newimgid);
+                uploadImage(newimgid); // true: this is a new item
+                obj["newimgid"]= newimgid;
+            }
             var res=$(event.currentTarget).parent();
             for (att_index in att_to_display){
                 att=att_to_display[att_index];
@@ -840,7 +857,7 @@ function readImage(fileName) {
     };
 
 }
-function uploadImage()
+function uploadImage(newimgid)
 {
     var xhr = new XMLHttpRequest();
     var fd = new FormData(id("imgForm"));
