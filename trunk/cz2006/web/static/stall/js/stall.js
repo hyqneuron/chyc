@@ -280,12 +280,13 @@ function NewMenuInfoItemAdd(){
 
 function NewReport(){
     var res=tmplReport.clone();
-    var allItem;
+    var allItem=null;
     int_stall_get_all_menu_item({},function(data){
         allItem=data.content;
         int_stall_report({},function(data){
             data=data["content"];
             for (key in data){
+                ja(data[key]);
                 var tablelines=new Array();
                 var subTotalNumOrder=0;
                 var subTotalRevenue=0;
@@ -309,15 +310,18 @@ function NewReport(){
                 for (var i in data[key]){
                     for ( var j in data[key][i].details){
                         var newCol=tmplCol.clone().html(data[key][i].details[j].quantity);
+                        if(key=="daily"&&i=10||key=="monthly"&&i=12){
+                            newCol.addClass("pthis");
+                        }
                         tablelines[j].append(newCol);
                         subTotal[j]+=data[key][i].details[j].quantity;
                     }
                 }
-                
+                 
                 for ( var j=0;j<tablelines.length;j++){
-                        var newCol=tmplCol.clone().html(subTotal[j]);
-                        tablelines[j].append(newCol);
-                        res.find("."+key+" tbody").append(tablelines[j]);
+                    var newCol=tmplCol.clone().html(subTotal[j]);
+                    tablelines[j].append(newCol);
+                    res.find("."+key+" tbody").append(tablelines[j]);
                 }
             }
         });
@@ -673,6 +677,7 @@ function UIManager(){
             confirm_msg+="</ul>Please confirm the order by scanning the bar code.\n";
 
             var barcode="";
+            tmplBlack.empty();
             $("#take-order").append(tmplBlack);
             $(".black-out").focus();
             $(".black-out").append("<div style='max-width: 500px;padding: 15px;margin: 0 auto;background: white;margin-top: 70px;overflow: auto;'>"+confirm_msg+"</div>");
@@ -718,6 +723,7 @@ function UIManager(){
         this.MenuInfo.on("click",".menu-info-item-display",function(event){
             var obj=fia(cache_menu,"id",$(event.currentTarget).data("obj").id);
             DivMenuInfoItemEdit=NewMenuInfoItemEdit(obj);
+            tmplBlack.empty();
             $("#menu-info").append(tmplBlack);
             $(".black-out").append(DivMenuInfoItemEdit);
         });
@@ -778,6 +784,7 @@ function UIManager(){
                     "promotion_until":"","stall":"","is_available":"","promotion":"",
                     "is_available_online":"","description":""};*/
             DivMenuInfoItemAdd=NewMenuInfoItemAdd();
+            tmplBlack.empty();
             $("#menu-info").append(tmplBlack);
             $(".black-out").append(DivMenuInfoItemAdd);
         });
@@ -818,7 +825,6 @@ function UIManager(){
             obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
             obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
             obj["price"]=+obj["price"];
-            ja(obj);
             int_stall_menu_item_add(obj,function(data){
                 $(".black-out").remove();
                 int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
