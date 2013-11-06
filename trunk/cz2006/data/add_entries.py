@@ -325,7 +325,7 @@ def rebuildParts(arg, deleted=False):
                          description="Egg noodles with chicken, cabbage, bean sprouts and supreme soy sauce",
                         img_location="/static/stall/imgs/m15.jpg", is_available_online=True)
         m16 = menu_item(stall=s1, name='Xiao Long Bao', price=3.5,
-                        description="Delious steamed bun from the Jiangnan region of China",
+                        description="Delicious steamed bun from the Jiangnan region of China",
                         img_location="/static/stall/imgs/m16.jpg", is_available_online=True)
 
         m21 = menu_item(stall=s2, name='Ochazuke', price=2.5, description="Hot green tea poured over cooked white rice, with various savory ingredients", img_location="/static/stall/imgs/m21.jpg", is_available_online=True)
