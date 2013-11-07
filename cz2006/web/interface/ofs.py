@@ -534,6 +534,30 @@ class ofsBackend:
         newbalance = float(cus.balance) + float(value)
         cus.balance = newbalance
         valid_save(cus)
+        # sms customer to notify
+        smsCustomer(cus, "CaMS: Your account has received a topup of $"+str(value)
+        +", your current balance is $"+str(newbalance))
+        return case1(cus)
+
+    @staticmethod
+    @setcm(1,["customerid"],"",
+           1,"return the customer obj")
+    def int_ofs_customer_refund(request, content):
+        #check login
+        get_login_ofs(request)
+        #get parameter
+        customerid = get_attribute(content, "customerid")
+        #check customer validation
+        try:
+            cus = customer.objects.get(id=customerid, is_activated=True)
+        except Exception:
+            return error(err_missing_obj)
+        #execute
+        oldbalance = cus.balance
+        cus.balance = 0
+        valid_save(cus)
+        # sms customer to notify
+        smsCustomer(cus, "CaMS: Your account has been refunded $"+str(oldbalance))
         return case1(cus)
 
 

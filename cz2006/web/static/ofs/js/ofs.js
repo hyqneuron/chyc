@@ -264,7 +264,9 @@ function UIManager(){
 
         // tab-specific
         // customer
-        $("#cusPageNum").change(cusMgr.PageNumChange);
+        $(".cusPagePrev").click(cusMgr.PagePrev);
+        $(".cusPageNext").click(cusMgr.PageNext);
+        //$("#cusPageNum").change(cusMgr.PageNumChange);
         $("#cusSelClear").click(function(){cusMgr.UnselectAll();});
         $("#cusSelAll").click(function(){cusMgr.SelectAll();});
         $("#cusSelDeact").click(function(){cusMgr.MassDeactSelected();});
@@ -277,6 +279,7 @@ function UIManager(){
         $("#cusInfoButActivate").click(function(){cusMgr.SingleCusToggleActivated();});
         $("#cusInfoButChangePassword").click(function(){cusMgr.SingleCusResetPwd();});
         $("#cusInfoButTopup").click(function(){cusMgr.SingleCusShowTopupWin();});
+        $("#cusInfoButRefund").click(function(){cusMgr.SingleCusRefund();});
         $("#cusInfoDisp").hide();
 
         // customer registration
@@ -314,8 +317,8 @@ function UIManager(){
 }
 
 function CusUIManager(){
-    this.pageCountSpan = $("#cusPageCount");
-    this.inputPageNum    = $("#cusPageNum");
+    this.pageCountSpan = $(".cusPageCount");
+    this.PageNum    = $(".cusPageNum");
 
     this.cusContainer = $("#CustomerDIVContainer");
     // the customer we show in single cus info tab, not a cus DIV
@@ -332,19 +335,26 @@ var massDeregFromSel = false;
         int_ofs_customer_page_count({}, function(data){
             cusMgr.pageCountSpan.html(data.content.page_count);
             cache_page_count = parseInt(data.content.page_count);
-            cusMgr.inputPageNum.attr("max",data.content.page_count);
+            //cusMgr.inputPageNum.attr("max",data.content.page_count);
             if(true && data.content.page_count>0)
                 cusMgr.LoadPage(1);
         });
     }
-    this.PageNumChange=function(){
+    this.PagePrev = function(){
+        cusMgr.PageNumChange(page_num_prev-1);
+    };
+    this.PageNext = function(){
+        cusMgr.PageNumChange(page_num_prev+1);
+    };
+    this.PageNumChange=function(pagenum){
         // validate value
-        var pagenum = parseInt(cusMgr.inputPageNum.val());
+        //var pagenum = parseInt(cusMgr.inputPageNum.val());
         if(!pagenum || pagenum<0 || pagenum>cache_page_count) {
-            cusMgr.inputPageNum.val(page_num_prev);
+            cusMgr.PageNum.html(page_num_prev);
             return;
         }
         page_num_prev = pagenum;
+        cusMgr.PageNum.html(page_num_prev);
         cusMgr.LoadPage(pagenum);
     };
     this.RefreshCurrentPage = function(){
@@ -496,6 +506,15 @@ var massDeregFromSel = false;
                 uiMgr.Alert(txt);
             }
         );
+    };
+    this.SingleCusRefund = function(){
+        if(!cusMgr.SingleCus) return;
+        if(!confirm("Are you sure to refund this customer's balance?")) return;
+        int_ofs_customer_refund({customerid: cusMgr.SingleCus.id}, function(data){
+            cusMgr.ShowSingleCusData(data);
+            cusMgr.RefreshCurrentPage();
+            uiMgr.Alert("Refund successful");
+        });
     };
     this.SingleCusShowTopupWin = function(){
         if(!cusMgr.SingleCus) return;

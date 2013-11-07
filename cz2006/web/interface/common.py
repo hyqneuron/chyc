@@ -286,6 +286,12 @@ def return_queue_number(canobj, qnum):
 
 # Your Account Sid and Auth Token from twilio.com/user/account
 
+def smsCustomer(cus, msg):
+    if cus.hpnumber == "":
+        return
+    sendSMS(msg, cus.hpnumber)
+    
+
 def sendSMS(sms, number):
     # create client
     client = TwilioRestClient(account_sid, auth_token)

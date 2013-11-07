@@ -55,3 +55,13 @@ border-color: #999999;
 .reportSubTable{
     width:100%;
 }
+.PageSelection{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+#repContainer{
+    min-width:800px;
+}
+#repTableMonthly,#repTableDaily{
+    font-size:14px;
+}

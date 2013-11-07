@@ -66,7 +66,7 @@
         <div id="sidebar-wrapper">
             
             <ul class = "sidebar-nav">
-                <li class="MenuGroup" id="GroupCus"><a class="MenuParent sideParent" tab="tab_cus" group="GroupCus">Customers</a></li>
+                <li class="MenuGroup" id="GroupCus"><a class="MenuParent sideParent mgrOnly" tab="tab_cus" group="GroupCus">Customers</a></li>
                 <li class="MenuGroup" id="GroupCus"><a class="MenuChild sideChild" tab="tab_cus_info" group="GroupCus">Customer Info</a></li>
                 <li class="MenuGroup" id="GroupCus"><a class="MenuChild mgrOnly sideChild" tab="tab_cus_register" group="GroupCus">Mass Registration</a></li>
                 <li class="MenuGroup" id="GroupCus"><a class="MenuChild mgrOnly sideChild" tab="tab_cus_deactivate" group="GroupCus">Mass Deactivation</a></li>
@@ -90,12 +90,11 @@
                     </div>
             </div>
 
-            <div id="tab_cus" class="tab" style="display:none">
+            <div id="tab_cus" class="tab mgrOnly" style="display:none">
                 <h3>Customers</h3>
     
                 
                 
-                Page<input type=number id="cusPageNum" min=1 max=1 value=1 /> / <span id="cusPageCount">1</span>
                 
                 
                 
@@ -116,6 +115,18 @@
                 <button type="button" id="cusSelDeact" class="btn btn-warning btn-sm">
                     <span class="glyphicon glyphicon-trash"></span> Deactivate selected
                 </button>
+
+                <div class="PageSelection">
+                    Page <span type=number class="cusPageNum">1</span> / <span class="cusPageCount">1</span>
+
+                    <button type="button" class="cusPagePrev" class="btn btn-warning btn-sm">
+                        <span class="glyphicon glyphicon-arrow-left"></span> Previous Page
+                    </button>
+
+                    <button type="button" class="cusPageNext" class="btn btn-warning btn-sm">
+                        <span class="glyphicon glyphicon-arrow-right"></span> Next Page
+                    </button>
+                </div>
                 
                 
                 
@@ -195,6 +206,9 @@
                     </button>
                     <button type="button" id="cusInfoButTopup" class="btn btn-info btn-sm">
                         <span class="glyphicon glyphicon-credit-card"></span> Top up
+                    </button>
+                    <button type="button" id="cusInfoButRefund" class="btn btn-info btn-sm">
+                        <span class="glyphicon glyphicon-credit-card"></span> Refund
                     </button>
                 </div>
                 </div>

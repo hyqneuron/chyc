@@ -230,8 +230,15 @@ function NewMenuItem(miobj){
         res.desc.animate({"margin-top":"0px",
                          "box-shadow":""}, 300);
     });
+    res.Price = res.find(".MIPrice");
     res.find(".MIName").html(miobj.name);
-    res.find(".MIPrice").html(" $"+dataMgr.calcMIPrice(miobj));
+    res.Price.html(" $"+dataMgr.calcMIPrice(miobj));
+    // show promotion sign
+    if(miobj.promotion!=1)
+    {
+        res.find(".MICaption").css('color', "#f90");
+        res.Price.html(res.Price.html()+"(promo)");
+    }
     res.desc.html(miobj.description);
     var imagediv = res.find(".MIImage");
     if(miobj.img_location){
@@ -478,7 +485,7 @@ function UIManager(){
         var pwd = $("#settingPwd").val();
         var hpno = $("#settingHPNo").val();
         int_cus_change_settings({password:pwd, hpnumber: hpno}, function(){
-            uiMgr.Alert("Password successfully changed");
+            uiMgr.Alert("Settings successfully changed");
             $("#settingPwd").val("");
         });
     };
