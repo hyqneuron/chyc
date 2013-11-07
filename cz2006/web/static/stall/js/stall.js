@@ -250,12 +250,11 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
             readImage( F[0] );
     }
     res.resetUpload = function (e){
-        var editWindow = $(e.currentTarget.parentElement.parentElement);
-        editWindow.find(".fileToUpload")[0].files = null;
+        res.find(".fileToUpload")[0].files = null;
         // reset image to original
-        id("imgForm").reset();
-        editWindow.find("#itemid").val(res.id);
-        editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
+        res.find(".imgForm")[0].reset();
+        res.find("#itemid").val(res.id);
+        res.find('.image-data').css("background-image", makeurl(res.img_location));
     }
     res.Cancel = function()
     {
@@ -342,6 +341,9 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
 }
 
 function NewMenuInfoItemAdd(){
+    // default image of a new item
+    var defaultPath="/static/stall/imgs/m0.jpg";
+
     var res=tmplMenuInfoItemAdd.clone().attr({"style":"","id":"menu-info-item-add",});
      res.uploadChange=function(e) {
         if(this.disabled) return my_alert('File upload not supported!');
@@ -354,14 +356,12 @@ function NewMenuInfoItemAdd(){
     });
     res.find(".fileToUpload").change(res.uploadChange);
     res.resetUpload = function (e){
-        var editWindow = $(e.currentTarget.parentElement.parentElement);
-        editWindow.find(".fileToUpload")[0].files = null;
+        res.find(".fileToUpload")[0].files = null;
         // reset image to original
-        id("imgForm").reset();
-        // new item has no id, don't set
-        // editWindow.find("#itemid").val(res.id);
-        editWindow.find(".image-data").css("background-image", makeurl(res.img_location));
+        res.find(".imgForm")[0].reset();
+        res.find(".image-data").css("background-image", makeurl(defaultPath));
     };
+    res.find(".resetUploadBut").click(res.resetUpload);
     res.Cancel = function(){
         DivMenuInfoItemAdd=null;
         //$(".black-out").empty();
@@ -402,6 +402,7 @@ function NewMenuInfoItemAdd(){
         obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
         obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
         obj["price"]=+obj["price"];
+        // init an image
         int_stall_menu_item_add(obj,function(data){
             /*
             $(".black-out").empty();
@@ -415,6 +416,7 @@ function NewMenuInfoItemAdd(){
             });
         });
     };
+    res.find('.image-data').css("background-image", makeurl(defaultPath));
     res.find(".menu-info-add-submit-btn").click(res.Submit);
     res.find(".menu-info-add-promotion").val("1");
     return res;
@@ -895,6 +897,10 @@ function UIManager(){
 }
 
 
+function setPreviewImg(path){
+    $(".imgUploadPreview").css("background-image", "url("+path+")");
+}
+
 //TODO should have better place to put the image functions
 //image functions
 function readImage(fileName) {
@@ -912,7 +918,8 @@ function readImage(fileName) {
                 n = file.name,
                 s = ~~(file.size/1024) +'KB';
             img_invalid = false;
-            $('.imgUploadPreview').css("background-image", "url("+this.src+")");
+            setPreviewImg(this.src);
+            //$('.imgUploadPreview').css("background-image", "url("+this.src+")");
         };
         image.onerror= function() {
             img_invalid = true;
