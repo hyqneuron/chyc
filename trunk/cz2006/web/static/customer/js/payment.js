@@ -48,7 +48,6 @@ function DataManager(){
 
     this.getCanteenID=function(){
         var cookie = document.cookie;
-        alert(cookie);
         // we prefix id with azxd
         if(cookie.indexOf("azxd")!=0)
             return null;
@@ -57,7 +56,6 @@ function DataManager(){
     };
     this.setCanteenID=function(id){
         document.cookie = "azxd"+id;
-        alert(document.cookie);
     };
     this.clearCanteenID=function(){
         document.cookie = "";

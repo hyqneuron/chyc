@@ -85,7 +85,7 @@ function newNewStallDIV(data)
             if(cache_stalls[i].canteen!=res.id)
                 continue;
             if(cache_stalls[i].category==cate){
-                if(confirm("A stall with the same category already exists in this cantten. Continue?"))
+                if(confirm("A stall with the same category already exists in this canteen. Continue?"))
                     break;
                 else
                     return;
