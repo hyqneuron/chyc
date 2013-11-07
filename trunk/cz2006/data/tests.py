@@ -122,9 +122,9 @@ class UnitFunctionTest(TestCase):
         content2 = {"username": "cust1","password":"password","domain":"customer"}
         name2 = 'username'
         
-        self.assertEqual(get_attribute(content,name),content['username'])       #pass
+        self.assertEqual(get_attribute(content,name),content['username'])       
   
-        self.assertEqual(get_attribute(content2,name2),"cust1")                 #pass
+        self.assertEqual(get_attribute(content2,name2),"cust1")                 
 
         #name not in content: raise cams_ex
         with self.assertRaises(cams_ex) as e:
@@ -162,11 +162,11 @@ class UnitFunctionTest(TestCase):
         response4 = json.loads(error(err4,err_msg4).content)
         expected4 = {"err_msg": '',"err_code":2}        
         
-        self.assertEqual(response, expected)        #pass
-        self.assertEqual(response1, expected1)      #pass
-        self.assertEqual(response2, expected2)      #pass
-        self.assertEqual(response3, expected3)      #pass
-        self.assertEqual(response4, expected4)      #pass
+        self.assertEqual(response, expected)        
+        self.assertEqual(response1, expected1)      
+        self.assertEqual(response2, expected2)      
+        self.assertEqual(response3, expected3)      
+        self.assertEqual(response4, expected4)      
         
     def test_method_case1(self):
         '''test for case1() method'''
@@ -179,8 +179,8 @@ class UnitFunctionTest(TestCase):
         expected1 = {"err_code": err_success[0], "err_msg":None, "content": obj.get_json_dict()}
 
 
-        self.assertEqual(case1Resp, expected)       #pass
-        self.assertEqual(case1Resp1, expected1)     #pass
+        self.assertEqual(case1Resp, expected)       
+        self.assertEqual(case1Resp1, expected1)     
 
     
     def test_method_getLoginStall(self):
@@ -339,30 +339,7 @@ class UnitFunctionTest(TestCase):
             validate_password(password7)
         repliedEx = e.exception
         self.assertEqual(repliedEx.err_obj[0], 16)
-        
-
-    '''     
-    def test_method_getQueueNumber(self):
-        #test for get_queue_number() method
-        canObj = canteen()
-        tUser = customer()
-        qNum = get_queue_number(canObj, tUser)
-        self.assertEqual(qNum,bad_luck_number)
-
-    def test_method_returnQueueNumber(self):
-        #test for return_queue_number() method
-        #canObj = canteen()     
-        canObj = canteen.objects.get(name='Canteen 1')
-        qNum = 1
-        #qNum = bad_luck_number
-        qNumReturned = return_queue_number(canObj, qNum)
-        self.assertEqual(qNumReturned,bad_luck_number)
-        #self.assertEqual(qNumReturned,None)
-    '''
-        
-
-
-    
+          
         
     #----------------------------------------------
     #       class infoBackend
