@@ -594,6 +594,11 @@ function UIManager(){
         uiMgr.Blacker.show();
     };
     this.ErrHandler = function(data){
+        if(data.err_code==err_id_notfound)
+        {
+            uiMgr.Alert("Update in canteen/stall information occured. You may need to refresh this page.");
+            return;
+        }
         uiMgr.Alert(data.err_msg);
     };
 }
