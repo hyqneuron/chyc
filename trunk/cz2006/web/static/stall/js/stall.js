@@ -332,6 +332,9 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
     }
     res.find(".menu-info-edit-description").html(menuInfoItemDisplayObj["description"]);
     res.find("#itemid").val(menuInfoItemDisplayObj['id']);
+    res.find(".browse").click(function(){
+        res.find(".fileToUpload").trigger("click");
+    });
     res.find(".fileToUpload").change(res.uploadChange);
     res.find(".resetUploadBut").click(res.resetUpload);
     res.find(".image-data").css("background-image", makeurl(menuInfoItemDisplayObj.img_location));
@@ -346,6 +349,9 @@ function NewMenuInfoItemAdd(){
         if(F && F[0]) 
             readImage( F[0] );
     };
+    res.find(".browse").click(function(){
+        res.find(".fileToUpload").trigger("click");
+    });
     res.find(".fileToUpload").change(res.uploadChange);
     res.resetUpload = function (e){
         var editWindow = $(e.currentTarget.parentElement.parentElement);
@@ -786,7 +792,6 @@ function UIManager(){
         });
         // buttons inside take order
         $("#cancel-order").click(function(){
-            alert();
             my_confirm("Clear Order Cart?",function(){
                 uiMgr.ClearOrderCart.call(uiMgr);
             },function(){});

@@ -33,7 +33,7 @@ body{
 
 
 .navbar{
-width:1024px;
+    width:1024px;
 }
 
 .menu-ul,#menu-info-item-display-template 
@@ -190,9 +190,9 @@ margin-right:3px;
 }
 
 #stall-management {
-  max-width: 1024;
-  padding: 15px;
-  margin: 0 auto;
+    max-width: 1024;
+    padding: 15px;
+    margin: 0 auto;
 }
 .daily,.monthly{
     width:100%;
