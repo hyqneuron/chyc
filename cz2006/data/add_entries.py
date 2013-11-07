@@ -30,6 +30,18 @@ def rebuildParts(arg, deleted=False):
         cus1.build_cart()
         cus2.save()
         cus2.build_cart()
+        cus3 = customer(username='yangliu', barcode='U1221696A', password='password',
+                        usertype=customer.student, balance=0.0)
+        cus4 = customer(username='chenpeng', barcode='U1221188J', password='password',
+                        usertype=customer.student, balance=0.0)
+        cus5 = customer(username='visitor1', barcode='U1222331C', password='password',
+                        usertype=customer.visitor, balance=0.0)
+        cus3.save()
+        cus3.build_cart()
+        cus4.save()
+        cus4.build_cart()
+        cus5.save()
+        cus5.build_cart()
 
         # 999 test customers
         print "Adding 999 test customers"
@@ -172,10 +184,10 @@ def rebuildParts(arg, deleted=False):
             canteen=c5, username_prefix="stall20", category="Korean")
 
         s21 = stall(name='Japanese Stall', description='We Serve Variation of Ramen, from the Tonkotsu Ramen of Kyushu to the Miso Ramen of Hokkaido', 
-            canteen=c5, username_prefix="stall21", category="Japanese")
+            canteen=c6, username_prefix="stall21", category="Japanese")
 
         s22 = stall(name='Chinese Stall', description='Traditional Cantonese Dim Sum Delights', 
-            canteen=c5, username_prefix="stall22", category="Chinese")
+            canteen=c6, username_prefix="stall22", category="Chinese")
 
 
         """
@@ -646,16 +658,46 @@ def rebuildParts(arg, deleted=False):
         order2 = order(customer=cus2, stall = s2, 
             queue_num=get_queue_number(s2.canteen, cus2), 
             payment_time=datetime.now(),total=4)
+        order3 = order(customer=cus2, stall = s2, 
+            queue_num=get_queue_number(s2.canteen, cus2), 
+            payment_time=datetime.now(),total=4)
+        order4 = order(customer=cus2, stall = s2, 
+            queue_num=get_queue_number(s2.canteen, cus2), 
+            payment_time=datetime.now(),total=4)
+        order5 = order(customer=cus2, stall = s2, 
+            queue_num=get_queue_number(s2.canteen, cus2), 
+            payment_time=datetime.now(),total=4)
+        order6 = order(customer=cus2, stall = s2, 
+            queue_num=get_queue_number(s2.canteen, cus2), 
+            payment_time=datetime.now(),total=4)
+        order7 = order(customer=cus2, stall = s2, 
+            queue_num=get_queue_number(s2.canteen, cus2), 
+            payment_time=datetime.now(),total=4)
         order1.save()
         order2.save()
+        order3.save()
+        order4.save()
+        order5.save()
+        order6.save()
+        order7.save()
 
         # order item
         oi11 = order_item(order=order1, item=m11, quantity=1, remarks='spicy')
         oi12 = order_item(order=order1, item=m12, quantity=2)
         oi21 = order_item(order=order2, item=m21, quantity=1)
+        oi31 = order_item(order=order3, item=m21, quantity=1)
+        oi41 = order_item(order=order4, item=m21, quantity=1)
+        oi51 = order_item(order=order5, item=m21, quantity=1)
+        oi61 = order_item(order=order6, item=m21, quantity=1)
+        oi71 = order_item(order=order7, item=m21, quantity=1)
         oi11.save()
         oi12.save()
         oi21.save()
+        oi31.save()
+        oi41.save()
+        oi51.save()
+        oi61.save()
+        oi71.save()
 
         print "stall, stall_user, menu_item, order, order_item rebuilt"
 
