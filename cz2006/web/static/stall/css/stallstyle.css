@@ -303,3 +303,8 @@ textarea{
 .daily thead,.daily tfoot,.monthly thead,.monthly tfoot{
     border-top-style:solid;
     border-bottom-style:solid;
+}
+
+button.browse{
+    margin-left: 5px;
+}
