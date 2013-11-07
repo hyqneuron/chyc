@@ -268,7 +268,7 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
         // check if item can be removed or not
         for(var i in DivProcessingOrderItem){
             for (var j in DivProcessingOrderItem[i].children){
-                if (Number(DivProcessingOrderItem[i].children[j].item)==Number(obj.itemid)){
+                if (Number(DivProcessingOrderItem[i].children[j].item)==Number(res.id)){
                     my_alert("Cannot remove this menu item. Still have order being processing");
                     return;
                 }
