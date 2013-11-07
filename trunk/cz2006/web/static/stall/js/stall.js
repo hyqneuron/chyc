@@ -266,6 +266,15 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
     };
     res.find(".menu-info-edit-cancel-btn").click(res.Cancel);
     res.Deact = function(){
+        // check if item can be removed or not
+        for(var i in DivProcessingOrderItem){
+            for (var j in DivProcessingOrderItem[i].children){
+                if (Number(DivProcessingOrderItem[i].children[j].item)==Number(obj.itemid)){
+                    my_alert("Cannot remove this menu item. Still have order being processing");
+                    return;
+                }
+            }
+        }
         my_confirm("Are you sure to remove this item?", function(){
             res.rawdata.is_activated = false;
             res.rawdata.itemid = res.id;
@@ -299,24 +308,11 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
         }
         obj["is_available"]=obj["is_available"]==1;
         obj["is_available_online"]=obj["is_available_online"]==1;
-        obj["is_activated"]=obj["is_activated"]==1;
+        //obj["is_activated"]=obj["is_activated"]==1;
+        obj["is_activated"]=true;
         obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
         obj["itemid"]=res.id;
         var canDel=true;
-        if(!obj["is_activated"]){
-            for(var i in DivProcessingOrderItem){
-                for (var j in DivProcessingOrderItem[i].children){
-                    if (Number(DivProcessingOrderItem[i].children[j].item)==Number(obj.itemid)){
-                        my_alert("Cannot deactivate this menu. Still have order being processing");
-                        canDel=false;
-                        break;
-                    }
-                    if(!canDel){
-                        break;
-                    }
-                }
-            }
-        }
         if(canDel){
             int_stall_menu_item_edit(obj,function(data){
                 int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
@@ -396,7 +392,7 @@ function NewMenuInfoItemAdd(){
         }
         obj["is_available"]=obj["is_available"]==1;
         obj["is_available_online"]=obj["is_available_online"]==1;
-        obj["is_activated"]=obj["is_activated"]==1;
+        obj["is_activated"]=true;
         obj["promotion_until"]=obj["promotion_until"]==""?null:obj["promotion_until"];
         obj["promotion"]=obj["promotion"]==""?null:obj["promotion"];
         obj["price"]=+obj["price"];
