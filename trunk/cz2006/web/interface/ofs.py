@@ -100,6 +100,9 @@ class ofsBackend:
             if errinfo:
                 msg += ": "+errinfo
             return error(err_mass_creation_failed, msg)
+        # build cart for all
+        for cus in success:
+            cus.build_cart()
         return error(err_success)
                 
     @staticmethod
