@@ -59,6 +59,7 @@ function my_alert(message){
     });
 }
 function my_confirm(message,callbackTrue,callbackFalse){
+    // leave as is. Looks like we can have 2 black-out at the same time
     $("body").append(tmplConfirm);
     tmplConfirm.find(".confirm-message").html(message);
     tmplConfirm.on("click",".confirm-confirm",function(){
@@ -175,7 +176,6 @@ function NewProcessingOrderItem(processingOrderItemObj){
         table+="<tr><td>"+fia(cache_menu,"id",item.item).name+"</td><td>"+item.quantity+"</td><td>"+item.remarks+"</td></tr>";
     }
     res.Revoke = function(){
-        alert('inside revoke');
         my_confirm("Confirm to revoke this order?",function(){
             var obj;
             my_confirm("Notify customer of the revoke?",function(){
@@ -239,6 +239,7 @@ function NewMenuInfoItemDisplay(menuInfoItemDisplayObj){
 function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
     var res=tmplMenuInfoItemEdit.clone();
     copykeys(res,menuInfoItemDisplayObj);
+    res.rawdata = menuInfoItemDisplayObj;
     menuInfoItemDisplayObj["is_activated"]=menuInfoItemDisplayObj["is_activated"]?1:0;
     menuInfoItemDisplayObj["is_available"]=menuInfoItemDisplayObj["is_available"]?1:0;
     menuInfoItemDisplayObj["is_available_online"]=menuInfoItemDisplayObj["is_available_online"]?1:0;
@@ -264,6 +265,22 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
         uiMgr.ExitBlack();
     };
     res.find(".menu-info-edit-cancel-btn").click(res.Cancel);
+    res.Deact = function(){
+        my_confirm("Are you sure to remove this item?", function(){
+            res.rawdata.is_activated = false;
+            res.rawdata.itemid = res.id;
+            int_stall_menu_item_edit(res.rawdata,function(data){
+                int_get_menu_item_install({stallid:stallUser["stall"]},function(data){
+                    cache_menu=data.content;
+                    uiMgr.ReloadMenu();
+                });
+                //$(".black-out").empty();
+                uiMgr.ExitBlack();
+            });
+        }, function(){
+        });
+    };
+    res.find(".menu-info-edit-deact-btn").click(res.Deact);
     res.Submit = function(){
         var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
         var obj={};
@@ -306,7 +323,7 @@ function NewMenuInfoItemEdit(menuInfoItemDisplayObj){
                     cache_menu=data.content;
                     uiMgr.ReloadMenu();
                 });
-                $(".black-out").empty();
+                //$(".black-out").empty();
                 uiMgr.ExitBlack();
             });
         }
@@ -352,7 +369,6 @@ function NewMenuInfoItemAdd(){
     res.find(".menu-info-add-cancel-btn").click(res.Cancel);
 
     res.Submit = function(){
-        alert();
         var att_to_display=["name","is_activated","price","promotion_until","is_available","promotion","is_available_online","description"]
         var obj={};
         // validate image
@@ -363,13 +379,14 @@ function NewMenuInfoItemAdd(){
                 my_alert("Image to be uploaded is invalid. If you want to submit the rest of the edited information, you may click the Reset Upload button");
                 return;
             }
-            var newimgid = Math.floor(Math.random()*10000000);
             // we are uploading image for an item that does not yet exist,
             // so we use a special id to identify its image, so our backend
             // knows which image to use
+            var newimgid = Math.floor(Math.random()*10000000);
             // set upload form newimgid
-            $("#newitemid").val(newimgid);
-            uploadImage(newimgid); // true: this is a new item
+            res.find(".newimgid").val(newimgid);
+            uploadImage(res.find('.imgFormAdd'));
+            // we set newimgid for API only when we upload image
             obj["newimgid"]= newimgid;
         }
         //var res=$(event.currentTarget).parent();
@@ -864,13 +881,15 @@ function UIManager(){
             uiMgr.ShowBlack(DivMenuInfoItemAdd);
         });
     };
+    this.currentBlack = null;
     this.ShowBlack=function(div){
         newblack = tmplBlack.clone();
         newblack.append(div);
         $("body").append(newblack);
+        uiMgr.currentBlack = newblack;
     };
     this.ExitBlack=function(){
-        $(".black-out").remove();
+        uiMgr.currentBlack.remove();
     };
 }
 
@@ -901,10 +920,11 @@ function readImage(fileName) {
     };
 
 }
-function uploadImage(form, newimgid)
+function uploadImage(form)
 {
     var xhr = new XMLHttpRequest();
-    //var formID = newimgid?"imgFormAdd":"imgFormEdit";
+    // form is a jquery object. we just need the first element
+    form = form[0];
     var fd = new FormData(form);
     xhr.addEventListener("load", uploadComplete, false);
     xhr.addEventListener("error", uploadFailed, false);

@@ -247,6 +247,7 @@ class stallBackend:
         our_stall = get_login_stall(request)
         item = get_by_id(menu_item,itemid)
         # get parameters
+        # img_location is handled by upload function at end of file
         mayset(content, item, 'name')
         mayset(content, item, 'description')
         mayset(content, item, 'price')
@@ -298,10 +299,10 @@ class stallBackend:
 
 imgrelativepath = "/static/stall/imgs/"
 def get_item_image_path(itemid):
-    return imgrelativepath + "mi"+itemid+".jpg"
+    return imgrelativepath + "miX"+itemid+".jpg"
 
 def get_newitem_image_path(newimgid):
-    return imgrelativepath + "mitmp"+newimgid+".jpg"
+    return imgrelativepath + "mitmp"+str(newimgid)+".jpg"
 imgabsoluteprefix=os.getcwd()+"/web"
 
 # this is the view handler for img upload
@@ -310,24 +311,21 @@ def handle_upload(request):
     try: our_stall = get_login_stall(request)
     except Exception: 
         return HttpResponse("You're not logged in as a stall user")
-    print request.FILES 
-    print request.FILES['fileToUpload'] 
-    print request.POST 
-    print request.POST['itemid']
-    if not (request.FILES and request.FILES['fileToUpload'] and request.POST and request.POST['itemid']):
+    print request.FILES
+    if not (request.FILES and request.FILES['fileToUpload'] and request.POST and (request.POST['itemid'] or request.POST['newimgid'])):
         return HttpResponse("Upload failed")
 
-    newimgid=0
+    isNewItem = False
     # we are uploading image for a new item (doesn't exist yet)
-    relativepath=""
-    if request.POST['newimgid']:
+    if 'newimgid' in request.POST:
         relativepath = get_newitem_image_path(request.POST['newimgid'])
-        
+        isNewItem = True
     # we're uploading image for an existing item
     else:
-        relativepath = get_item_image_path(request.POST['itemid'])
+        itemid = request.POST['itemid']
+        relativepath = get_item_image_path(itemid)
         # validate item
-        try: item = menu_item.objects.get(id=int(itemid))
+        try: item = menu_item.objects.get(id=itemid)
         except Exception as e: 
             return HttpResponse("This item no longer exists")
         if item.stall != our_stall:
@@ -335,17 +333,17 @@ def handle_upload(request):
 
 
     # write file
-    path = +relativepath
+    path = imgabsoluteprefix+relativepath
     try:
         with open(path, "w") as dest:
             for chunk in request.FILES['fileToUpload'].chunks():
                 dest.write(chunk)
-            #dest.write(request.FILES['fileToUpload'].read())
     except Exception:
         return HttpResponse("Failed to write file on server")
     # update database
-    item.img_location = imgabsoluteprefix+relativepath
-    item.save()
+    if not isNewItem:
+        item.img_location = relativepath
+        item.save()
 
     # empty response indicates success
     return HttpResponse("")

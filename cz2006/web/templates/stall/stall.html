@@ -202,14 +202,14 @@
         </div>
         <div id="menu-info-item-add-template" class="menu-info-item-add " style="display:none">
             <div class="image-data imgUploadPreview"></div>
-            <!--form id="imgFormAdd" enctype="multipart/form-data" method="post">
-                <input type=hidden name="itemid" id="itemid">
-                <input type=hidden name="newimgid" id="newimgid">
+            <form id="imgFormAdd" class="imgFormAdd" enctype="multipart/form-data" method="post">
+                <input type=hidden name="itemid" id="itemid" class="itemid">
+                <input type=hidden name="newimgid" id="newimgid" class="newimgid">
                 <input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload"/>
                 <button type="button" class="btn btn-info btn-sm resetUploadBut">
                     <span class="glyphicon glyphicon-ok"> Reset</span>
                 </button>
-            </form-->
+            </form>
             <div style="clear:both" ></div>
     
           
@@ -218,11 +218,13 @@
             type="text"class="menu-info-add-name menu-edit-data form-control" />    
           
       
+            <!--
             <label class ="menu-edit-title">Activated</label>
             <select class="menu-info-add-is_activated form-control menu-edit-data" style="margin-right:10px">
                 <option value="1">yes</option>
                 <option value="0">no</option>
             </select>
+            -->
           
             <label class ="menu-edit-title">Price</label>
             
@@ -277,11 +279,15 @@
             <input style="margin-right:10px" type="text"class="menu-info-edit-name menu-edit-data form-control" />    
           
       
+            <!--
             <label class ="menu-edit-title">Activated</label>
             <select class="menu-info-edit-is_activated form-control menu-edit-data" style="margin-right:10px">
                 <option value="1">yes</option>
                 <option value="0">no</option>
             </select>
+            -->
+
+
           
             <label class ="menu-edit-title">Price</label>
             
@@ -316,6 +322,9 @@
             </button>
             <button type="button" class="btn btn-info btn-md menu-info-edit-cancel-btn">
                     <span class="glyphicon glyphicon-remove"> Cancel</span>
+            </button>
+            <button type="button" class="btn btn-info btn-md menu-info-edit-deact-btn">
+                    <span class="glyphicon glyphicon-remove"> Remove Item </span>
             </button>
 
         </div>
