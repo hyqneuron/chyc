@@ -271,13 +271,16 @@ margin-right:3px;
     word-wrap:break-word;
     word-break:normal; 
 }
-/*.menu-edit-title{
+.menu-edit-title{
     display: inline-block;
+    margin-top:1em;
 }
 .menu-edit-data{
-    max-width: 95%;
+    margin-left:30%;
+    margin-top:-1.5em;
+    max-width: 70%;
     display: inline-block;
-}*/
+}
 .nofloat{
     float:none;
 }
@@ -291,4 +294,6 @@ margin-right:3px;
     overflow:auto;
 }
 
-
+textarea{
+    resize:none;
+}
