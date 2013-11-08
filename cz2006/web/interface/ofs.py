@@ -210,6 +210,7 @@ class ofsBackend:
     @setcm(1, ["stallid"], "",
         1, "")
     def int_ofs_stall_deactivate(request, content):
+        # FIXME need to make sure stall can be deactivated
         get_login_ofs_manager(request)
         stallid = get_attribute(content, "stallid")
         stallobj = get_by_id(stall,stallid)
