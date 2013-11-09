@@ -10,8 +10,11 @@ from datetime import *
 from web.interface.error import *
 from re import *
 import re
-from twilio.rest import TwilioRestClient
-from sms import *
+
+smsEnabled = False
+# from twilio.rest import TwilioRestClient
+# from sms import *
+# smsEnabled = True
  
 
 
@@ -287,12 +290,14 @@ def return_queue_number(canobj, qnum):
 # Your Account Sid and Auth Token from twilio.com/user/account
 
 def smsCustomer(cus, msg):
+    if not smsEnabled: return
     if cus.hpnumber == "":
         return
     sendSMS(msg, cus.hpnumber)
     
 
 def sendSMS(sms, number):
+    if not smsEnabled: return
     # create client
     client = TwilioRestClient(account_sid, auth_token)
     # send
